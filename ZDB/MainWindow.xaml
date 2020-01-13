@@ -134,8 +134,8 @@
 
         <Button x:Name="AddFilterBtn" Content="Добавить фильтр" Margin="10, 0, 0, 10" Height="20" Width="100" HorizontalAlignment="Left" VerticalAlignment="Bottom" Click="AddFilterBtn_Click"/>
 
-        <Button x:Name="UndoBtn" Content="Undo" Margin="0, 0, 400, 10" Height="20" Width="100" HorizontalAlignment="Right" VerticalAlignment="Bottom" Click="UndoBtn_Click"/>
-        <Button x:Name="RedoBtn" Content="Redo" Margin="0, 0, 300, 10" Height="20" Width="100" HorizontalAlignment="Right" VerticalAlignment="Bottom" Click="RedoBtn_Click"/>
+        <Button x:Name="UndoBtn" Content="Undo" Margin="0, 0, 400, 10" Height="20" Width="100" HorizontalAlignment="Right" VerticalAlignment="Bottom" Click="Save_Click"/>
+        <Button x:Name="RedoBtn" Content="Redo" Margin="0, 0, 300, 10" Height="20" Width="100" HorizontalAlignment="Right" VerticalAlignment="Bottom" Click="Load_Click"/>
 
         <Button x:Name="ExportBtn" Content="Экспортировать" Margin="0, 0, 10, 10" Height="20" Width="100" HorizontalAlignment="Right" VerticalAlignment="Bottom" Click="ExportBtn_Click"/>
     </Grid>

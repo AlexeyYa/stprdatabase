@@ -53,30 +53,6 @@ namespace ZDB
 
         private void LoadData()
         {
-            //filterGrid.ItemsSource = _filters;
-            //_filters.CollectionChanged += new NotifyCollectionChangedEventHandler
-            //    (delegate (object sender, NotifyCollectionChangedEventArgs e)
-            //    {
-            //        if (e.NewItems != null)
-            //        {
-            //            int idx = e.NewStartingIndex;
-            //            foreach (Filter f in e.NewItems)
-            //            {
-            //                f.IDX = _filterProc.Add();
-            //                f.PropertyChanged += _filterProc.FilterChangeHandler;
-            //                f.PropertyChanged += FilterRefresh;
-            //            }
-            //        }
-            //        if (e.OldItems != null)
-            //        {
-            //            foreach (Filter f in e.OldItems)
-            //            {
-            //                _filterProc.Remove(f.IDX);
-            //            }
-            //        }
-            //        //_filterProc.FilterChangeHandler;
-            //    });
-
             cvsContents = CollectionViewSource.GetDefaultView(dGrid.ItemsSource);
             _contents = (Contents)this.Resources["ContentsClass"];
             LoadContents(@"D:\dev\ZDB.csv");
@@ -255,6 +231,15 @@ namespace ZDB
         private void RedoBtn_Click(object sender, RoutedEventArgs e)
         {
             Logger.Redo();
+        }
+
+        private void Save_Click(object sender, RoutedEventArgs e)
+        {
+            DGSettingsManager.SaveToXML(dGrid.SaveSettings(), @"D:\test.xml");
+        }
+        private void Load_Click(object sender, RoutedEventArgs e)
+        {
+            dGrid.LoadSettings(DGSettingsManager.LoadFromXML(@"D:\test.xml"));
         }
 
         private void UndoBtn_Click(object sender, RoutedEventArgs e)

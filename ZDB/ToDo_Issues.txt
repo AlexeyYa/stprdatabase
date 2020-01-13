@@ -4,9 +4,11 @@ No horizontal scroll using touchpad
 Implementing other export formats
 
 Major:
-Implement visible columns selection
 Save columns order
 Daily export
 
 Notes:
 Combobox instant update = {Binding x, UpdateSourceTrigger=PropertyChanged}
+
+Implemented:
+Implement visible columns selection = DatagridExtension.cs
