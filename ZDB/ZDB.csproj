@@ -99,6 +99,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="DatagridExtension.cs" />
     <Compile Include="ExtendedPropertyChanged.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="Tests.cs" />

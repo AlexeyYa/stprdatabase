@@ -29,9 +29,9 @@
         </CollectionViewSource>
     </Window.Resources>
     <Grid>
-        <DataGrid x:Name="dGrid" Margin="10,10,10,180" 
+        <local:DatagridExtended x:Name="dGrid" Margin="10,10,10,180" 
                  VirtualizingPanel.IsVirtualizingWhenGrouping="True" ItemsSource="{Binding Source={StaticResource cvsContents}}" AutoGenerateColumns="False">
-            <DataGrid.GroupStyle>
+            <local:DatagridExtended.GroupStyle>
                 <GroupStyle>
                     <GroupStyle.ContainerStyle>
                         <Style TargetType="{x:Type GroupItem}">
@@ -55,8 +55,8 @@
                         </Style>
                     </GroupStyle.ContainerStyle>
                 </GroupStyle>
-            </DataGrid.GroupStyle>
-            <DataGrid.RowStyle>
+            </local:DatagridExtended.GroupStyle>
+            <local:DatagridExtended.RowStyle>
                 <Style TargetType="DataGridRow">
                     <Setter Property="Foreground" Value="Black"/>
                     <Setter Property="Background" Value="White"/>
@@ -69,8 +69,8 @@
                         </DataTrigger>
                     </Style.Triggers>
                 </Style>
-            </DataGrid.RowStyle>
-            <DataGrid.Columns>
+            </local:DatagridExtended.RowStyle>
+            <local:DatagridExtended.Columns>
                 <DataGridTextColumn Header="Номер" Binding="{Binding Number}"/>
                 <DataGridTextColumn Header="Дата заявки" Binding="{Binding StartDate}"/>
                 <DataGridTextColumn Header="Код" Binding="{Binding CodeType}"/>
@@ -94,8 +94,8 @@
                 <DataGridTextColumn Header="Исполнитель" Binding="{Binding Executor}"/>
 
 
-            </DataGrid.Columns>
-        </DataGrid>
+            </local:DatagridExtended.Columns>
+        </local:DatagridExtended>
         <DataGrid x:Name="filterGrid" Margin="10,0,10,40" Height="100" VerticalAlignment="Bottom" 
                    AutoGenerateColumns="False">
             <DataGrid.Columns>
