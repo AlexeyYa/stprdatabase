@@ -49,7 +49,7 @@ namespace ZDB
                     continue;
                 }
                 // Parsing temporary variables
-                string[] dateformats = { "dd/MM/yyyy", "dd/M/yyyy", "d/MM/yyyy", "dd-MM-yyyy", "d-MM-yyyy", "yyyy-MM-dd" };
+                string[] dateformats = { "dd/MM/yyyy", "dd/M/yyyy", "d/MM/yyyy", "dd-MM-yyyy", "d-MM-yyyy", "yyyy-MM-dd", "yyyy-MM-dd HH:mm" };
                 DateTime date;
                 int tmp; // out value for Int32.TryParse
                 List<string> corrections = new List<string>();
