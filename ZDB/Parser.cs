@@ -104,6 +104,9 @@ namespace ZDB
                         case "#OBJCODE#":
                             content.Obj = match[0].Groups[dt.Substitutions[sub]].Value;
                             break;
+                        case "#SUBS#":
+                            content.Subs = match[0].Groups[dt.Substitutions[sub]].Value;
+                            break;
                         case "#ORIG#":
                             Int32.TryParse(match[0].Groups[dt.Substitutions[sub]].Value, out tmp);
                             content.NumberOfOriginals = tmp;

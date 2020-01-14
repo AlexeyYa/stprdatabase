@@ -72,7 +72,7 @@
             </local:DatagridExtended.RowStyle>
             <local:DatagridExtended.Columns>
                 <DataGridTextColumn Header="Номер" Binding="{Binding Number}"/>
-                <DataGridTextColumn Header="Дата заявки" Binding="{Binding StartDate, StringFormat=yyyy-MM-dd HH:mm}"/>
+                <DataGridTextColumn Header="Дата заявки" Binding="{Binding StartDate, ConverterCulture=RU-ru, StringFormat=dd-MM-yyyy HH:mm}"/>
                 <DataGridTextColumn Header="Код" Binding="{Binding CodeType}"/>
                 <DataGridTextColumn Header="Заказчик" Binding="{Binding User}"/>
                 <DataGridTextColumn Header="Группа" Binding="{Binding Group}"/>
@@ -83,8 +83,8 @@
                 <DataGridTextColumn Header="Форматки" Binding="{Binding SizeFormat}"/>
                 <DataGridTextColumn Header="Кол-во ориг." Binding="{Binding NumberOfOriginals}"/>
                 <DataGridTextColumn Header="Кол-во копий" Binding="{Binding NumberOfCopies}"/>
-                <DataGridTextColumn Header="Дата выполнения" Binding="{Binding CompleteDate, StringFormat=yyyy-MM-dd HH:mm}"/>
-                <DataGridTextColumn Header="Срок" Binding="{Binding EndDate, StringFormat=yyyy-MM-dd HH:mm}"/>
+                <DataGridTextColumn Header="Дата выполнения" Binding="{Binding CompleteDate, ConverterCulture=RU-ru, StringFormat=dd-MM-yyyy HH:mm}"/>
+                <DataGridTextColumn Header="Срок" Binding="{Binding EndDate, ConverterCulture=RU-ru, StringFormat=dd-MM-yyyy HH:mm}"/>
                 <DataGridTextColumn Header="Статус" Binding="{Binding Status}"/>
                 <DataGridTextColumn Header="Нумерация" Binding="{Binding Numeration}"/>
                 <DataGridTextColumn Header="Сканирование" Binding="{Binding Scan}"/>
