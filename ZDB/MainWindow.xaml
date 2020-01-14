@@ -72,7 +72,7 @@
             </local:DatagridExtended.RowStyle>
             <local:DatagridExtended.Columns>
                 <DataGridTextColumn Header="Номер" Binding="{Binding Number}"/>
-                <DataGridTextColumn Header="Дата заявки" Binding="{Binding StartDate}"/>
+                <DataGridTextColumn Header="Дата заявки" Binding="{Binding StartDate, StringFormat=yyyy-MM-dd HH:mm}"/>
                 <DataGridTextColumn Header="Код" Binding="{Binding CodeType}"/>
                 <DataGridTextColumn Header="Заказчик" Binding="{Binding User}"/>
                 <DataGridTextColumn Header="Группа" Binding="{Binding Group}"/>
@@ -83,8 +83,8 @@
                 <DataGridTextColumn Header="Форматки" Binding="{Binding SizeFormat}"/>
                 <DataGridTextColumn Header="Кол-во ориг." Binding="{Binding NumberOfOriginals}"/>
                 <DataGridTextColumn Header="Кол-во копий" Binding="{Binding NumberOfCopies}"/>
-                <DataGridTextColumn Header="Дата выполнения" Binding="{Binding CompleteDate}"/>
-                <DataGridTextColumn Header="Срок" Binding="{Binding EndDate}"/>
+                <DataGridTextColumn Header="Дата выполнения" Binding="{Binding CompleteDate, StringFormat=yyyy-MM-dd HH:mm}"/>
+                <DataGridTextColumn Header="Срок" Binding="{Binding EndDate, StringFormat=yyyy-MM-dd HH:mm}"/>
                 <DataGridTextColumn Header="Статус" Binding="{Binding Status}"/>
                 <DataGridTextColumn Header="Нумерация" Binding="{Binding Numeration}"/>
                 <DataGridTextColumn Header="Сканирование" Binding="{Binding Scan}"/>
@@ -107,7 +107,7 @@
                                         ItemsSource="{Binding Source={StaticResource FilterTranslated}, Mode=OneWay}"
                                         SelectedValuePath="Key" DisplayMemberPath="Value"
                                         SelectedValueBinding="{Binding Path=Operation, UpdateSourceTrigger=PropertyChanged}"/>
-                <DataGridTextColumn Header="Значение" Binding="{Binding Val, UpdateSourceTrigger=PropertyChanged}"/>
+                <DataGridTextColumn Header="Значение" Binding="{Binding Val, UpdateSourceTrigger=PropertyChanged, ConverterCulture=RU-ru}"/>
                 <DataGridTemplateColumn Header="OR">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
