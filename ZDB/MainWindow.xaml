@@ -93,7 +93,6 @@
                 <DataGridTextColumn Header="Причина кор." Binding="{Binding Corrections}"/>
                 <DataGridTextColumn Header="Исполнитель" Binding="{Binding Executor}"/>
 
-
             </local:DatagridExtended.Columns>
         </local:DatagridExtended>
         <DataGrid x:Name="filterGrid" Margin="10,0,10,40" Height="100" VerticalAlignment="Bottom" 
