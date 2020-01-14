@@ -49,7 +49,7 @@ namespace ZDB
                     continue;
                 }
                 // Parsing temporary variables
-                string[] dateformats = { "dd/MM/yyyy", "dd/M/yyyy", "d/MM/yyyy", "dd-MM-yyyy", "d-MM-yyyy", "yyyy-MM-dd", "yyyy-MM-dd HH:mm" };
+                string[] dateformats = { "yyyy-MM-dd HH:mm" };
                 DateTime date;
                 int tmp; // out value for Int32.TryParse
                 List<string> corrections = new List<string>();
@@ -63,7 +63,7 @@ namespace ZDB
                             if (match[0].Groups[dt.Substitutions[sub]].Value.Contains("Срок"))
                             {
                                 string s = match[0].Groups[dt.Substitutions[sub]].Value;
-                                int tmpidx = s.IndexOf(' ');
+                                int tmpidx = s.IndexOf(" Срок");
                                 string s1 = s.Substring(0, tmpidx);
                                 string s2 = s.Substring(s.IndexOf(' ', tmpidx + 1) + 1);
                                 bool b = DateTime.TryParseExact(s.Substring(0, tmpidx), dateformats,
