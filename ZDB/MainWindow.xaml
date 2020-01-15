@@ -27,11 +27,19 @@
             <CollectionViewSource.GroupDescriptions>
             </CollectionViewSource.GroupDescriptions>
         </CollectionViewSource>
+
+        <Style x:Key="DataGridCellCentered" TargetType="DataGridCell">
+            <Setter Property="TextBlock.TextAlignment" Value="Center"/>
+            <Setter Property="FontFamily" Value="Segoe Black"/>
+            <Setter Property="FontSize" Value="14pt"/>
+            <Setter Property="Background" Value="#88888888"/>
+            <Setter Property="Foreground" Value="Azure"/>
+        </Style>
     </Window.Resources>
     <Grid>
-        <DataGrid x:Name="dGrid" Margin="10,10,10,180" 
+        <local:DatagridExtended x:Name="dGrid" Margin="10,10,10,180" 
                  VirtualizingPanel.IsVirtualizingWhenGrouping="True" ItemsSource="{Binding Source={StaticResource cvsContents}}" AutoGenerateColumns="False">
-            <DataGrid.GroupStyle>
+            <!--<local:DatagridExtended.GroupStyle>
                 <GroupStyle>
                     <GroupStyle.ContainerStyle>
                         <Style TargetType="{x:Type GroupItem}">
@@ -55,8 +63,8 @@
                         </Style>
                     </GroupStyle.ContainerStyle>
                 </GroupStyle>
-            </DataGrid.GroupStyle>
-            <DataGrid.RowStyle>
+            </local:DatagridExtended.GroupStyle>-->
+            <local:DatagridExtended.RowStyle>
                 <Style TargetType="DataGridRow">
                     <Setter Property="Foreground" Value="Black"/>
                     <Setter Property="Background" Value="White"/>
@@ -69,10 +77,10 @@
                         </DataTrigger>
                     </Style.Triggers>
                 </Style>
-            </DataGrid.RowStyle>
-            <DataGrid.Columns>
+            </local:DatagridExtended.RowStyle>
+            <local:DatagridExtended.Columns>
                 <DataGridTextColumn Header="Номер" Binding="{Binding Number}"/>
-                <DataGridTextColumn Header="Дата заявки" Binding="{Binding StartDate}"/>
+                <DataGridTextColumn Header="Дата заявки" Binding="{Binding StartDate, ConverterCulture=RU-ru, StringFormat=dd-MM-yyyy HH:mm}"/>
                 <DataGridTextColumn Header="Код" Binding="{Binding CodeType}"/>
                 <DataGridTextColumn Header="Заказчик" Binding="{Binding User}"/>
                 <DataGridTextColumn Header="Группа" Binding="{Binding Group}"/>
@@ -83,8 +91,8 @@
                 <DataGridTextColumn Header="Форматки" Binding="{Binding SizeFormat}"/>
                 <DataGridTextColumn Header="Кол-во ориг." Binding="{Binding NumberOfOriginals}"/>
                 <DataGridTextColumn Header="Кол-во копий" Binding="{Binding NumberOfCopies}"/>
-                <DataGridTextColumn Header="Дата выполнения" Binding="{Binding CompleteDate}"/>
-                <DataGridTextColumn Header="Срок" Binding="{Binding EndDate}"/>
+                <DataGridTextColumn Header="Дата выполнения" Binding="{Binding CompleteDate, ConverterCulture=RU-ru, StringFormat=dd-MM-yyyy HH:mm}"/>
+                <DataGridTextColumn Header="Срок" Binding="{Binding EndDate, ConverterCulture=RU-ru, StringFormat=dd-MM-yyyy HH:mm}"/>
                 <DataGridTextColumn Header="Статус" Binding="{Binding Status}"/>
                 <DataGridTextColumn Header="Нумерация" Binding="{Binding Numeration}"/>
                 <DataGridTextColumn Header="Сканирование" Binding="{Binding Scan}"/>
@@ -93,9 +101,8 @@
                 <DataGridTextColumn Header="Причина кор." Binding="{Binding Corrections}"/>
                 <DataGridTextColumn Header="Исполнитель" Binding="{Binding Executor}"/>
 
-
-            </DataGrid.Columns>
-        </DataGrid>
+            </local:DatagridExtended.Columns>
+        </local:DatagridExtended>
         <DataGrid x:Name="filterGrid" Margin="10,0,10,40" Height="100" VerticalAlignment="Bottom" 
                    AutoGenerateColumns="False">
             <DataGrid.Columns>
@@ -107,7 +114,7 @@
                                         ItemsSource="{Binding Source={StaticResource FilterTranslated}, Mode=OneWay}"
                                         SelectedValuePath="Key" DisplayMemberPath="Value"
                                         SelectedValueBinding="{Binding Path=Operation, UpdateSourceTrigger=PropertyChanged}"/>
-                <DataGridTextColumn Header="Значение" Binding="{Binding Val, UpdateSourceTrigger=PropertyChanged}"/>
+                <DataGridTextColumn Header="Значение" Binding="{Binding Val, UpdateSourceTrigger=PropertyChanged, ConverterCulture=RU-ru}"/>
                 <DataGridTemplateColumn Header="OR">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
@@ -134,8 +141,8 @@
 
         <Button x:Name="AddFilterBtn" Content="Добавить фильтр" Margin="10, 0, 0, 10" Height="20" Width="100" HorizontalAlignment="Left" VerticalAlignment="Bottom" Click="AddFilterBtn_Click"/>
 
-        <Button x:Name="UndoBtn" Content="Undo" Margin="0, 0, 400, 10" Height="20" Width="100" HorizontalAlignment="Right" VerticalAlignment="Bottom" Click="UndoBtn_Click"/>
-        <Button x:Name="RedoBtn" Content="Redo" Margin="0, 0, 300, 10" Height="20" Width="100" HorizontalAlignment="Right" VerticalAlignment="Bottom" Click="RedoBtn_Click"/>
+        <Button x:Name="UndoBtn" Content="Undo" Margin="0, 0, 400, 10" Height="20" Width="100" HorizontalAlignment="Right" VerticalAlignment="Bottom" Click="Save_Click"/>
+        <Button x:Name="RedoBtn" Content="Redo" Margin="0, 0, 300, 10" Height="20" Width="100" HorizontalAlignment="Right" VerticalAlignment="Bottom" Click="Load_Click"/>
 
         <Button x:Name="ExportBtn" Content="Экспортировать" Margin="0, 0, 10, 10" Height="20" Width="100" HorizontalAlignment="Right" VerticalAlignment="Bottom" Click="ExportBtn_Click"/>
     </Grid>

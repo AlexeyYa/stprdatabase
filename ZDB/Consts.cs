@@ -27,6 +27,10 @@ namespace ZDB
 {
     static class Consts
     {
+        public const string ColumnSettingsPath = @"D:\test.xml";
+        public const string TemplatePath = @".\templates.bin";
+        public const string DatabasePath = @"D:\dev\ZDB.csv";
+
         public static readonly IEnumerable<string> StrFields = new HashSet<string>
             { "Number", "User", "Obj", "Group", "DocCode", "Subs", "Status", "Tasks", "Corrections", "Executor" };
         
