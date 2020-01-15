@@ -27,6 +27,14 @@
             <CollectionViewSource.GroupDescriptions>
             </CollectionViewSource.GroupDescriptions>
         </CollectionViewSource>
+
+        <Style x:Key="DataGridCellCentered" TargetType="DataGridCell">
+            <Setter Property="TextBlock.TextAlignment" Value="Center"/>
+            <Setter Property="FontFamily" Value="Segoe Black"/>
+            <Setter Property="FontSize" Value="14pt"/>
+            <Setter Property="Background" Value="#88888888"/>
+            <Setter Property="Foreground" Value="Azure"/>
+        </Style>
     </Window.Resources>
     <Grid>
         <local:DatagridExtended x:Name="dGrid" Margin="10,10,10,180" 

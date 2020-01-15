@@ -8,6 +8,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
+using System.Windows.Media;
 using System.Xml;
 
 namespace ZDB
@@ -28,6 +29,7 @@ namespace ZDB
                 double WidthValue = 40.0;
                 DataGridLengthUnitType WidthType = DataGridLengthUnitType.Auto;
                 int ColumnID = -1;
+                Style ColStyle = new Style();
                 foreach (XmlNode childNode in xNode.ChildNodes)
                 {
                     switch (childNode.Name)
@@ -47,10 +49,45 @@ namespace ZDB
                         case "WidthType":
                             Enum.TryParse(childNode.InnerText, out WidthType);
                             break;
+                        case "ColStyle":
+                            foreach (XmlNode StyleSetter in childNode)
+                            {
+                                switch (StyleSetter.Name)
+                                {
+                                    case "TextAlignment":
+                                        Enum.TryParse(StyleSetter.InnerText, out TextAlignment alignment);
+                                        Setter textAlignment = new Setter(TextBlock.TextAlignmentProperty, 
+                                            alignment);
+                                        ColStyle.Setters.Add(textAlignment);
+                                        break;
+                                    case "FontFamily":
+                                        Setter fontFamily = new Setter(DataGridCell.FontFamilyProperty,
+                                            new FontFamily(StyleSetter.InnerText));
+                                        ColStyle.Setters.Add(fontFamily);
+                                        break;
+                                    case "FontSize":
+                                        Double.TryParse(StyleSetter.InnerText, out double fontSizeValue);
+                                        Setter fontSize = new Setter(DataGridCell.FontSizeProperty,
+                                            fontSizeValue);
+                                        ColStyle.Setters.Add(fontSize);
+                                        break;
+                                    case "Background":
+                                        Setter background = new Setter(DataGridCell.BackgroundProperty,
+                                            new SolidColorBrush((Color)ColorConverter.ConvertFromString(StyleSetter.InnerText)));
+                                        ColStyle.Setters.Add(background);
+                                        break;
+                                    case "Foreground":
+                                        Setter foreground = new Setter(DataGridCell.ForegroundProperty,
+                                            new SolidColorBrush((Color)ColorConverter.ConvertFromString(StyleSetter.InnerText)));
+                                        ColStyle.Setters.Add(foreground);
+                                        break;
+                                }
+                            }
+                            break;
                     }
                 }
                 if (ColumnID == -1) { break; }
-                ColumnInfo column = new ColumnInfo(visibility, DisplayIndex, WidthValue, WidthType, ColumnID);
+                ColumnInfo column = new ColumnInfo(visibility, DisplayIndex, WidthValue, WidthType, ColumnID, ColStyle);
                 CInfo.Add(column);
             }
             return CInfo;
@@ -75,24 +112,38 @@ namespace ZDB
                 columnXml.AppendChild(colIdNode);
 
                 XmlElement visibilityNode = xDoc.CreateElement("Visibility");
-                XmlText visibilityText = xDoc.CreateTextNode(columnInfo.Visibility.ToString());
-                visibilityNode.AppendChild(visibilityText);
+                XmlText visibilityVal = xDoc.CreateTextNode(columnInfo.Visibility.ToString());
+                visibilityNode.AppendChild(visibilityVal);
                 columnXml.AppendChild(visibilityNode);
 
                 XmlElement displayIdxNode = xDoc.CreateElement("DisplayIndex");
-                XmlText displayIdxText = xDoc.CreateTextNode(columnInfo.DisplayIndex.ToString());
-                displayIdxNode.AppendChild(displayIdxText);
+                XmlText displayIdxVal = xDoc.CreateTextNode(columnInfo.DisplayIndex.ToString());
+                displayIdxNode.AppendChild(displayIdxVal);
                 columnXml.AppendChild(displayIdxNode);
 
                 XmlElement widthValNode = xDoc.CreateElement("WidthValue");
-                XmlText widthValText = xDoc.CreateTextNode(columnInfo.WidthValue.ToString());
-                widthValNode.AppendChild(widthValText);
+                XmlText widthVal = xDoc.CreateTextNode(columnInfo.WidthValue.ToString());
+                widthValNode.AppendChild(widthVal);
                 columnXml.AppendChild(widthValNode);
 
                 XmlElement widthTNode = xDoc.CreateElement("WidthType");
-                XmlText widthTText = xDoc.CreateTextNode(columnInfo.WidthType.ToString());
-                widthTNode.AppendChild(widthTText);
+                XmlText widthTVal = xDoc.CreateTextNode(columnInfo.WidthType.ToString());
+                widthTNode.AppendChild(widthTVal);
                 columnXml.AppendChild(widthTNode);
+
+                if (columnInfo.ColStyle != null)
+                {
+                    XmlElement colStyleNode = xDoc.CreateElement("ColStyle");
+                    columnXml.AppendChild(colStyleNode);
+
+                    foreach (Setter styleSetter in columnInfo.ColStyle.Setters)
+                    {
+                        XmlElement styleSetterNode = xDoc.CreateElement(styleSetter.Property.ToString());
+                        XmlText styleSetterVal = xDoc.CreateTextNode(styleSetter.Value.ToString());
+                        styleSetterNode.AppendChild(styleSetterVal);
+                        colStyleNode.AppendChild(styleSetterNode);
+                    }
+                }
             }
             xDoc.Save(path);
         }
@@ -107,16 +158,28 @@ namespace ZDB
             DisplayIndex = column.DisplayIndex;
             Visibility = column.Visibility;
             ColumnID = columnID;
+            ColStyle = column.CellStyle;
         }
-        public ColumnInfo(Visibility vis, int dispIdx, double widthVal, DataGridLengthUnitType widthT, int columnID)
+        public ColumnInfo(Visibility vis, int dispIdx, double widthVal, DataGridLengthUnitType widthT,
+            int columnID, Style colStyle)
         {
             WidthValue = widthVal;
             WidthType = widthT;
             DisplayIndex = dispIdx;
             Visibility = vis;
             ColumnID = columnID;
+            ColStyle = colStyle;
         }
 
+        public void Apply(DataGridColumn target)
+        {
+            target.DisplayIndex = DisplayIndex;
+            target.Visibility = Visibility;
+            target.Width = new DataGridLength(WidthValue, WidthType);
+            target.CellStyle = ColStyle;
+        }
+
+        public Style ColStyle;
         public int ColumnID;
         public Visibility Visibility;
         public int DisplayIndex;
@@ -143,20 +206,11 @@ namespace ZDB
         {
             if (CInfo.Count == Columns.Count)
             {
-                foreach (var column in CInfo)
+                foreach (var columnInfo in CInfo)
                 {
-                    int i = column.ColumnID;
-                    Columns[i].DisplayIndex = column.DisplayIndex;
-                    Columns[i].Visibility = column.Visibility;
-                    Columns[i].Width = new DataGridLength(column.WidthValue, column.WidthType);
+                    int i = columnInfo.ColumnID;
+                    columnInfo.Apply(Columns[i]);
                 }
-                /*for (int i = 0; i < CInfo.Count(); i++)
-                {
-
-                    Columns[i].DisplayIndex = CInfo[i].DisplayIndex;
-                    Columns[i].Visibility = CInfo[i].Visibility;
-                    Columns[i].Width = new DataGridLength(CInfo[i].WidthValue, CInfo[i].WidthType);
-                }*/
             }
         }
 
