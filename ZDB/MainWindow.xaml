@@ -39,7 +39,7 @@
     <Grid>
         <local:DatagridExtended x:Name="dGrid" Margin="10,10,10,180" 
                  VirtualizingPanel.IsVirtualizingWhenGrouping="True" ItemsSource="{Binding Source={StaticResource cvsContents}}" AutoGenerateColumns="False">
-            <local:DatagridExtended.GroupStyle>
+            <!--<local:DatagridExtended.GroupStyle>
                 <GroupStyle>
                     <GroupStyle.ContainerStyle>
                         <Style TargetType="{x:Type GroupItem}">
@@ -63,7 +63,7 @@
                         </Style>
                     </GroupStyle.ContainerStyle>
                 </GroupStyle>
-            </local:DatagridExtended.GroupStyle>
+            </local:DatagridExtended.GroupStyle>-->
             <local:DatagridExtended.RowStyle>
                 <Style TargetType="DataGridRow">
                     <Setter Property="Foreground" Value="Black"/>
