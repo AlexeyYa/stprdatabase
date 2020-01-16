@@ -90,12 +90,12 @@ namespace ZDB
     {
         private static List<string> actions = new List<string>();
         private static readonly FieldsList fieldList = new FieldsList();
-        private static Contents contents;
+        private static IEnumerable<Entry> contents;
         // private static StoryNode current;
         private static int currentPos = actions.Count;
         private static bool skipWritting = false; // Prevents writting excessive actions
 
-        public static void Load(Contents _contents)
+        public static void Load(IEnumerable<Entry> _contents)
         {
             contents = _contents;
         }
@@ -112,7 +112,7 @@ namespace ZDB
 
         public static void Undo()
         {
-            skipWritting = true;
+            /*skipWritting = true;
             if (currentPos < 1)
             {
                 return;
@@ -144,11 +144,11 @@ namespace ZDB
                 Int32.TryParse(action.Substring(4, numPos - 4), out int index);
                 contents.Insert(index, RestoreContent(action.Substring(numPos + 1)));
             }
-            skipWritting = false;
+            skipWritting = false;*/
         }
 
         public static void Redo()
-        {
+        {/*
             skipWritting = true;
             if (currentPos >= actions.Count)
             {
@@ -179,14 +179,14 @@ namespace ZDB
                 Int32.TryParse(action.Substring(4, action.IndexOf('#') - 4), out int index);
                 contents.RemoveAt(index);
             }
-            skipWritting = false;
+            skipWritting = false;*/
         }
 
         public static void ItemChanged(object sender, PropertyChangedExtendedEventArgs e)
         {
             if (!(skipWritting))
             {
-                Content c = (sender as Content);
+                Entry c = (sender as Entry);
                 actions.Add("cha:" + c.Number + "#" + e.PropertyName + "$" + e.OldValue + "@" + e.NewValue);
                 currentPos++;
             }
@@ -198,7 +198,7 @@ namespace ZDB
             {
                 if (e.NewItems != null)
                 {
-                    foreach (Content c in e.NewItems)
+                    foreach (Entry c in e.NewItems)
                     {
                         actions.Add("new:" + e.NewStartingIndex + "#" + SaveContent(c));
                         currentPos++;
@@ -206,7 +206,7 @@ namespace ZDB
                 }
                 if (e.OldItems != null)
                 {
-                    foreach (Content c in e.OldItems)
+                    foreach (Entry c in e.OldItems)
                     {
                         actions.Add("rem:" + e.OldStartingIndex + "#" + SaveContent(c));
                         currentPos++;
@@ -226,10 +226,10 @@ namespace ZDB
             actions.Add("EndOfException<");
         }
 
-        public static bool TestSaveRestore(Content c)
+        public static bool TestSaveRestore(Entry c)
         {
             SaveContent(c);
-            Content other = RestoreContent(actions.Last());
+            Entry other = RestoreContent(actions.Last());
             bool check = (c == other);
             bool memberwise = true;
             foreach (string field in fieldList)
@@ -242,7 +242,7 @@ namespace ZDB
             return memberwise;
         }
 
-        private static string SaveContent(Content c)
+        private static string SaveContent(Entry c)
         {
             StringBuilder stringBuilder = new StringBuilder();
             foreach (string _field in fieldList)
@@ -255,9 +255,9 @@ namespace ZDB
             return stringBuilder.ToString();
         }
 
-        private static Content RestoreContent(string source)
+        private static Entry RestoreContent(string source)
         {
-            Content c = new Content();
+            Entry c = new Entry();
             int pleft = 0;
             int pright = 0;
             string field = String.Empty;
@@ -295,7 +295,7 @@ namespace ZDB
             return c;
         }
 
-        private static Content RestoreContentPart(string source, Content c)
+        private static Entry RestoreContentPart(string source, Entry c)
         {
             int pleft = 0;
             int pright = 0;

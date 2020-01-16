@@ -51,7 +51,7 @@ namespace ZDB
     {
         public FieldsList()
         {
-            Type t = typeof(Content);
+            Type t = typeof(Entry);
             PropertyInfo[] fields = t.GetProperties();
 
             List<string> exceptions = new List<string>
