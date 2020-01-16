@@ -25,7 +25,7 @@ using System.Threading.Tasks;
 
 namespace ZDB
 {
-    public interface INotifyProppertyChangedExtended : INotifyPropertyChanged
+    public interface INotifyPropertyChangedExtended : INotifyPropertyChanged
     {
         event PropertyChangedExtendedEventHandler PropertyChangedEx;
     }
