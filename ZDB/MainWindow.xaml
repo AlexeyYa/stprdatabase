@@ -13,7 +13,7 @@
         <local:FieldsTranslated x:Key="FieldsTranslated"/>
         <local:FilterTranslated x:Key="FilterTranslated"/>
         <local:ColorsList x:Key="ColorsList"/>
-        <!--<local:EntriesBind x:Key="ContentsClass"/>-->
+        <local:Contents x:Key="ContentsClass"/>
 
         <ObjectDataProvider x:Key="FilterOperation" MethodName="GetValues"
                             ObjectType="{x:Type local:FilterOperation}">
@@ -22,8 +22,8 @@
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>
         
-        <CollectionViewSource x:Key="cvsContents" Source="{Binding databinding}"
-                              >
+        <CollectionViewSource x:Key="cvsContents" Source="{Binding Source={StaticResource ContentsClass}}"
+                              Filter="CollectionViewSource_Filter">
             <CollectionViewSource.GroupDescriptions>
             </CollectionViewSource.GroupDescriptions>
         </CollectionViewSource>

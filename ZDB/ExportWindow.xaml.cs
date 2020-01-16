@@ -53,8 +53,8 @@ namespace ZDB
             DataContext = exportVM;   
         }
 
-        private IEnumerable<Entry> contents;
-        public IEnumerable<Entry> Contents { get => contents; set => contents = value; }
+        private Contents contents;
+        public Contents Contents { get => contents; set => contents = value; }
 
         private FilterCollection filters;
         internal FilterCollection Filters { get => filters; set => filters = value; }

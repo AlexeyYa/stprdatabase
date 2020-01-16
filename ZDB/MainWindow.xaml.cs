@@ -29,7 +29,6 @@ using Microsoft.Win32;
 using System.IO;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
-using System.Data.Entity;
 
 namespace ZDB
 {
@@ -39,9 +38,7 @@ namespace ZDB
     public partial class MainWindow : Window
     {
         private ICollectionView cvsContents;
-        private Contents _contents = new Contents();
-        private ApplicationContext db;
-        private ObservableCollection<Entry> databinding;
+        private Contents _contents;
         //private FilterProcessor _filterProc = new FilterProcessor();
         //private ObservableCollection<Filter> _filters = new ObservableCollection<Filter>();
         private static FilterCollection _filters = new FilterCollection();
@@ -49,29 +46,19 @@ namespace ZDB
 
         public MainWindow()
         {
-            db = new ApplicationContext();
-            db.Entries.Load();
-            //databinding = db.Entries.Local;
-
             InitializeComponent();
             LoadData();
+
         }
 
         private void LoadData()
         {
-            
             cvsContents = CollectionViewSource.GetDefaultView(dGrid.ItemsSource);
-
-            //_contents = (Contents)this.Resources["ContentsClass"];
+            _contents = (Contents)this.Resources["ContentsClass"];
             LoadContents(Consts.DatabasePath);
-            //Logger.Load(_contents);
-            //_contents.CollectionChanged += new NotifyCollectionChangedEventHandler(Logger.CollectionChanged);
-
-            foreach (var cont in _contents)
-            {
-                db.Entries.Add(new Entry(cont));
-            }
-            db.SaveChanges();
+            Logger.Load(_contents);
+            _contents.CollectionChanged += new NotifyCollectionChangedEventHandler(Logger.CollectionChanged);
+            
 
             filterGrid.ItemsSource = _filters;
             _filters.CollectionChanged += new NotifyCollectionChangedEventHandler
@@ -168,9 +155,9 @@ namespace ZDB
 
         private void CollectionViewSource_Filter(object sender, FilterEventArgs e)
         {
-            if (e.Item is Entry entry)
+            if (e.Item is Content c)
             {
-                e.Accepted = _filters.Filter(entry);
+                e.Accepted = _filters.Filter(c);
             }
         }
 
@@ -181,16 +168,16 @@ namespace ZDB
 
         private void AddBtn_Click(object sender, RoutedEventArgs e)
         {
-            //OpenFileDialog dialog = new OpenFileDialog();
-            //if (dialog.ShowDialog() == true)
-            //{
-            //    foreach (string path in dialog.FileNames)
-            //    {
-            //        Entry entry = Parser.ProcessFromDocx(path, dtList);
-            //        //content.Number = _contents.GenerateID();
-            //        //db.Entries.Add(entry);
-            //    }
-            //}
+            OpenFileDialog dialog = new OpenFileDialog();
+            if (dialog.ShowDialog() == true)
+            {
+                foreach (string path in dialog.FileNames)
+                {
+                    Content content = Parser.ProcessFromDocx(path, dtList);
+                    content.Number = _contents.GenerateID();
+                    _contents.Add(content);
+                }
+            }
         }
 
         private void TemplateBtn_Click(object sender, RoutedEventArgs e)
@@ -214,7 +201,7 @@ namespace ZDB
                 Owner = Application.Current.MainWindow
             };
 
-            //dlg.Contents = _contents;
+            dlg.Contents = _contents;
             dlg.Filters = _filters;
 
             dlg.ShowDialog();
@@ -227,8 +214,8 @@ namespace ZDB
 
         private void AddZ_Click(object sender, RoutedEventArgs e)
         {
-            //Content c = new Content(_contents.GenerateID());
-            // db.Entries.Add(new Entry());
+            Content c = new Content(_contents.GenerateID());
+            _contents.Add(c);
         }
 
         private void AddFilterBtn_Click(object sender, RoutedEventArgs e)
@@ -238,7 +225,7 @@ namespace ZDB
 
         private void RemoveZ_Click(object sender, RoutedEventArgs e)
         {
-            // db.Entries.Remove((Entry)dGrid.SelectedItem);
+            _contents.Remove((Content)dGrid.SelectedItem);
         }
 
         private void RedoBtn_Click(object sender, RoutedEventArgs e)

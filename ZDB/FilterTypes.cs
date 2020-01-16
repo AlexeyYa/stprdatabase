@@ -30,7 +30,7 @@ namespace ZDB
 {
     interface IFilter : INotifyPropertyChanged
     {
-        bool Check(Entry c, bool checkLinked = false);
+        bool Check(Content c, bool checkLinked = false);
     }
 
     /// <summary>
@@ -60,7 +60,7 @@ namespace ZDB
             }
         }
 
-        public bool Filter(Entry c)
+        public bool Filter(Content c)
         {
             var groups = Items.GroupBy(x => x.LinkColor);
             foreach (var g in groups)
@@ -147,7 +147,7 @@ namespace ZDB
             LinkColor = Brushes.White;
         }
         
-        public abstract bool Check(Entry c, bool checkLinked = false);
+        public abstract bool Check(Content c, bool checkLinked = false);
 
         public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged(string name)
@@ -178,13 +178,13 @@ namespace ZDB
 
 
 
-        private string GetFiltered(Entry c)
+        private string GetFiltered(Content c)
         {
             return (string)c[field];
         }
         
 
-        public override bool Check(Entry c, bool checkLinked=false)
+        public override bool Check(Content c, bool checkLinked=false)
         {
             string x = GetFiltered(c);
             switch (Operation)
@@ -225,12 +225,12 @@ namespace ZDB
             }
         }
 
-        private int GetFiltered(Entry c)
+        private int GetFiltered(Content c)
         {
             return (int)c[Field];
         }
 
-        public override bool Check(Entry c, bool checkLinked = false)
+        public override bool Check(Content c, bool checkLinked = false)
         {
             int x = GetFiltered(c);
             switch (Operation)
@@ -270,12 +270,12 @@ namespace ZDB
             }
         }
 
-        private DateTime GetFiltered(Entry c)
+        private DateTime GetFiltered(Content c)
         {
             return (DateTime)c[Field];
         }
 
-        public override bool Check(Entry c, bool checkLinked=false)
+        public override bool Check(Content c, bool checkLinked=false)
         {
             DateTime x = GetFiltered(c);
             switch (Operation)

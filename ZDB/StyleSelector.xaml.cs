@@ -21,11 +21,11 @@ namespace ZDB
     {
         public StyleSelector()
         {
-            //for (int i = 12; i < 40; i++) { FontSizes.Add((double)i); }
+            for (int i = 12; i < 40; i++) { FontSizes.Add((double)i); }
             InitializeComponent();
         }
 
 
-        // private readonly List<double> FontSizes;
+        private readonly List<double> FontSizes;
     }
 }
