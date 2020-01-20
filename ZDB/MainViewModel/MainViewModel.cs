@@ -58,15 +58,6 @@ namespace ZDB.MainViewModel
             }
         }
 
-
-        private void cvsFilter(object sender, FilterEventArgs e)
-        {
-            if (e.Item is Entry entry)
-            {
-                e.Accepted = (entry.Number > 500);
-            }
-        }
-
         public MainViewModelClass()
         {
             db = new DatabaseContext();
@@ -99,18 +90,7 @@ namespace ZDB.MainViewModel
 
             DataViewSource = new CollectionViewSource();
             DataViewSource.Source = Data;
-        }
-
-        private void CollectionViewSource_Filter(object sender, FilterEventArgs e)
-        {
-            if (e.Item is Entry c)
-            {
-                e.Accepted = filters.Filter(c);
-            }
-        }
-        private void FilterRefresh(object sender, PropertyChangedEventArgs e)
-        {
-            //cvsContents.Refresh();
+            DataViewSource.Filter += FilterHandler;
         }
 
         

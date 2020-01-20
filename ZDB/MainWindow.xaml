@@ -103,7 +103,7 @@
             </local:DatagridExtended.Columns>
         </local:DatagridExtended>
         <DataGrid x:Name="filterGrid" Margin="10,0,10,40" Height="100" VerticalAlignment="Bottom" 
-                   AutoGenerateColumns="False">
+                   ItemsSource="{Binding Filters}" AutoGenerateColumns="False">
             <DataGrid.Columns>
                 <DataGridComboBoxColumn Header="Поле" 
                                         ItemsSource="{Binding Source={StaticResource FieldsTranslated}, Mode=OneWay}"
@@ -133,20 +133,22 @@
         </DataGrid>
 
         <Button x:Name="AddZ" Content="Добавить заявку" Margin="10, 0, 0, 150" Height="20" Width="100" HorizontalAlignment="Left" VerticalAlignment="Bottom"
-                />
+                Command="{Binding AddEntryCommand}"/>
         <Button x:Name="AddBtn" Content="Добавить из файла" Margin="200, 0, 0, 150" Height="20" Width="100" HorizontalAlignment="Left" VerticalAlignment="Bottom"
-                />
+                Command="{Binding AddEntryFromFileCommand}"/>
         <Button x:Name="TemplateBtn" Content="Добавить шаблон" Margin="320, 0, 0, 150" Height="20" Width="100" HorizontalAlignment="Left" VerticalAlignment="Bottom"
                 />
         <Button x:Name="RemoveZ" Content="Удалить заявку" Margin="0, 0, 10, 150" Height="20" Width="100" HorizontalAlignment="Right" VerticalAlignment="Bottom"
                 />
 
 
-        <Button x:Name="AddFilterBtn" Content="Добавить фильтр" Margin="10, 0, 0, 10" Height="20" Width="100" HorizontalAlignment="Left" VerticalAlignment="Bottom" Click="AddFilterBtn_Click"/>
+        <Button x:Name="AddFilterBtn" Content="Добавить фильтр" Margin="10, 0, 0, 10" Height="20" Width="100" HorizontalAlignment="Left" VerticalAlignment="Bottom"
+                Command="{Binding AddFilterCommand}"/>
 
         <Button x:Name="UndoBtn" Content="Undo" Margin="0, 0, 400, 10" Height="20" Width="100" HorizontalAlignment="Right" VerticalAlignment="Bottom" Click="Save_Click"/>
         <Button x:Name="RedoBtn" Content="Redo" Margin="0, 0, 300, 10" Height="20" Width="100" HorizontalAlignment="Right" VerticalAlignment="Bottom" Click="Load_Click"/>
 
-        <Button x:Name="ExportBtn" Content="Экспортировать" Margin="0, 0, 10, 10" Height="20" Width="100" HorizontalAlignment="Right" VerticalAlignment="Bottom" Click="ExportBtn_Click"/>
+        <Button x:Name="ExportBtn" Content="Экспортировать" Margin="0, 0, 10, 10" Height="20" Width="100" HorizontalAlignment="Right" VerticalAlignment="Bottom"
+                />
     </Grid>
 </Window>

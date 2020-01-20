@@ -121,6 +121,7 @@
     <Compile Include="Database\DatabaseContext.cs" />
     <Compile Include="Database\Entry.cs" />
     <Compile Include="MainViewModel\DbMethods.cs" />
+    <Compile Include="MainViewModel\FilterMethods.cs" />
     <Compile Include="Shared\DatagridExtension.cs" />
     <Compile Include="Shared\ExtendedPropertyChanged.cs" />
     <Compile Include="Shared\Logger.cs" />
