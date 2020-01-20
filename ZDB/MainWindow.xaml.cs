@@ -29,6 +29,11 @@ using Microsoft.Win32;
 using System.IO;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Data.Entity;
+
+using ZDB.MainViewModel;
+using ZDB.Database;
+using ZDB.Exp;
 
 namespace ZDB
 {
@@ -38,11 +43,13 @@ namespace ZDB
     public partial class MainWindow : Window
     {
         private ICollectionView cvsContents;
-        private Contents _contents;
-        //private FilterProcessor _filterProc = new FilterProcessor();
-        //private ObservableCollection<Filter> _filters = new ObservableCollection<Filter>();
-        private static FilterCollection _filters = new FilterCollection();
+        // private Contents _contents;
+        // private FilterProcessor _filterProc = new FilterProcessor();
+        // private ObservableCollection<Filter> _filters = new ObservableCollection<Filter>();
+        //private static FilterCollection _filters = new FilterCollection();
         private static List<DocTemplate> dtList = new List<DocTemplate>();
+
+        private MainViewModelClass mainViewModel;
 
         public MainWindow()
         {
@@ -53,13 +60,18 @@ namespace ZDB
 
         private void LoadData()
         {
+            mainViewModel = new MainViewModelClass();
+            this.DataContext = mainViewModel;
+
             cvsContents = CollectionViewSource.GetDefaultView(dGrid.ItemsSource);
-            _contents = (Contents)this.Resources["ContentsClass"];
+            
+            /*_contents = (Contents)this.Resources["ContentsClass"];
             LoadContents(Consts.DatabasePath);
             Logger.Load(_contents);
             _contents.CollectionChanged += new NotifyCollectionChangedEventHandler(Logger.CollectionChanged);
             
-
+            */
+            /*
             filterGrid.ItemsSource = _filters;
             _filters.CollectionChanged += new NotifyCollectionChangedEventHandler
                 (delegate (object sender, NotifyCollectionChangedEventArgs e)
@@ -85,7 +97,7 @@ namespace ZDB
                 });
 
             
-
+            */
             if (File.Exists(Consts.TemplatePath))
             {
                 IFormatter formatter = new BinaryFormatter();
@@ -97,7 +109,7 @@ namespace ZDB
 
         private void LoadContents(string path)
         {
-            using (TextFieldParser csvParser = new TextFieldParser(path))
+            /*using (TextFieldParser csvParser = new TextFieldParser(path))
             {
                 csvParser.SetDelimiters(";");
                 csvParser.ReadLine();
@@ -150,22 +162,23 @@ namespace ZDB
                     _contents.Add(x);
 
                 }
-            }
+            }*/
         }
 
         private void CollectionViewSource_Filter(object sender, FilterEventArgs e)
         {
-            if (e.Item is Content c)
+            if (e.Item is Entry c)
             {
-                e.Accepted = _filters.Filter(c);
+                e.Accepted = true;//_filters.Filter(c);
             }
         }
 
+        /*
         private void FilterRefresh(object sender, PropertyChangedEventArgs e)
         {
             cvsContents.Refresh();
-        }
-
+        }*/
+        /*
         private void AddBtn_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog dialog = new OpenFileDialog();
@@ -178,7 +191,7 @@ namespace ZDB
                     _contents.Add(content);
                 }
             }
-        }
+        }*/
 
         private void TemplateBtn_Click(object sender, RoutedEventArgs e)
         {
@@ -201,8 +214,8 @@ namespace ZDB
                 Owner = Application.Current.MainWindow
             };
 
-            dlg.Contents = _contents;
-            dlg.Filters = _filters;
+            //dlg.Entries = _contents;
+            //dlg.Filters = _filters;
 
             dlg.ShowDialog();
 
@@ -212,26 +225,26 @@ namespace ZDB
             }
         }
 
-        private void AddZ_Click(object sender, RoutedEventArgs e)
+        /*private void AddZ_Click(object sender, RoutedEventArgs e)
         {
             Content c = new Content(_contents.GenerateID());
             _contents.Add(c);
-        }
+        }*/
 
         private void AddFilterBtn_Click(object sender, RoutedEventArgs e)
         {
-            _filters.Add(new FilterString("Obj", FilterOperation.GREATEREQUAL, ""));
+            //_filters.Add(new FilterString("Obj", FilterOperation.GREATEREQUAL, ""));
         }
 
-        private void RemoveZ_Click(object sender, RoutedEventArgs e)
+        /*private void RemoveZ_Click(object sender, RoutedEventArgs e)
         {
             _contents.Remove((Content)dGrid.SelectedItem);
-        }
+        }*/
 
-        private void RedoBtn_Click(object sender, RoutedEventArgs e)
+        /*private void RedoBtn_Click(object sender, RoutedEventArgs e)
         {
             Logger.Redo();
-        }
+        }*/
 
         private void Save_Click(object sender, RoutedEventArgs e)
         {
@@ -242,10 +255,10 @@ namespace ZDB
             dGrid.LoadSettings(DGSettingsManager.LoadFromXML(Consts.ColumnSettingsPath));
         }
 
-        private void UndoBtn_Click(object sender, RoutedEventArgs e)
+        /*private void UndoBtn_Click(object sender, RoutedEventArgs e)
         {
             Logger.Undo();
-        }
+        }*/
 
     }
 }

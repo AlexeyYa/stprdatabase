@@ -120,10 +120,12 @@
     </ApplicationDefinition>
     <Compile Include="Database\DatabaseContext.cs" />
     <Compile Include="Database\Entry.cs" />
+    <Compile Include="MainViewModel\DbMethods.cs" />
     <Compile Include="Shared\DatagridExtension.cs" />
     <Compile Include="Shared\ExtendedPropertyChanged.cs" />
     <Compile Include="Shared\Logger.cs" />
-    <Compile Include="MainViewModel.cs" />
+    <Compile Include="MainViewModel\MainViewModel.cs" />
+    <Compile Include="Shared\RelayCommand.cs" />
     <Compile Include="Shared\StyleSelector.xaml.cs">
       <DependentUpon>StyleSelector.xaml</DependentUpon>
     </Compile>

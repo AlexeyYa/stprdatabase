@@ -25,7 +25,7 @@ using System.Text;
 using System.Collections.Specialized;
 
 namespace ZDB
-{
+{/*
     public class Contents : ObservableCollection<Content>
     {
         //public new void Add(Content c)
@@ -647,5 +647,5 @@ namespace ZDB
             PropertyChangedEx?.Invoke(this, new PropertyChangedExtendedEventArgs(name, oldValue, newValue));
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
-    }
+    }*/
 }

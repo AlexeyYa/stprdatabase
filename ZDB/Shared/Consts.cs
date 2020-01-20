@@ -22,6 +22,8 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media;
+using ZDB.Database;
 
 namespace ZDB
 {
@@ -51,7 +53,7 @@ namespace ZDB
     {
         public FieldsList()
         {
-            Type t = typeof(Content);
+            Type t = typeof(Entry);
             PropertyInfo[] fields = t.GetProperties();
 
             List<string> exceptions = new List<string>
@@ -123,6 +125,17 @@ namespace ZDB
             this.Add(FilterOperation.LESSEQUAL, "Меньше или равно");
             this.Add(FilterOperation.GREATEREQUAL, "Больше или равно");
             this.Add(FilterOperation.CONTAINS, "Содержит");
+        }
+    }
+
+    public class ColorsList : List<Brush>
+    {
+        public ColorsList()
+        {
+            this.Add(Brushes.White);
+            this.Add(Brushes.Red);
+            this.Add(Brushes.Green);
+            this.Add(Brushes.Blue);
         }
     }
 }

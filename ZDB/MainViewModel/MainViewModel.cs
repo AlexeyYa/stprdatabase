@@ -3,17 +3,20 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
 using ZDB.Database;
 
-namespace ZDB
+namespace ZDB.MainViewModel
 {
-    class MainViewModel : INotifyPropertyChanged
+    partial class MainViewModelClass : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
+
+        private DatabaseContext db;
 
         private ObservableCollection<Entry> data;
         public ObservableCollection<Entry> Data
@@ -28,7 +31,6 @@ namespace ZDB
                 }
             }
         }
-
         private FilterCollection filters;
         public FilterCollection Filters
         {
@@ -42,6 +44,20 @@ namespace ZDB
                 }
             }
         }
+        private CollectionViewSource dataViewSource;
+        public CollectionViewSource DataViewSource
+        {
+            get => dataViewSource;
+            set
+            {
+                if (dataViewSource != value)
+                {
+                    dataViewSource = value;
+                    OnPropertyChanged("DataViewSource");
+                }
+            }
+        }
+
 
         private void cvsFilter(object sender, FilterEventArgs e)
         {
@@ -51,11 +67,13 @@ namespace ZDB
             }
         }
 
-        public MainViewModel(ObservableCollection<Entry> _data)
+        public MainViewModelClass()
         {
-            Data = _data;
-            filters = new FilterCollection();
+            db = new DatabaseContext();
+            db.Entries.Load();
+            Data = db.Entries.Local;
 
+            filters = new FilterCollection();
             filters.CollectionChanged += new NotifyCollectionChangedEventHandler
                 (delegate (object sender, NotifyCollectionChangedEventArgs e)
                 {
@@ -78,11 +96,14 @@ namespace ZDB
                         FilterRefresh(sender, new PropertyChangedEventArgs("Delete item"));
                     }
                 });
+
+            DataViewSource = new CollectionViewSource();
+            DataViewSource.Source = Data;
         }
 
         private void CollectionViewSource_Filter(object sender, FilterEventArgs e)
         {
-            if (e.Item is Content c)
+            if (e.Item is Entry c)
             {
                 e.Accepted = filters.Filter(c);
             }

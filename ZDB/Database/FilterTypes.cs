@@ -26,11 +26,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media;
 
-namespace ZDB
+namespace ZDB.Database
 {
     interface IFilter : INotifyPropertyChanged
     {
-        bool Check(Content c, bool checkLinked = false);
+        bool Check(Entry c, bool checkLinked = false);
     }
 
     /// <summary>
@@ -60,7 +60,7 @@ namespace ZDB
             }
         }
 
-        public bool Filter(Content c)
+        public bool Filter(Entry c)
         {
             var groups = Items.GroupBy(x => x.LinkColor);
             foreach (var g in groups)
@@ -81,17 +81,6 @@ namespace ZDB
                 }
             }
             return true;
-        }
-    }
-
-    public class ColorsList : List<Brush>
-    {
-        public ColorsList()
-        {
-            this.Add(Brushes.White);
-            this.Add(Brushes.Red);
-            this.Add(Brushes.Green);
-            this.Add(Brushes.Blue);
         }
     }
 
@@ -147,7 +136,7 @@ namespace ZDB
             LinkColor = Brushes.White;
         }
         
-        public abstract bool Check(Content c, bool checkLinked = false);
+        public abstract bool Check(Entry c, bool checkLinked = false);
 
         public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged(string name)
@@ -178,13 +167,13 @@ namespace ZDB
 
 
 
-        private string GetFiltered(Content c)
+        private string GetFiltered(Entry c)
         {
             return (string)c[field];
         }
         
 
-        public override bool Check(Content c, bool checkLinked=false)
+        public override bool Check(Entry c, bool checkLinked=false)
         {
             string x = GetFiltered(c);
             switch (Operation)
@@ -225,12 +214,12 @@ namespace ZDB
             }
         }
 
-        private int GetFiltered(Content c)
+        private int GetFiltered(Entry c)
         {
             return (int)c[Field];
         }
 
-        public override bool Check(Content c, bool checkLinked = false)
+        public override bool Check(Entry c, bool checkLinked = false)
         {
             int x = GetFiltered(c);
             switch (Operation)
@@ -254,6 +243,9 @@ namespace ZDB
 
     }
 
+    /// <summary>
+    /// Implementations
+    /// </summary>
     class FilterDate : FilterBase
     {
         protected DateTime val;
@@ -270,12 +262,12 @@ namespace ZDB
             }
         }
 
-        private DateTime GetFiltered(Content c)
+        private DateTime GetFiltered(Entry c)
         {
             return (DateTime)c[Field];
         }
 
-        public override bool Check(Content c, bool checkLinked=false)
+        public override bool Check(Entry c, bool checkLinked=false)
         {
             DateTime x = GetFiltered(c);
             switch (Operation)
@@ -297,53 +289,4 @@ namespace ZDB
             Val = value;
         }
     }
-
-    ///// <summary>
-    ///// Concrete fields implementation
-    ///// String filters
-    ///// </summary>
-
-    //class FilterUser : FilterString
-    //{
-    //    public FilterUser(string value, FilterOperation op) : base(value, op) { }
-
-    //    public FilterUser(FilterString fs) : base(fs.Val, fs.Operation) { }
-
-    //    //internal override string GetFiltered(Content c)
-    //    //{
-    //    //    return c.User;
-    //    //}
-    //}
-
-    ///// <summary>
-    ///// Integer filters
-    ///// </summary>
-
-    //class FilterFormats : FilterInt
-    //{
-    //    public FilterFormats(int value, FilterOperation op) : base(value, op) { }
-
-    //    public FilterFormats(FilterInt fs) : base(fs.Val, fs.Operation) { }
-
-    //    internal override int GetFiltered(Content c)
-    //    {
-    //        return c.Size.Formats;
-    //    }
-    //}
-
-    ///// <summary>
-    ///// Date filters
-    ///// </summary>
-    
-    //class FilterStartDate : FilterDate
-    //{
-    //    public FilterStartDate(DateTime value, FilterOperation op) : base(value, op) { }
-
-    //    public FilterStartDate(FilterDate fs) : base(fs.Val, fs.Operation) { }
-
-    //    internal override DateTime GetFiltered(Content c)
-    //    {
-    //        return c.StartDate;
-    //    }
-    //}
 }

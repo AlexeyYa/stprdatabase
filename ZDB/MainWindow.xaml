@@ -13,8 +13,7 @@
         <local:FieldsTranslated x:Key="FieldsTranslated"/>
         <local:FilterTranslated x:Key="FilterTranslated"/>
         <local:ColorsList x:Key="ColorsList"/>
-        <local:Contents x:Key="ContentsClass"/>
-
+        
         <ObjectDataProvider x:Key="FilterOperation" MethodName="GetValues"
                             ObjectType="{x:Type local:FilterOperation}">
             <ObjectDataProvider.MethodParameters>
@@ -22,11 +21,11 @@
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>
         
-        <CollectionViewSource x:Key="cvsContents" Source="{Binding Source={StaticResource ContentsClass}}"
+        <!--<CollectionViewSource x:Key="cvsContents" Source="{Binding Data}"
                               Filter="CollectionViewSource_Filter">
             <CollectionViewSource.GroupDescriptions>
             </CollectionViewSource.GroupDescriptions>
-        </CollectionViewSource>
+        </CollectionViewSource>-->
 
         <Style x:Key="DataGridCellCentered" TargetType="DataGridCell">
             <Setter Property="TextBlock.TextAlignment" Value="Center"/>
@@ -38,7 +37,7 @@
     </Window.Resources>
     <Grid>
         <local:DatagridExtended x:Name="dGrid" Margin="10,10,10,180" 
-                 VirtualizingPanel.IsVirtualizingWhenGrouping="True" ItemsSource="{Binding Source={StaticResource cvsContents}}" AutoGenerateColumns="False">
+                 VirtualizingPanel.IsVirtualizingWhenGrouping="True" ItemsSource="{Binding DataViewSource.View}" AutoGenerateColumns="False">
             <!--<local:DatagridExtended.GroupStyle>
                 <GroupStyle>
                     <GroupStyle.ContainerStyle>
@@ -133,10 +132,14 @@
             </DataGrid.Columns>
         </DataGrid>
 
-        <Button x:Name="AddZ" Content="Добавить заявку" Margin="10, 0, 0, 150" Height="20" Width="100" HorizontalAlignment="Left" VerticalAlignment="Bottom" Click="AddZ_Click"/>
-        <Button x:Name="AddBtn" Content="Добавить из файла" Margin="200, 0, 0, 150" Height="20" Width="100" HorizontalAlignment="Left" VerticalAlignment="Bottom" Click="AddBtn_Click"/>
-        <Button x:Name="TemplateBtn" Content="Добавить шаблон" Margin="320, 0, 0, 150" Height="20" Width="100" HorizontalAlignment="Left" VerticalAlignment="Bottom" Click="TemplateBtn_Click"/>
-        <Button x:Name="RemoveZ" Content="Удалить заявку" Margin="0, 0, 10, 150" Height="20" Width="100" HorizontalAlignment="Right" VerticalAlignment="Bottom" Click="RemoveZ_Click"/>
+        <Button x:Name="AddZ" Content="Добавить заявку" Margin="10, 0, 0, 150" Height="20" Width="100" HorizontalAlignment="Left" VerticalAlignment="Bottom"
+                />
+        <Button x:Name="AddBtn" Content="Добавить из файла" Margin="200, 0, 0, 150" Height="20" Width="100" HorizontalAlignment="Left" VerticalAlignment="Bottom"
+                />
+        <Button x:Name="TemplateBtn" Content="Добавить шаблон" Margin="320, 0, 0, 150" Height="20" Width="100" HorizontalAlignment="Left" VerticalAlignment="Bottom"
+                />
+        <Button x:Name="RemoveZ" Content="Удалить заявку" Margin="0, 0, 10, 150" Height="20" Width="100" HorizontalAlignment="Right" VerticalAlignment="Bottom"
+                />
 
 
         <Button x:Name="AddFilterBtn" Content="Добавить фильтр" Margin="10, 0, 0, 10" Height="20" Width="100" HorizontalAlignment="Left" VerticalAlignment="Bottom" Click="AddFilterBtn_Click"/>

@@ -28,7 +28,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace ZDB
+using ZDB.Database;
+
+namespace ZDB.Exp
 {
 
     static class Export
@@ -44,7 +46,7 @@ namespace ZDB
 
         //}
 
-        public static void ExportMain(IEnumerable<Content> data, FilterCollection ExportFilters,
+        public static void ExportMain(IEnumerable<Entry> data, FilterCollection ExportFilters,
                                       ExportSetting exportSetting, string ExportFolderPath)
         {
             List<string> exportFields = new List<string>();
@@ -53,8 +55,8 @@ namespace ZDB
                 exportFields.Add(f.Field);
             }
 
-            List<Content> filtered = data.Where(x => ExportFilters.Filter(x)).ToList(); //FilterContent(data, ExportFilters);
-            filtered = SortContent(filtered, exportSetting.SortBy); /// Check if it works properly
+            List<Entry> filtered = data.Where(x => ExportFilters.Filter(x)).ToList(); //FilterContent(data, ExportFilters);
+            //filtered = SortEntries(filtered, exportSetting.SortBy); /// Check if it works properly
 
             // Grouping
             if (exportSetting.Partitions.Count == 0)
@@ -67,7 +69,7 @@ namespace ZDB
 
         }
 
-        private static void ExportGroups(IEnumerable<Content> data, IEnumerable<string> exportFields,
+        private static void ExportGroups(IEnumerable<Entry> data, IEnumerable<string> exportFields,
                                       ExportSetting exportSetting, string ExportFolderPath)
         {
             List<string> gFieldList = new List<string>();
@@ -116,7 +118,7 @@ namespace ZDB
             }
         }
 
-        private static void ExportGroupsSameFile(IEnumerable<Content> data, IEnumerable<string> exportFields,
+        private static void ExportGroupsSameFile(IEnumerable<Entry> data, IEnumerable<string> exportFields,
                                       IEnumerable<string> gFieldList, string ExportFile)
         {
             string gFieldQueryIns = string.Join(", ", gFieldList.Select(x => "it[\"" + x + "\"] as " + x));
@@ -179,7 +181,7 @@ namespace ZDB
         //    }
         //    return rVal;
         //}
-        private static List<Content> SortContent(List<Content> data, IEnumerable<SortingEntryViewmodel> sortingEntries)
+        private static List<Entry> SortContent(List<Entry> data, IEnumerable<SortingEntryViewmodel> sortingEntries)
         {
             if (sortingEntries.Count() > 0)
             {
@@ -246,14 +248,14 @@ namespace ZDB
         /// <summary>
         /// Common Functions
         /// </summary>
-        private static string GetField(Content c, string f)
+        private static string GetField(Entry c, string f)
         {
             if (Consts.IntFields.Contains(f)) return ((int)c[f]).ToString();
             if (Consts.DateFields.Contains(f)) return ((DateTime)c[f]).ToString();
             return (string)c[f];
         }
         private static int[] accumulator;
-        private static void Accumulate(Content c, IEnumerable<string> ExportFields)
+        private static void Accumulate(Entry c, IEnumerable<string> ExportFields)
         {
             if (accumulator == null)
             {
@@ -276,7 +278,7 @@ namespace ZDB
         /// <summary>
         /// CSV output
         /// </summary>
-        public static void ExportCVS(IEnumerable<Content> data, IEnumerable<string> ExportFields, string ExportPath)
+        public static void ExportCVS(IEnumerable<Entry> data, IEnumerable<string> ExportFields, string ExportPath)
         {
             if (File.Exists(ExportPath))
             {
@@ -286,7 +288,7 @@ namespace ZDB
             using (StreamWriter sw = new StreamWriter(ExportPath, false, Encoding.Unicode))
             {
                 sw.Write(CSVHeader(ExportFields, new FieldsTranslated()));
-                foreach (Content c in data)
+                foreach (Entry c in data)
                 {
                     sw.Write(CSVLine(c, ExportFields));
                     Accumulate(c, ExportFields);
@@ -296,13 +298,13 @@ namespace ZDB
             }
         }
 
-        public static void AppendCVS(IEnumerable<Content> data, IEnumerable<string> ExportFields, string ExportPath)
+        public static void AppendCVS(IEnumerable<Entry> data, IEnumerable<string> ExportFields, string ExportPath)
         {
             if (File.Exists(ExportPath))
             {
                 using (StreamWriter sw = new StreamWriter(ExportPath, true, Encoding.Unicode)) {
                     sw.Write(CSVHeader(ExportFields, new FieldsTranslated()));
-                    foreach (Content c in data)
+                    foreach (Entry c in data)
                     {
                         sw.Write(CSVLine(c, ExportFields));
                         Accumulate(c, ExportFields);
@@ -317,7 +319,7 @@ namespace ZDB
         /// CSV items functions
         /// </summary>
         private static readonly char delimiter = '\t';
-        private static string CSVLine(Content c, IEnumerable<string> ExportFields)
+        private static string CSVLine(Entry c, IEnumerable<string> ExportFields)
         {
             string result = String.Empty;
             bool first = true;

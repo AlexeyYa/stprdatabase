@@ -35,8 +35,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Xml.Serialization;
+using ZDB.Database;
 
-namespace ZDB
+namespace ZDB.Exp
 {
     /// <summary>
     /// Interaction logic for ExportWindow.xaml
@@ -53,8 +54,8 @@ namespace ZDB
             DataContext = exportVM;   
         }
 
-        private Contents contents;
-        public Contents Contents { get => contents; set => contents = value; }
+        private IEnumerable<Entry> entries;
+        public IEnumerable<Entry> Entries { get => entries; set => entries = value; }
 
         private FilterCollection filters;
         internal FilterCollection Filters { get => filters; set => filters = value; }
@@ -104,7 +105,7 @@ namespace ZDB
             var sortedContents = Contents.OrderBy(orderQuery);*/
             //Export.ExportCVS(sortedContents, Filters, fields, 
             //    sortings, parts, exportVM.SavePath);
-            Export.ExportMain(Contents, Filters, exportVM.CurrentSetting, exportVM.SavePath);
+            Export.ExportMain(Entries, Filters, exportVM.CurrentSetting, exportVM.SavePath);
         }
     }
     
@@ -645,33 +646,6 @@ namespace ZDB
         protected void OnPropertyChanged(string name)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-        }
-    }
-
-    public class RelayCommand : ICommand
-    {
-        private readonly Action<object> execute;
-        private readonly Func<object, bool> canExecute;
-
-        public event EventHandler CanExecuteChanged
-        {
-            add { CommandManager.RequerySuggested += value; }
-            remove { CommandManager.RequerySuggested -= value; }
-        }
-
-        public RelayCommand(Action<object> execute, Func<object, bool> canExecute = null)
-        {
-            this.execute = execute;
-            this.canExecute = canExecute;
-        }
-        public bool CanExecute(object parameter)
-        {
-            return this.canExecute == null || this.canExecute(parameter);
-        }
-
-        public void Execute(object parameter)
-        {
-            this.execute(parameter);
         }
     }
 }
