@@ -93,7 +93,7 @@
                 </Style>
             </local:DatagridExtended.RowStyle>
             <local:DatagridExtended.Columns>
-                <DataGridTextColumn Header="Номер" Binding="{Binding Number}"/>
+                <DataGridTextColumn Header="Номер" Binding="{Binding Number}" IsReadOnly="True"/>
                 <DataGridTextColumn Header="Дата заявки" Binding="{Binding StartDate, ConverterCulture=RU-ru, StringFormat=dd-MM-yyyy HH:mm}"/>
                 <DataGridTextColumn Header="Код" Binding="{Binding CodeType}"/>
                 <DataGridTextColumn Header="Заказчик" Binding="{Binding User}"/>

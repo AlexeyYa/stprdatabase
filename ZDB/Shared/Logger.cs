@@ -228,7 +228,7 @@ namespace ZDB
             actions.Add("EndOfException<");
         }
 
-        public static bool TestSaveRestore(Entry c)
+        /*public static bool TestSaveRestore(Entry c)
         {
             SaveContent(c);
             Entry other = RestoreContent(actions.Last());
@@ -242,7 +242,7 @@ namespace ZDB
                 }
             }
             return memberwise;
-        }
+        }*/
 
         private static string SaveContent(Entry c)
         {
@@ -257,7 +257,7 @@ namespace ZDB
             return stringBuilder.ToString();
         }
 
-        private static Entry RestoreContent(string source)
+        /*private static Entry RestoreContent(string source)
         {
             Entry c = new Entry();
             int pleft = 0;
@@ -334,6 +334,6 @@ namespace ZDB
                 pright++;
             }
             return c;
-        }
+        }*/
     }
 }

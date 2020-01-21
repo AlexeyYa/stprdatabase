@@ -341,10 +341,6 @@ namespace ZDB.Database
             }
         }
 
-        public Entry()
-        {
-        }
-
         public Entry(int ID)
         {
             this.Number = ID;
@@ -381,7 +377,7 @@ namespace ZDB.Database
 
         public Entry Copy()
         {
-            Entry entry = new Entry();
+            Entry entry = new Entry(this.Number);
             foreach (string _f in new FieldsList())
             {
                 entry[_f] = this[_f];

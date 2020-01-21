@@ -21,7 +21,7 @@ namespace ZDB.MainViewModel
                 return addEntryCommand ??
                     (addEntryCommand = new RelayCommand(obj =>
                     {
-                        Data.Add(new Entry());
+                        Data.Add(new Entry(Data.Last().Number + 1));
                     },
                     (obj) => Data != null));
             }
@@ -39,8 +39,8 @@ namespace ZDB.MainViewModel
                         {
                             foreach (string path in dialog.FileNames)
                             {
-                                //Content content = Parser.ProcessFromDocx(path, dtList);
-                                //Data.Add(content);
+                                Entry entry = Parser.Parser.ProcessFromDocx(path, Data.Last().Number + 1);
+                                Data.Add(entry);
                             }
                         }
                     },
