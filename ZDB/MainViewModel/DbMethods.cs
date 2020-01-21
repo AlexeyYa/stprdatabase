@@ -1,9 +1,11 @@
 ﻿using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 
 using ZDB.Database;
 
@@ -11,7 +13,6 @@ namespace ZDB.MainViewModel
 {
     partial class MainViewModelClass
     {
-
         private RelayCommand addEntryCommand;
         public RelayCommand AddEntryCommand
         {
@@ -25,7 +26,6 @@ namespace ZDB.MainViewModel
                     (obj) => Data != null));
             }
         }
-
         private RelayCommand addEntryFromFileCommand;
         public RelayCommand AddEntryFromFileCommand
         {
@@ -45,6 +45,27 @@ namespace ZDB.MainViewModel
                         }
                     },
                     (obj) => Data != null));
+            }
+        }
+
+        private RelayCommand removeEntriesCommand;
+        public RelayCommand RemoveEntriesCommand
+        {
+            get
+            {
+                return removeEntriesCommand ??
+                    (removeEntriesCommand = new RelayCommand(obj =>
+                    {
+                        while (((IList<DataGridCellInfo>)obj).Count() > 0)
+                        {
+                            var items = (from cell in (IList<DataGridCellInfo>)obj select cell.Item).Distinct().ToList();
+                            foreach (Entry item in items)
+                            {
+                                Data.Remove(item);
+                            }
+                        }
+                    },
+                    (obj) => ((IList<DataGridCellInfo>)obj).Count() > 0));
             }
         }
 

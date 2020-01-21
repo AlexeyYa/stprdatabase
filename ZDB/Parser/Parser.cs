@@ -18,7 +18,10 @@ limitations under the License.
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -26,12 +29,37 @@ using Xceed.Words.NET;
 
 using ZDB.Database;
 
-namespace ZDB
+namespace ZDB.Parser
 {
-    class Parser
+    static class Parser
     {
         public static string template;
         public static Dictionary<string, int> subs;
+        private static List<DocTemplate> Templates;
+
+        public static void Initialize()
+        {
+            if (File.Exists(Consts.TemplatePath))
+            {
+                IFormatter formatter = new BinaryFormatter();
+                Stream stream = new FileStream(Consts.TemplatePath, FileMode.Open, FileAccess.Read, FileShare.Read);
+                Templates = (List<DocTemplate>)formatter.Deserialize(stream);
+                stream.Close();
+            } else
+            {
+                Templates = new List<DocTemplate>();
+            }
+        }
+
+        public static void AddTemplate(string filename)
+        {
+            DocTemplate docTemplate = Parser.CreateTemplate(filename);
+            Templates.Add(docTemplate);
+            Stream stream = new FileStream(Consts.TemplatePath, FileMode.Create, FileAccess.Write, FileShare.None);
+            IFormatter formatter = new BinaryFormatter();
+            formatter.Serialize(stream, Templates);
+            stream.Close();
+        }
 
         public static Entry ProcessFromDocx(string path, List<DocTemplate> dtList)
         {
@@ -368,7 +396,7 @@ namespace ZDB
             return content;
         }
 
-        public static DocTemplate Template(string path)
+        private static DocTemplate CreateTemplate(string path)
         {
             DocX document = DocX.Load(path);
             string temp = document.Text;

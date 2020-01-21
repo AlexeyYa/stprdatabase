@@ -122,6 +122,8 @@
     <Compile Include="Database\Entry.cs" />
     <Compile Include="MainViewModel\DbMethods.cs" />
     <Compile Include="MainViewModel\FilterMethods.cs" />
+    <Compile Include="MainViewModel\VariousMethods.cs" />
+    <Compile Include="Shared\DataGridAttachedProperties.cs" />
     <Compile Include="Shared\DatagridExtension.cs" />
     <Compile Include="Shared\ExtendedPropertyChanged.cs" />
     <Compile Include="Shared\Logger.cs" />
@@ -160,7 +162,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Parser.cs" />
+    <Compile Include="Parser\Parser.cs" />
     <Compile Include="Shared\PdfProcessing.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>

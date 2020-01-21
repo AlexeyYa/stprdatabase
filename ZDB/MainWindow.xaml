@@ -37,7 +37,19 @@
     </Window.Resources>
     <Grid>
         <local:DatagridExtended x:Name="dGrid" Margin="10,10,10,180" 
-                 VirtualizingPanel.IsVirtualizingWhenGrouping="True" ItemsSource="{Binding DataViewSource.View}" AutoGenerateColumns="False">
+                 ItemsSource="{Binding DataViewSource.View}" AutoGenerateColumns="False" SelectionUnit="Cell">
+            <DataGrid.CellStyle>
+                <Style TargetType="{x:Type DataGridCell}">
+                    <Style.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="local:DataGridAttachedProperties.IsCellSelected" Value="True"/>
+                        </Trigger>
+                        <Trigger Property="IsSelected" Value="False">
+                            <Setter Property="local:DataGridAttachedProperties.IsCellSelected" Value="False"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </DataGrid.CellStyle>
             <!--<local:DatagridExtended.GroupStyle>
                 <GroupStyle>
                     <GroupStyle.ContainerStyle>
@@ -74,6 +86,9 @@
                         <DataTrigger Binding="{Binding Status}" Value="завершено">
                             <Setter Property="Background" Value="LightGreen"/>
                         </DataTrigger>
+                        <Trigger Property="local:DataGridAttachedProperties.IsCellSelected" Value="True">
+                            <Setter Property="BorderThickness" Value="0,1,0,1"/>
+                        </Trigger>
                     </Style.Triggers>
                 </Style>
             </local:DatagridExtended.RowStyle>
@@ -137,9 +152,9 @@
         <Button x:Name="AddBtn" Content="Добавить из файла" Margin="200, 0, 0, 150" Height="20" Width="100" HorizontalAlignment="Left" VerticalAlignment="Bottom"
                 Command="{Binding AddEntryFromFileCommand}"/>
         <Button x:Name="TemplateBtn" Content="Добавить шаблон" Margin="320, 0, 0, 150" Height="20" Width="100" HorizontalAlignment="Left" VerticalAlignment="Bottom"
-                />
+                Command="{Binding AddTemplate}"/>
         <Button x:Name="RemoveZ" Content="Удалить заявку" Margin="0, 0, 10, 150" Height="20" Width="100" HorizontalAlignment="Right" VerticalAlignment="Bottom"
-                />
+                Command="{Binding RemoveEntriesCommand}" CommandParameter="{Binding SelectedCells, ElementName=dGrid}"/>
 
 
         <Button x:Name="AddFilterBtn" Content="Добавить фильтр" Margin="10, 0, 0, 10" Height="20" Width="100" HorizontalAlignment="Left" VerticalAlignment="Bottom"

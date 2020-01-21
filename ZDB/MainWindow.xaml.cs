@@ -42,12 +42,12 @@ namespace ZDB
     /// </summary>
     public partial class MainWindow : Window
     {
-        private ICollectionView cvsContents;
+        //private ICollectionView cvsContents;
         // private Contents _contents;
         // private FilterProcessor _filterProc = new FilterProcessor();
         // private ObservableCollection<Filter> _filters = new ObservableCollection<Filter>();
         //private static FilterCollection _filters = new FilterCollection();
-        private static List<DocTemplate> dtList = new List<DocTemplate>();
+        //private static List<Parser.DocTemplate> dtList = new List<Parser.DocTemplate>();
 
         private MainViewModelClass mainViewModel;
 
@@ -62,8 +62,9 @@ namespace ZDB
         {
             mainViewModel = new MainViewModelClass();
             this.DataContext = mainViewModel;
+            Parser.Parser.Initialize();
 
-            cvsContents = CollectionViewSource.GetDefaultView(dGrid.ItemsSource);
+            //cvsContents = CollectionViewSource.GetDefaultView(dGrid.ItemsSource);
             
             /*_contents = (Contents)this.Resources["ContentsClass"];
             LoadContents(Consts.DatabasePath);
@@ -98,13 +99,13 @@ namespace ZDB
 
             
             */
-            if (File.Exists(Consts.TemplatePath))
-            {
-                IFormatter formatter = new BinaryFormatter();
-                Stream stream = new FileStream(Consts.TemplatePath, FileMode.Open, FileAccess.Read, FileShare.Read);
-                dtList = (List<DocTemplate>)formatter.Deserialize(stream);
-                stream.Close();
-            }
+            //if (File.Exists(Consts.TemplatePath))
+            //{
+            //    IFormatter formatter = new BinaryFormatter();
+            //    Stream stream = new FileStream(Consts.TemplatePath, FileMode.Open, FileAccess.Read, FileShare.Read);
+            //    dtList = (List<Parser.DocTemplate>)formatter.Deserialize(stream);
+            //    stream.Close();
+            //}
         }
 
         private void LoadContents(string path)
@@ -165,7 +166,7 @@ namespace ZDB
             }*/
         }
 
-        private void CollectionViewSource_Filter(object sender, FilterEventArgs e)
+        /*private void CollectionViewSource_Filter(object sender, FilterEventArgs e)
         {
             if (e.Item is Entry c)
             {
@@ -193,19 +194,19 @@ namespace ZDB
             }
         }*/
 
-        private void TemplateBtn_Click(object sender, RoutedEventArgs e)
+        /*private void TemplateBtn_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog dialog = new OpenFileDialog();
             if (dialog.ShowDialog() == true)
             {
-                DocTemplate docTemplate = Parser.Template(dialog.FileName);
+                Parser.DocTemplate docTemplate = Parser.Parser.CreateTemplate(dialog.FileName);
                 dtList.Add(docTemplate);
                 Stream stream = new FileStream(Consts.TemplatePath, FileMode.Create, FileAccess.Write, FileShare.None);
                 IFormatter formatter = new BinaryFormatter();
                 formatter.Serialize(stream, dtList);
                 stream.Close();
             }
-        }
+        }*/
 
         private void ExportBtn_Click(object sender, RoutedEventArgs e)
         {
@@ -248,7 +249,7 @@ namespace ZDB
 
         private void Save_Click(object sender, RoutedEventArgs e)
         {
-            DGSettingsManager.SaveToXML(dGrid.SaveSettings(), Consts.ColumnSettingsPath);
+            //DGSettingsManager.SaveToXML(dGrid.SaveSettings(), Consts.ColumnSettingsPath);
         }
         private void Load_Click(object sender, RoutedEventArgs e)
         {

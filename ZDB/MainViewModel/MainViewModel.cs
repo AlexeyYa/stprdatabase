@@ -88,8 +88,7 @@ namespace ZDB.MainViewModel
                     }
                 });
 
-            DataViewSource = new CollectionViewSource();
-            DataViewSource.Source = Data;
+            DataViewSource = new CollectionViewSource { Source = Data };
             DataViewSource.Filter += FilterHandler;
         }
 
