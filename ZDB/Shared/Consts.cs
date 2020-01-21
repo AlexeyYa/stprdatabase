@@ -34,15 +34,24 @@ namespace ZDB
         public const string DatabasePath = @"D:\dev\ZDB.csv";
 
         public static readonly IEnumerable<string> StrFields = new HashSet<string>
-            { "Number", "User", "Obj", "Group", "DocCode", "Subs", "Status", "Tasks", "Corrections", "Executor" };
+            { "User", "Obj", "Group", "DocCode", "Subs", "Tasks", "Corrections", "Executor" };
         
         public static readonly IEnumerable<string> IntFields = new HashSet<string>
-            { "CodeType", "NumberOfCopies", "NumberOfOriginals", "Numeration", "Scan", "Threading",
+            { "Number", "CodeType", "NumberOfCopies", "NumberOfOriginals", "Numeration", "Scan", "Threading",
             "SizeFormat", "SizeA4", "SizeA3", "SizeA2", "SizeA1", "SizeA0",
             "SizeCorFormat", "SizeCorA4", "SizeCorA3", "SizeCorA2", "SizeCorA1", "SizeCorA0"};
 
         public static readonly IEnumerable<string> DateFields = new HashSet<string>
-            { "StartDate", "EndDate", "CompleteDate" };        
+            { "StartDate", "EndDate", "CompleteDate" };
+
+        public static readonly Dictionary<string, Dictionary<int, string>> EnumFields = new Dictionary<string, Dictionary<int, string>>
+            { {"Status", StatusValues} };
+
+        public static readonly Dictionary<int, string> StatusValues = new Dictionary<int, string>
+            { {-1, "Аннулировано" },
+              { 0, "" },
+              { 1, "В работе" },
+              { 2, "Завершено" } };
     }
 
     /// <summary>
@@ -128,7 +137,7 @@ namespace ZDB
         }
     }
 
-    public class ColorsList : List<Brush>
+    class ColorsList : List<Brush>
     {
         public ColorsList()
         {

@@ -252,6 +252,7 @@ namespace ZDB.Exp
         {
             if (Consts.IntFields.Contains(f)) return ((int)c[f]).ToString();
             if (Consts.DateFields.Contains(f)) return ((DateTime)c[f]).ToString();
+            if (Consts.EnumFields.ContainsKey(f)) return Consts.EnumFields[f][(int)c[f]];
             return (string)c[f];
         }
         private static int[] accumulator;

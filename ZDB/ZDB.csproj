@@ -133,6 +133,7 @@
       <DependentUpon>StyleSelector.xaml</DependentUpon>
     </Compile>
     <Compile Include="Shared\Tests.cs" />
+    <Compile Include="StyleSettings\DGSettingsManager.cs" />
     <Page Include="Export\ExportWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

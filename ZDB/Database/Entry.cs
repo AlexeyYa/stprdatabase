@@ -341,6 +341,7 @@ namespace ZDB.Database
             }
         }
 
+        public Entry() { }
         public Entry(int ID)
         {
             this.Number = ID;

@@ -57,6 +57,10 @@ namespace ZDB.Database
                 {
                     this.SetItem(idx, new FilterDate(field, FilterOperation.GREATEREQUAL, new DateTime(2019, 1, 1)));
                 }
+                else if (Consts.EnumFields.ContainsKey(field))
+                {
+                    this.SetItem(idx, new FilterInt(field, FilterOperation.GREATEREQUAL, -1));
+                }
             }
         }
 

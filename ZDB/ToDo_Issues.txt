@@ -5,7 +5,8 @@ Implementing other export formats
 
 Major:
 Daily export
-User styles
+User styles = Partly implemented
+Logger
 
 Notes:
 Combobox instant update = {Binding x, UpdateSourceTrigger=PropertyChanged}
