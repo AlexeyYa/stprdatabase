@@ -7,10 +7,8 @@ Major:
 Daily export
 User styles = Partly implemented
 Logger
+Calculated fields
+Saving changes to database
 
 Notes:
 Combobox instant update = {Binding x, UpdateSourceTrigger=PropertyChanged}
-
-Implemented:
-Implement visible columns selection = DatagridExtension.cs
-Save columns order = DatagridExtension.cs
