@@ -35,6 +35,7 @@ using ZDB.MainViewModel;
 using ZDB.Database;
 using ZDB.Exp;
 using System.Windows.Controls;
+using ZDB.StyleSettings;
 
 namespace ZDB
 {
@@ -278,11 +279,11 @@ namespace ZDB
 
         private void Save_Click(object sender, RoutedEventArgs e)
         {
-            //DGSettingsManager.SaveToXML(dGrid.SaveSettings(), Consts.ColumnSettingsPath);
+            DGSettingsManager.SaveToXML(dGrid.SaveSettings(), Consts.DGSettingsPath);
         }
         private void Load_Click(object sender, RoutedEventArgs e)
         {
-            dGrid.LoadSettings(DGSettingsManager.LoadFromXML(Consts.ColumnSettingsPath));
+            dGrid.LoadSettings(DGSettingsManager.LoadFromXML(Consts.DGSettingsPath));
         }
 
         /*private void UndoBtn_Click(object sender, RoutedEventArgs e)

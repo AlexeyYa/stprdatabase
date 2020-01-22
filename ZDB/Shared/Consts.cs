@@ -29,7 +29,7 @@ namespace ZDB
 {
     static class Consts
     {
-        public const string ColumnSettingsPath = @"D:\test.xml";
+        public const string DGSettingsPath = @"D:\test1.xml";
         public const string TemplatePath = @".\templates.bin";
         public const string DatabasePath = @"D:\dev\ZDB.csv";
 
