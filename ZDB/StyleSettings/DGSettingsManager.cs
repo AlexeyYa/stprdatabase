@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Media;
 using System.Xml;
 
@@ -115,7 +116,7 @@ namespace ZDB.StyleSettings
             return style;
         }
 
-        public static void SaveToXML(IEnumerable<ColumnInfo> CInfo, string path)
+        public static void SaveToXML(IEnumerable<ColumnInfo> CInfo, Style rowStyle, string path)
         {
             XmlDocument xDoc = new XmlDocument();
             XmlDeclaration xmlDeclaration = xDoc.CreateXmlDeclaration("1.0", "UTF-8", null);
@@ -126,8 +127,7 @@ namespace ZDB.StyleSettings
 
             SaveColumns(xDoc, mainElement, CInfo);
 
-            XmlElement element1 = xDoc.CreateElement("RowsInfo");
-            mainElement.AppendChild(element1);
+            SaveRows(xDoc, mainElement, rowStyle);
 
             xDoc.Save(path);
         }
@@ -181,6 +181,105 @@ namespace ZDB.StyleSettings
                     }
                 }
             }
+        }
+
+        private static void SaveRows(XmlDocument xDoc, XmlElement parent, Style rowStyle) {
+
+            XmlElement styleNode = xDoc.CreateElement("RowStyle");
+            parent.AppendChild(styleNode);
+
+            foreach (Setter styleSetter in rowStyle.Setters)
+            {
+                XmlElement styleSetterNode = xDoc.CreateElement(styleSetter.Property.ToString());
+                XmlText styleSetterVal = xDoc.CreateTextNode(styleSetter.Value.ToString());
+                styleSetterNode.AppendChild(styleSetterVal);
+                styleNode.AppendChild(styleSetterNode);
+            }
+
+            int counter = 1;
+            foreach (var trig in rowStyle.Triggers)
+            {
+                if (trig is DataTrigger dataTrigger)
+                {
+                    XmlElement dtNode = xDoc.CreateElement("DataTrigger" + counter++);
+                    styleNode.AppendChild(dtNode);
+
+                    XmlElement bindingNode = xDoc.CreateElement("Binding");
+                    Binding binding = dataTrigger.Binding as Binding;
+                    XmlText bindingVal = xDoc.CreateTextNode(binding.Path.Path);
+                    bindingNode.AppendChild(bindingVal);
+                    dtNode.AppendChild(bindingNode);
+
+                    XmlElement valueNode = xDoc.CreateElement("Value");
+                    XmlText valueVal = xDoc.CreateTextNode(dataTrigger.Value.ToString());
+                    valueNode.AppendChild(valueVal);
+                    dtNode.AppendChild(valueNode);
+
+                    XmlElement styleSettersNode = xDoc.CreateElement("Style");
+                    dtNode.AppendChild(styleSettersNode);
+
+                    foreach (Setter styleSetter in dataTrigger.Setters)
+                    {
+                        XmlElement styleSetterNode = xDoc.CreateElement(styleSetter.Property.ToString());
+                        XmlText styleSetterVal = xDoc.CreateTextNode(styleSetter.Value.ToString());
+                        styleSetterNode.AppendChild(styleSetterVal);
+                        styleSettersNode.AppendChild(styleSetterNode);
+                    }
+                } else if (trig is Trigger trigger)
+                {
+                    XmlElement tNode = xDoc.CreateElement("Trigger" + counter++);
+                    styleNode.AppendChild(tNode);
+
+                    XmlElement bindingNode = xDoc.CreateElement("Property");
+                    XmlText bindingVal = xDoc.CreateTextNode(trigger.Property.ToString());
+                    bindingNode.AppendChild(bindingVal);
+                    tNode.AppendChild(bindingNode);
+
+                    XmlElement valueNode = xDoc.CreateElement("Value");
+                    XmlText valueVal = xDoc.CreateTextNode(trigger.Value.ToString());
+                    valueNode.AppendChild(valueVal);
+                    tNode.AppendChild(valueNode);
+
+                    XmlElement styleSettersNode = xDoc.CreateElement("Style");
+                    tNode.AppendChild(styleSettersNode);
+
+
+                    foreach (Setter styleSetter in trigger.Setters)
+                    {
+                        XmlElement styleSetterNode = xDoc.CreateElement(styleSetter.Property.ToString());
+                        XmlText styleSetterVal = xDoc.CreateTextNode(styleSetter.Value.ToString());
+                        styleSetterNode.AppendChild(styleSetterVal);
+                        styleSettersNode.AppendChild(styleSetterNode);
+                    }
+                }
+            }
+
+            //counter = 1;
+            //foreach (Trigger trigger in rowStyle.Triggers)
+            //{
+            //    XmlElement tNode = xDoc.CreateElement("Trigger" + counter++);
+            //    XmlElement bindingNode = xDoc.CreateElement("Property");
+            //    XmlText bindingVal = xDoc.CreateTextNode(trigger.Property.ToString());
+            //    bindingNode.AppendChild(bindingVal);
+            //    tNode.AppendChild(bindingNode);
+
+            //    XmlElement valueNode = xDoc.CreateElement("Value");
+            //    XmlText valueVal = xDoc.CreateTextNode(trigger.Value.ToString());
+            //    valueNode.AppendChild(valueVal);
+            //    tNode.AppendChild(valueNode);
+
+            //    XmlElement styleSettersNode = xDoc.CreateElement("Style");
+            //    tNode.AppendChild(styleSettersNode);
+
+
+            //    foreach (Setter styleSetter in trigger.Setters)
+            //    {
+            //        XmlElement styleSetterNode = xDoc.CreateElement(styleSetter.Property.ToString());
+            //        XmlText styleSetterVal = xDoc.CreateTextNode(styleSetter.Value.ToString());
+            //        styleSetterNode.AppendChild(styleSetterVal);
+            //        styleSettersNode.AppendChild(styleSetterNode);
+            //    }
+            //}
         }
     }
 }

@@ -78,6 +78,8 @@ namespace ZDB
             }
         }
 
+
+
         public List<ColumnInfo> SaveSettings()
         {
             List<ColumnInfo> CInfo = new List<ColumnInfo>();
@@ -89,6 +91,12 @@ namespace ZDB
                 CInfo.Add(columnInfo);
             }
             return CInfo;
+        }
+
+        public Style GetRowStyle()
+        {
+            Style rowStyle = RowStyle;
+            return rowStyle;
         }
 
         private void HeaderClick(object sender, MouseButtonEventArgs e)

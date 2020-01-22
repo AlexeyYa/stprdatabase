@@ -279,7 +279,7 @@ namespace ZDB
 
         private void Save_Click(object sender, RoutedEventArgs e)
         {
-            DGSettingsManager.SaveToXML(dGrid.SaveSettings(), Consts.DGSettingsPath);
+            DGSettingsManager.SaveToXML(dGrid.SaveSettings(), dGrid.GetRowStyle(), Consts.DGSettingsPath);
         }
         private void Load_Click(object sender, RoutedEventArgs e)
         {

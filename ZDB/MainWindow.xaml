@@ -81,10 +81,10 @@
                     <Setter Property="Foreground" Value="Black"/>
                     <Setter Property="Background" Value="White"/>
                     <Style.Triggers>
-                        <DataTrigger Binding="{Binding Status}" Value="аннулировано">
+                        <DataTrigger Binding="{Binding Status}" Value="1">
                             <Setter Property="Background" Value="LightYellow"/>
                         </DataTrigger>
-                        <DataTrigger Binding="{Binding Status}" Value="завершено">
+                        <DataTrigger Binding="{Binding Status}" Value="2">
                             <Setter Property="Background" Value="LightGreen"/>
                         </DataTrigger>
                         <Trigger Property="local:DataGridAttachedProperties.IsCellSelected" Value="True">
