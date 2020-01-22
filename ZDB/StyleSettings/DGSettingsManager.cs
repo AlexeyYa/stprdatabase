@@ -14,9 +14,10 @@ namespace ZDB.StyleSettings
 
     public static class DGSettingsManager
     {
-        public static List<ColumnInfo> LoadFromXML(string path)
+        public static DGEStyle LoadFromXML(string path)
         {
             List<ColumnInfo> CInfo = new List<ColumnInfo>();
+            Style rowStyle = new Style();
 
             XmlDocument xDoc = new XmlDocument();
             xDoc.Load(path);
@@ -28,9 +29,12 @@ namespace ZDB.StyleSettings
                     case "ColumnsInfo":
                         CInfo = LoadColumns(xNode);
                         break;
+                    case "RowStyle":
+                        rowStyle = LoadStyleSetters(xNode);
+                        break;
                 }
             }
-            return CInfo;
+            return new DGEStyle(CInfo, rowStyle);
         }
 
         private static List<ColumnInfo> LoadColumns(XmlElement parent)
@@ -116,7 +120,7 @@ namespace ZDB.StyleSettings
             return style;
         }
 
-        public static void SaveToXML(IEnumerable<ColumnInfo> CInfo, Style rowStyle, string path)
+        public static void SaveToXML(DGEStyle DGEStyleSettings, string path)
         {
             XmlDocument xDoc = new XmlDocument();
             XmlDeclaration xmlDeclaration = xDoc.CreateXmlDeclaration("1.0", "UTF-8", null);
@@ -125,9 +129,12 @@ namespace ZDB.StyleSettings
             XmlElement mainElement = xDoc.CreateElement("DGSettings");
             xDoc.AppendChild(mainElement);
 
-            SaveColumns(xDoc, mainElement, CInfo);
+            SaveColumns(xDoc, mainElement, DGEStyleSettings.CInfo);
 
-            SaveRows(xDoc, mainElement, rowStyle);
+            XmlElement rowStyleNode = xDoc.CreateElement("RowStyle");
+            mainElement.AppendChild(rowStyleNode);
+
+            SaveStyle(xDoc, rowStyleNode, DGEStyleSettings.rowStyle);
 
             xDoc.Save(path);
         }
@@ -172,37 +179,24 @@ namespace ZDB.StyleSettings
                     XmlElement colStyleNode = xDoc.CreateElement("ColStyle");
                     columnXml.AppendChild(colStyleNode);
 
-                    foreach (Setter styleSetter in columnInfo.ColStyle.Setters)
-                    {
-                        XmlElement styleSetterNode = xDoc.CreateElement(styleSetter.Property.ToString());
-                        XmlText styleSetterVal = xDoc.CreateTextNode(styleSetter.Value.ToString());
-                        styleSetterNode.AppendChild(styleSetterVal);
-                        colStyleNode.AppendChild(styleSetterNode);
-                    }
+                    SaveSetters(xDoc, colStyleNode, columnInfo.ColStyle.Setters);
                 }
             }
         }
 
-        private static void SaveRows(XmlDocument xDoc, XmlElement parent, Style rowStyle) {
+        private static void SaveStyle(XmlDocument xDoc, XmlElement parent, Style style) {
 
-            XmlElement styleNode = xDoc.CreateElement("RowStyle");
+
+            XmlElement styleNode = xDoc.CreateElement("Style");
             parent.AppendChild(styleNode);
+            SaveSetters(xDoc, styleNode, style.Setters);
 
-            foreach (Setter styleSetter in rowStyle.Setters)
-            {
-                XmlElement styleSetterNode = xDoc.CreateElement(styleSetter.Property.ToString());
-                XmlText styleSetterVal = xDoc.CreateTextNode(styleSetter.Value.ToString());
-                styleSetterNode.AppendChild(styleSetterVal);
-                styleNode.AppendChild(styleSetterNode);
-            }
-
-            int counter = 1;
-            foreach (var trig in rowStyle.Triggers)
+            foreach (var trig in style.Triggers)
             {
                 if (trig is DataTrigger dataTrigger)
                 {
-                    XmlElement dtNode = xDoc.CreateElement("DataTrigger" + counter++);
-                    styleNode.AppendChild(dtNode);
+                    XmlElement dtNode = xDoc.CreateElement("DataTrigger");
+                    parent.AppendChild(dtNode);
 
                     XmlElement bindingNode = xDoc.CreateElement("Binding");
                     Binding binding = dataTrigger.Binding as Binding;
@@ -218,17 +212,11 @@ namespace ZDB.StyleSettings
                     XmlElement styleSettersNode = xDoc.CreateElement("Style");
                     dtNode.AppendChild(styleSettersNode);
 
-                    foreach (Setter styleSetter in dataTrigger.Setters)
-                    {
-                        XmlElement styleSetterNode = xDoc.CreateElement(styleSetter.Property.ToString());
-                        XmlText styleSetterVal = xDoc.CreateTextNode(styleSetter.Value.ToString());
-                        styleSetterNode.AppendChild(styleSetterVal);
-                        styleSettersNode.AppendChild(styleSetterNode);
-                    }
+                    SaveSetters(xDoc, styleSettersNode, dataTrigger.Setters);
                 } else if (trig is Trigger trigger)
                 {
-                    XmlElement tNode = xDoc.CreateElement("Trigger" + counter++);
-                    styleNode.AppendChild(tNode);
+                    XmlElement tNode = xDoc.CreateElement("Trigger");
+                    parent.AppendChild(tNode);
 
                     XmlElement bindingNode = xDoc.CreateElement("Property");
                     XmlText bindingVal = xDoc.CreateTextNode(trigger.Property.ToString());
@@ -243,43 +231,20 @@ namespace ZDB.StyleSettings
                     XmlElement styleSettersNode = xDoc.CreateElement("Style");
                     tNode.AppendChild(styleSettersNode);
 
-
-                    foreach (Setter styleSetter in trigger.Setters)
-                    {
-                        XmlElement styleSetterNode = xDoc.CreateElement(styleSetter.Property.ToString());
-                        XmlText styleSetterVal = xDoc.CreateTextNode(styleSetter.Value.ToString());
-                        styleSetterNode.AppendChild(styleSetterVal);
-                        styleSettersNode.AppendChild(styleSetterNode);
-                    }
+                    SaveSetters(xDoc, styleSettersNode, trigger.Setters);
                 }
             }
+        }
 
-            //counter = 1;
-            //foreach (Trigger trigger in rowStyle.Triggers)
-            //{
-            //    XmlElement tNode = xDoc.CreateElement("Trigger" + counter++);
-            //    XmlElement bindingNode = xDoc.CreateElement("Property");
-            //    XmlText bindingVal = xDoc.CreateTextNode(trigger.Property.ToString());
-            //    bindingNode.AppendChild(bindingVal);
-            //    tNode.AppendChild(bindingNode);
-
-            //    XmlElement valueNode = xDoc.CreateElement("Value");
-            //    XmlText valueVal = xDoc.CreateTextNode(trigger.Value.ToString());
-            //    valueNode.AppendChild(valueVal);
-            //    tNode.AppendChild(valueNode);
-
-            //    XmlElement styleSettersNode = xDoc.CreateElement("Style");
-            //    tNode.AppendChild(styleSettersNode);
-
-
-            //    foreach (Setter styleSetter in trigger.Setters)
-            //    {
-            //        XmlElement styleSetterNode = xDoc.CreateElement(styleSetter.Property.ToString());
-            //        XmlText styleSetterVal = xDoc.CreateTextNode(styleSetter.Value.ToString());
-            //        styleSetterNode.AppendChild(styleSetterVal);
-            //        styleSettersNode.AppendChild(styleSetterNode);
-            //    }
-            //}
+        private static void SaveSetters(XmlDocument xDoc, XmlElement parent, SetterBaseCollection setters)
+        {
+            foreach (Setter styleSetter in setters)
+            {
+                XmlElement styleSetterNode = xDoc.CreateElement(styleSetter.Property.ToString());
+                XmlText styleSetterVal = xDoc.CreateTextNode(styleSetter.Value.ToString());
+                styleSetterNode.AppendChild(styleSetterVal);
+                parent.AppendChild(styleSetterNode);
+            }
         }
     }
 }

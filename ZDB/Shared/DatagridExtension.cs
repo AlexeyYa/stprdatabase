@@ -13,6 +13,18 @@ using System.Xml;
 
 namespace ZDB
 {
+    public struct DGEStyle
+    {
+        public DGEStyle(IList<ColumnInfo> ColumnInfo, Style RowStyle)
+        {
+            CInfo = ColumnInfo;
+            rowStyle = RowStyle;
+        }
+
+        public IList<ColumnInfo> CInfo;
+        public Style rowStyle;
+    }
+
     public struct ColumnInfo
     {
         public ColumnInfo(DataGridColumn column, int columnID)
@@ -51,9 +63,9 @@ namespace ZDB
         public DataGridLengthUnitType WidthType;
     }
 
-    class DatagridExtended : DataGrid
+    class DataGridExtended : DataGrid
     {
-        public DatagridExtended() : base()
+        public DataGridExtended() : base()
         {
             var columnStyle = new Style { TargetType = typeof(DataGridColumnHeader) };
             var eventSetter = new EventSetter(MouseRightButtonDownEvent, new MouseButtonEventHandler(HeaderClick));
@@ -66,21 +78,22 @@ namespace ZDB
             base.OnInitialized(e);
         }
 
-        public void LoadSettings(IList<ColumnInfo> CInfo)
+        public void LoadSettings(DGEStyle DGEStyleSettings)
         {
-            if (CInfo.Count == Columns.Count)
+            if (DGEStyleSettings.CInfo.Count == Columns.Count)
             {
-                foreach (var columnInfo in CInfo)
+                foreach (var columnInfo in DGEStyleSettings.CInfo)
                 {
                     int i = columnInfo.ColumnID;
                     columnInfo.Apply(Columns[i]);
                 }
             }
+            RowStyle = DGEStyleSettings.rowStyle;
         }
 
 
 
-        public List<ColumnInfo> SaveSettings()
+        public DGEStyle SaveSettings()
         {
             List<ColumnInfo> CInfo = new List<ColumnInfo>();
             for (int i = 0; i < Columns.Count(); i++)
@@ -90,13 +103,7 @@ namespace ZDB
                 ColumnInfo columnInfo = new ColumnInfo(column, id);
                 CInfo.Add(columnInfo);
             }
-            return CInfo;
-        }
-
-        public Style GetRowStyle()
-        {
-            Style rowStyle = RowStyle;
-            return rowStyle;
+            return new DGEStyle(CInfo, RowStyle);
         }
 
         private void HeaderClick(object sender, MouseButtonEventArgs e)

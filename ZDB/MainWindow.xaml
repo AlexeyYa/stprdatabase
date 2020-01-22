@@ -37,7 +37,7 @@
         </Style>
     </Window.Resources>
     <Grid>
-        <local:DatagridExtended x:Name="dGrid" Margin="10,10,10,180" 
+        <local:DataGridExtended x:Name="dGrid" Margin="10,10,10,180" 
                  ItemsSource="{Binding DataViewSource.View}" AutoGenerateColumns="False" SelectionUnit="Cell">
             <DataGrid.CellStyle>
                 <Style TargetType="{x:Type DataGridCell}">
@@ -51,7 +51,7 @@
                     </Style.Triggers>
                 </Style>
             </DataGrid.CellStyle>
-            <!--<local:DatagridExtended.GroupStyle>
+            <!--<local:DataGridExtended.GroupStyle>
                 <GroupStyle>
                     <GroupStyle.ContainerStyle>
                         <Style TargetType="{x:Type GroupItem}">
@@ -75,8 +75,8 @@
                         </Style>
                     </GroupStyle.ContainerStyle>
                 </GroupStyle>
-            </local:DatagridExtended.GroupStyle>-->
-            <local:DatagridExtended.RowStyle>
+            </local:DataGridExtended.GroupStyle>-->
+            <local:DataGridExtended.RowStyle>
                 <Style TargetType="DataGridRow">
                     <Setter Property="Foreground" Value="Black"/>
                     <Setter Property="Background" Value="White"/>
@@ -92,8 +92,8 @@
                         </Trigger>
                     </Style.Triggers>
                 </Style>
-            </local:DatagridExtended.RowStyle>
-            <!--<local:DatagridExtended.Columns>
+            </local:DataGridExtended.RowStyle>
+            <!--<local:DataGridExtended.Columns>
                 <DataGridTextColumn Header="Номер" Binding="{Binding Number}" IsReadOnly="True"/>
                 <DataGridTextColumn Header="Дата заявки" Binding="{Binding StartDate, ConverterCulture=RU-ru, StringFormat=dd-MM-yyyy HH:mm}"/>
                 <DataGridTextColumn Header="Код" Binding="{Binding CodeType}"/>
@@ -116,8 +116,8 @@
                 <DataGridTextColumn Header="Причина кор." Binding="{Binding Corrections}"/>
                 <DataGridTextColumn Header="Исполнитель" Binding="{Binding Executor}"/>
 
-            </local:DatagridExtended.Columns>-->
-        </local:DatagridExtended>
+            </local:DataGridExtended.Columns>-->
+        </local:DataGridExtended>
         <DataGrid x:Name="filterGrid" Margin="10,0,10,40" Height="100" VerticalAlignment="Bottom" 
                    ItemsSource="{Binding Filters}" AutoGenerateColumns="False">
             <DataGrid.Columns>
