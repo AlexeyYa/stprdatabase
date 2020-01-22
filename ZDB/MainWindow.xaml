@@ -13,7 +13,8 @@
         <local:FieldsTranslated x:Key="FieldsTranslated"/>
         <local:FilterTranslated x:Key="FilterTranslated"/>
         <local:ColorsList x:Key="ColorsList"/>
-        
+        <x:Static Member="local:Consts.StatusValues" x:Key="StatusList"/>
+
         <ObjectDataProvider x:Key="FilterOperation" MethodName="GetValues"
                             ObjectType="{x:Type local:FilterOperation}">
             <ObjectDataProvider.MethodParameters>
@@ -92,7 +93,7 @@
                     </Style.Triggers>
                 </Style>
             </local:DatagridExtended.RowStyle>
-            <local:DatagridExtended.Columns>
+            <!--<local:DatagridExtended.Columns>
                 <DataGridTextColumn Header="Номер" Binding="{Binding Number}" IsReadOnly="True"/>
                 <DataGridTextColumn Header="Дата заявки" Binding="{Binding StartDate, ConverterCulture=RU-ru, StringFormat=dd-MM-yyyy HH:mm}"/>
                 <DataGridTextColumn Header="Код" Binding="{Binding CodeType}"/>
@@ -115,7 +116,7 @@
                 <DataGridTextColumn Header="Причина кор." Binding="{Binding Corrections}"/>
                 <DataGridTextColumn Header="Исполнитель" Binding="{Binding Executor}"/>
 
-            </local:DatagridExtended.Columns>
+            </local:DatagridExtended.Columns>-->
         </local:DatagridExtended>
         <DataGrid x:Name="filterGrid" Margin="10,0,10,40" Height="100" VerticalAlignment="Bottom" 
                    ItemsSource="{Binding Filters}" AutoGenerateColumns="False">
@@ -164,6 +165,6 @@
         <Button x:Name="RedoBtn" Content="Redo" Margin="0, 0, 300, 10" Height="20" Width="100" HorizontalAlignment="Right" VerticalAlignment="Bottom" Click="Load_Click"/>
 
         <Button x:Name="ExportBtn" Content="Экспортировать" Margin="0, 0, 10, 10" Height="20" Width="100" HorizontalAlignment="Right" VerticalAlignment="Bottom"
-                />
+                Command="{Binding ExportCommand}"/>
     </Grid>
 </Window>

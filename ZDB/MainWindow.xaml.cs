@@ -34,6 +34,7 @@ using System.Data.Entity;
 using ZDB.MainViewModel;
 using ZDB.Database;
 using ZDB.Exp;
+using System.Windows.Controls;
 
 namespace ZDB
 {
@@ -64,8 +65,36 @@ namespace ZDB
             this.DataContext = mainViewModel;
             Parser.Parser.Initialize();
 
-            //cvsContents = CollectionViewSource.GetDefaultView(dGrid.ItemsSource);
+            var dGridInit = new DatagridCustomInit(dGrid);
             
+            
+            /*DataGridTemplateColumn t = new DataGridTemplateColumn();
+            
+            FrameworkElementFactory cmbElem = new FrameworkElementFactory(typeof(ComboBox));
+            Binding test = new Binding();
+            test.Source = Consts.StatusValues;
+            test.Mode = BindingMode.OneWay;
+
+            cmbElem.SetBinding(ComboBox.ItemsSourceProperty, test);
+            Binding stat = new Binding("Status");
+            stat.Mode = BindingMode.TwoWay;
+            stat.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
+            cmbElem.SetBinding(ComboBox.SelectedValueProperty, stat);
+            cmbElem.SetValue(ComboBox.SelectedValuePathProperty, "Key");
+            cmbElem.SetValue(ComboBox.DisplayMemberPathProperty, "Value");
+
+            DataTemplate dataTemplate = new DataTemplate();
+            dataTemplate.DataType = typeof(string);
+            dataTemplate.VisualTree = cmbElem;
+            t.CellTemplate = dataTemplate;
+            t.Header = new FieldsTranslated()["Status"];
+            t.SortMemberPath = "Status";
+            t.CanUserSort = true;
+
+            dGrid.Columns.Add(t);*/
+
+            //cvsContents = CollectionViewSource.GetDefaultView(dGrid.ItemsSource);
+
             /*_contents = (Contents)this.Resources["ContentsClass"];
             LoadContents(Consts.DatabasePath);
             Logger.Load(_contents);

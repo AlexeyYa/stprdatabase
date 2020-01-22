@@ -7,6 +7,8 @@ using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using ZDB.Exp;
 
 namespace ZDB.MainViewModel
 {
@@ -29,5 +31,25 @@ namespace ZDB.MainViewModel
             }
         }
 
+        private RelayCommand exportCommand;
+        public RelayCommand ExportCommand
+        {
+            get
+            {
+                return exportCommand ??
+                    (exportCommand = new RelayCommand(obj =>
+                    {
+                        var dlg = new ExportWindow
+                        {
+                            Owner = Application.Current.MainWindow,
+                            Entries = Data,
+                            Filters = Filters
+                        };
+
+                        dlg.ShowDialog();
+                    },
+                    (obj) => Data != null));
+            }
+        }
     }
 }

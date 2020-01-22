@@ -44,15 +44,41 @@ namespace ZDB
         public static readonly IEnumerable<string> DateFields = new HashSet<string>
             { "StartDate", "EndDate", "CompleteDate" };
 
-        public static readonly Dictionary<string, Dictionary<int, string>> EnumFields = new Dictionary<string, Dictionary<int, string>>
-            { {"Status", StatusValues} };
-
         public static readonly Dictionary<int, string> StatusValues = new Dictionary<int, string>
             { {-1, "Аннулировано" },
               { 0, "" },
               { 1, "В работе" },
               { 2, "Завершено" } };
+
+        // Dictionaries of values should be defined before
+        public static readonly Dictionary<string, Dictionary<int, string>> EnumFields = new Dictionary<string, Dictionary<int, string>>
+            { {"Status", StatusValues} };
     }
+
+    //public class FieldsList : List<string>
+    //{
+    //    public FieldsList()
+    //    {
+    //        Type t = typeof(Entry);
+    //        PropertyInfo[] fields = t.GetProperties();
+
+    //        List<string> exceptions = new List<string>
+    //        {
+    //            "Item"
+    //        };
+
+    //        foreach (string f in fields.Select(x => x.Name))
+    //        {
+    //            if (exceptions.Contains(f))
+    //            {
+    //                continue;
+    //            }
+    //            {
+    //                this.Add(f);
+    //            }
+    //        }
+    //    }
+    //}
 
     /// <summary>
     /// Using reflection to get all fields
@@ -101,6 +127,7 @@ namespace ZDB
     {
         public FieldsTranslated()
         {
+            this.Add("Number", "Номер");
             this.Add("User", "Заказчик");
             this.Add("Obj", "Объект");
             this.Add("Group", "Группа");

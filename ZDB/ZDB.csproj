@@ -124,6 +124,7 @@
     <Compile Include="MainViewModel\FilterMethods.cs" />
     <Compile Include="MainViewModel\VariousMethods.cs" />
     <Compile Include="Shared\DataGridAttachedProperties.cs" />
+    <Compile Include="Shared\DatagridCustomInit.cs" />
     <Compile Include="Shared\DatagridExtension.cs" />
     <Compile Include="Shared\ExtendedPropertyChanged.cs" />
     <Compile Include="Shared\Logger.cs" />

@@ -68,19 +68,5 @@ namespace ZDB.MainViewModel
                     (obj) => ((IList<DataGridCellInfo>)obj).Count() > 0));
             }
         }
-
-        private RelayCommand exportCommand;
-        public RelayCommand ExportCommand
-        {
-            get
-            {
-                return exportCommand ??
-                    (exportCommand = new RelayCommand(obj =>
-                    {
-                        
-                    },
-                    (obj) => Data != null));
-            }
-        }
     }
 }

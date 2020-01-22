@@ -61,7 +61,7 @@ namespace ZDB.Exp
             // Grouping
             if (exportSetting.Partitions.Count == 0)
             {
-                ExportCVS(filtered, exportFields, ExportFolderPath);
+                ExportCVS(filtered, exportFields, ExportFolderPath + "\\output.csv");
             } else
             {
                 ExportGroups(filtered, exportFields, exportSetting, ExportFolderPath);
