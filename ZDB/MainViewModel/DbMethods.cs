@@ -68,5 +68,10 @@ namespace ZDB.MainViewModel
                     (obj) => ((IList<DataGridCellInfo>)obj).Count() > 0));
             }
         }
+
+        public void SaveChanges()
+        {
+            db.SaveChanges();
+        }
     }
 }

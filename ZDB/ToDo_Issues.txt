@@ -2,13 +2,15 @@
 Minor:
 No horizontal scroll using touchpad
 Implementing other export formats
+Load triggers for datagrid from XML
 
 Major:
 Daily export
-User styles = Partly implemented
+User styles = Mostly implemented
 Logger
-Calculated fields
-Saving changes to database
+- Multibinding with converter
+- Storing multibinding
+Saving changes to database = Temporary solution Save on closing
 
 Notes:
 Combobox instant update = {Binding x, UpdateSourceTrigger=PropertyChanged}

@@ -59,7 +59,7 @@ namespace ZDB.Database
             }
         }
 
-        private string user;
+        private string user = String.Empty;
         public string User
         {
             get { return user; }
@@ -74,7 +74,7 @@ namespace ZDB.Database
             }
         }
 
-        private string group;
+        private string group = String.Empty;
         public string Group
         {
             get { return group; }
@@ -89,7 +89,7 @@ namespace ZDB.Database
             }
         }
 
-        private string obj;
+        private string obj = String.Empty;
         public string Obj
         {
             get { return obj; }
@@ -104,7 +104,7 @@ namespace ZDB.Database
             }
         }
 
-        private string docCode;
+        private string docCode = String.Empty;
         public string DocCode
         {
             get { return docCode; }
@@ -119,7 +119,7 @@ namespace ZDB.Database
             }
         }
 
-        private string subs;
+        private string subs = String.Empty;
         public string Subs
         {
             get { return subs; }
@@ -134,7 +134,7 @@ namespace ZDB.Database
             }
         }
 
-        private string tasks;
+        private string tasks = String.Empty;
         public string Tasks
         {
             get { return tasks; }
@@ -149,7 +149,7 @@ namespace ZDB.Database
             }
         }
 
-        private string corrections;
+        private string corrections = String.Empty;
         public string Corrections
         {
             get { return corrections; }
@@ -314,7 +314,7 @@ namespace ZDB.Database
             }
         }
 
-        private string executor;
+        private string executor = String.Empty;
         public string Executor
         {
             get { return executor; }

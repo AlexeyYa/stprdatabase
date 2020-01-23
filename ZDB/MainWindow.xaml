@@ -7,7 +7,7 @@
         xmlns:System="clr-namespace:System;assembly=mscorlib"
         xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="450" Width="800" Closed="Window_Closed">
     <Window.Resources>
         <local:FieldsList x:Key="FieldsList"/>
         <local:FieldsTranslated x:Key="FieldsTranslated"/>
@@ -37,7 +37,7 @@
         </Style>
     </Window.Resources>
     <Grid>
-        <local:DataGridExtended x:Name="dGrid" Margin="10,10,10,180" 
+        <local:DataGridExtended x:Name="dGrid" Margin="10,10,10,180" CanUserAddRows="False" CanUserDeleteRows="False"
                  ItemsSource="{Binding DataViewSource.View}" AutoGenerateColumns="False" SelectionUnit="Cell">
             <DataGrid.CellStyle>
                 <Style TargetType="{x:Type DataGridCell}">

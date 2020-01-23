@@ -44,13 +44,6 @@ namespace ZDB
     /// </summary>
     public partial class MainWindow : Window
     {
-        //private ICollectionView cvsContents;
-        // private Contents _contents;
-        // private FilterProcessor _filterProc = new FilterProcessor();
-        // private ObservableCollection<Filter> _filters = new ObservableCollection<Filter>();
-        //private static FilterCollection _filters = new FilterCollection();
-        //private static List<Parser.DocTemplate> dtList = new List<Parser.DocTemplate>();
-
         private MainViewModelClass mainViewModel;
 
         public MainWindow()
@@ -67,210 +60,7 @@ namespace ZDB
             Parser.Parser.Initialize();
 
             var dGridInit = new DatagridCustomInit(dGrid);
-            
-            
-            /*DataGridTemplateColumn t = new DataGridTemplateColumn();
-            
-            FrameworkElementFactory cmbElem = new FrameworkElementFactory(typeof(ComboBox));
-            Binding test = new Binding();
-            test.Source = Consts.StatusValues;
-            test.Mode = BindingMode.OneWay;
-
-            cmbElem.SetBinding(ComboBox.ItemsSourceProperty, test);
-            Binding stat = new Binding("Status");
-            stat.Mode = BindingMode.TwoWay;
-            stat.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
-            cmbElem.SetBinding(ComboBox.SelectedValueProperty, stat);
-            cmbElem.SetValue(ComboBox.SelectedValuePathProperty, "Key");
-            cmbElem.SetValue(ComboBox.DisplayMemberPathProperty, "Value");
-
-            DataTemplate dataTemplate = new DataTemplate();
-            dataTemplate.DataType = typeof(string);
-            dataTemplate.VisualTree = cmbElem;
-            t.CellTemplate = dataTemplate;
-            t.Header = new FieldsTranslated()["Status"];
-            t.SortMemberPath = "Status";
-            t.CanUserSort = true;
-
-            dGrid.Columns.Add(t);*/
-
-            //cvsContents = CollectionViewSource.GetDefaultView(dGrid.ItemsSource);
-
-            /*_contents = (Contents)this.Resources["ContentsClass"];
-            LoadContents(Consts.DatabasePath);
-            Logger.Load(_contents);
-            _contents.CollectionChanged += new NotifyCollectionChangedEventHandler(Logger.CollectionChanged);
-            
-            */
-            /*
-            filterGrid.ItemsSource = _filters;
-            _filters.CollectionChanged += new NotifyCollectionChangedEventHandler
-                (delegate (object sender, NotifyCollectionChangedEventArgs e)
-                {
-                    if (e.NewItems != null)
-                    {
-                        foreach (IFilter f in e.NewItems)
-                        {
-                            // ToDo Unsub
-                            f.PropertyChanged += _filters.FilterChangeHandler;
-                            f.PropertyChanged += FilterRefresh;
-                        }
-                    }
-                    if (e.OldItems != null)
-                    {
-                        foreach (IFilter f in e.OldItems)
-                        {
-                            f.PropertyChanged -= _filters.FilterChangeHandler;
-                            f.PropertyChanged -= FilterRefresh;
-                        }
-                        FilterRefresh(sender, new PropertyChangedEventArgs("Delete item"));
-                    }
-                });
-
-            
-            */
-            //if (File.Exists(Consts.TemplatePath))
-            //{
-            //    IFormatter formatter = new BinaryFormatter();
-            //    Stream stream = new FileStream(Consts.TemplatePath, FileMode.Open, FileAccess.Read, FileShare.Read);
-            //    dtList = (List<Parser.DocTemplate>)formatter.Deserialize(stream);
-            //    stream.Close();
-            //}
         }
-
-        private void LoadContents(string path)
-        {
-            /*using (TextFieldParser csvParser = new TextFieldParser(path))
-            {
-                csvParser.SetDelimiters(";");
-                csvParser.ReadLine();
-                string[] dateformats = { "dd.MM.yyyy", "dd/MM/yyyy", "dd/M/yyyy", "d/MM/yyyy", "dd-MM-yyyy", "d-MM-yyyy", "yyyy-MM-dd" };
-
-                while (!csvParser.EndOfData)
-                {
-                    string[] fields = csvParser.ReadFields();
-
-                    DateTime.TryParseExact(fields[1], dateformats,
-                                System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None,
-                                out DateTime stDate);
-                    DateTime.TryParseExact(fields[1], dateformats,
-                                System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None,
-                                out DateTime enDate);
-                    DateTime.TryParseExact(fields[1], dateformats,
-                                System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None,
-                                out DateTime comDate);
-                    Int32.TryParse(fields[19], out int sizecor);
-                    Int32.TryParse(fields[9], out int sf);
-                    Int32.TryParse(fields[10], out int orig);
-                    Int32.TryParse(fields[11], out int cpy);
-                    Int32.TryParse(fields[15], out int numer);
-                    Int32.TryParse(fields[16], out int scan);
-                    Int32.TryParse(fields[17], out int thr);
-                    Content x = new Content()
-                    {
-                        Number = fields[0],
-                        StartDate = stDate,
-                        CodeType = Convert.ToInt32(fields[2]),
-                        User = fields[3],
-                        Group = fields[4],
-                        Obj = fields[5],
-                        DocCode = fields[6],
-                        Subs = fields[7],
-                        Tasks = fields[8],
-                        SizeFormat = sf,
-                        NumberOfOriginals = orig,
-                        NumberOfCopies = cpy,
-                        EndDate = enDate,
-                        CompleteDate = comDate,
-                        Status = fields[14],
-                        Numeration = numer,
-                        Scan = scan,
-                        Threading = thr,
-                        Executor = fields[18],
-                        SizeCorFormat = sizecor,
-                        Corrections = fields[20]
-                    };
-                    _contents.Add(x);
-
-                }
-            }*/
-        }
-
-        /*private void CollectionViewSource_Filter(object sender, FilterEventArgs e)
-        {
-            if (e.Item is Entry c)
-            {
-                e.Accepted = true;//_filters.Filter(c);
-            }
-        }
-
-        /*
-        private void FilterRefresh(object sender, PropertyChangedEventArgs e)
-        {
-            cvsContents.Refresh();
-        }*/
-        /*
-        private void AddBtn_Click(object sender, RoutedEventArgs e)
-        {
-            OpenFileDialog dialog = new OpenFileDialog();
-            if (dialog.ShowDialog() == true)
-            {
-                foreach (string path in dialog.FileNames)
-                {
-                    Content content = Parser.ProcessFromDocx(path, dtList);
-                    content.Number = _contents.GenerateID();
-                    _contents.Add(content);
-                }
-            }
-        }*/
-
-        /*private void TemplateBtn_Click(object sender, RoutedEventArgs e)
-        {
-            OpenFileDialog dialog = new OpenFileDialog();
-            if (dialog.ShowDialog() == true)
-            {
-                Parser.DocTemplate docTemplate = Parser.Parser.CreateTemplate(dialog.FileName);
-                dtList.Add(docTemplate);
-                Stream stream = new FileStream(Consts.TemplatePath, FileMode.Create, FileAccess.Write, FileShare.None);
-                IFormatter formatter = new BinaryFormatter();
-                formatter.Serialize(stream, dtList);
-                stream.Close();
-            }
-        }*/
-
-        private void ExportBtn_Click(object sender, RoutedEventArgs e)
-        {
-            var dlg = new ExportWindow
-            {
-                Owner = Application.Current.MainWindow
-            };
-
-            //dlg.Entries = _contents;
-            //dlg.Filters = _filters;
-
-            dlg.ShowDialog();
-
-            if (dlg.DialogResult == true)
-            {
-
-            }
-        }
-
-        /*private void AddZ_Click(object sender, RoutedEventArgs e)
-        {
-            Content c = new Content(_contents.GenerateID());
-            _contents.Add(c);
-        }*/
-
-        private void AddFilterBtn_Click(object sender, RoutedEventArgs e)
-        {
-            //_filters.Add(new FilterString("Obj", FilterOperation.GREATEREQUAL, ""));
-        }
-
-        /*private void RemoveZ_Click(object sender, RoutedEventArgs e)
-        {
-            _contents.Remove((Content)dGrid.SelectedItem);
-        }*/
 
         /*private void RedoBtn_Click(object sender, RoutedEventArgs e)
         {
@@ -284,6 +74,11 @@ namespace ZDB
         private void Load_Click(object sender, RoutedEventArgs e)
         {
             dGrid.LoadSettings(DGSettingsManager.LoadFromXML(Consts.DGSettingsPath));
+        }
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            mainViewModel.SaveChanges();
         }
 
         /*private void UndoBtn_Click(object sender, RoutedEventArgs e)
