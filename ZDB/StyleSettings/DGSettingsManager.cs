@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -30,7 +31,7 @@ namespace ZDB.StyleSettings
                         CInfo = LoadColumns(xNode);
                         break;
                     case "RowStyle":
-                        rowStyle = LoadStyleSetters(xNode);
+                        rowStyle = LoadStyle(xNode.FirstChild);
                         break;
                 }
             }
@@ -68,8 +69,8 @@ namespace ZDB.StyleSettings
                         case "WidthType":
                             Enum.TryParse(childNode.InnerText, out WidthType);
                             break;
-                        case "ColStyle":
-                            ColStyle = LoadStyleSetters(childNode);
+                        case "Style":
+                            ColStyle = LoadStyle(childNode);
                             break;
                     }
                 }
@@ -81,43 +82,132 @@ namespace ZDB.StyleSettings
             return CInfo;
         }
 
-        private static Style LoadStyleSetters(XmlNode parent)
+        private static Style LoadStyle(XmlNode parent)
         {
             Style style = new Style();
-            foreach (XmlNode StyleSetter in parent)
+            foreach (XmlNode node in parent)
             {
-                switch (StyleSetter.Name)
+                switch (node.Name)
                 {
-                    case "TextAlignment":
-                        Enum.TryParse(StyleSetter.InnerText, out TextAlignment alignment);
-                        Setter textAlignment = new Setter(TextBlock.TextAlignmentProperty,
-                            alignment);
-                        style.Setters.Add(textAlignment);
+                    case "Setters":
+                        LoadAllSetters(node, style.Setters);
                         break;
-                    case "FontFamily":
-                        Setter fontFamily = new Setter(DataGridCell.FontFamilyProperty,
-                            new FontFamily(StyleSetter.InnerText));
-                        style.Setters.Add(fontFamily);
+                    case "DataTrigger":
+                        LoadDataTrigger(node, style);
                         break;
-                    case "FontSize":
-                        Double.TryParse(StyleSetter.InnerText, out double fontSizeValue);
-                        Setter fontSize = new Setter(DataGridCell.FontSizeProperty,
-                            fontSizeValue);
-                        style.Setters.Add(fontSize);
-                        break;
-                    case "Background":
-                        Setter background = new Setter(DataGridCell.BackgroundProperty,
-                            new SolidColorBrush((Color)ColorConverter.ConvertFromString(StyleSetter.InnerText)));
-                        style.Setters.Add(background);
-                        break;
-                    case "Foreground":
-                        Setter foreground = new Setter(DataGridCell.ForegroundProperty,
-                            new SolidColorBrush((Color)ColorConverter.ConvertFromString(StyleSetter.InnerText)));
-                        style.Setters.Add(foreground);
+                    case "Trigger":
+                        //LoadTrigger(node, style);
                         break;
                 }
             }
             return style;
+        }
+
+        private static void LoadDataTrigger(XmlNode source, Style style)
+        {
+            DataTrigger dt = new DataTrigger();
+            dt.Binding = new Binding();
+            foreach (XmlNode dtNode in source)
+            {
+                switch (dtNode.Name)
+                {
+                    case "Binding":
+                        dt.Binding = new Binding(dtNode.InnerText);
+                        break;
+                    case "Value":
+                        dt.Value = dtNode.InnerText;
+                        break;
+                    case "Setters":
+                        LoadAllSetters(dtNode, dt.Setters);
+                        break;
+                }
+            }
+            style.Triggers.Add(dt);
+        }
+
+        private static void LoadTrigger(XmlNode source, Style style)
+        {
+            Trigger dt = new Trigger();
+            foreach (XmlNode dtNode in source)
+            {
+                switch (dtNode.Name)
+                {
+                    case "Property":
+                        if (dtNode.InnerText == "IsCellSelected")
+                        {
+                            DependencyPropertyDescriptor descriptor = DependencyPropertyDescriptor.FromName(
+                                dtNode.InnerText, typeof(DataGridAttachedProperties),
+                                typeof(DataGridRow));
+                            dt.Property = descriptor.DependencyProperty;
+                        }
+                        break;
+                    case "Value":
+                        dt.Value = (dtNode.InnerText == "True" ? true : false);
+                        break;
+                    case "Setters":
+                        LoadAllSetters(dtNode, dt.Setters);
+                        break;
+                }
+            }
+            style.Triggers.Add(dt);
+        }
+
+        private static void LoadAllSetters(XmlNode source, SetterBaseCollection styleSetters)
+        {
+            foreach (XmlNode StyleSetter in source)
+            {
+                LoadSetter(StyleSetter, styleSetters);
+            }
+        }
+
+        private static void LoadSetter(XmlNode StyleSetter, SetterBaseCollection styleSetters)
+        {
+            switch (StyleSetter.Name)
+            {
+                case "TextAlignment":
+                    Enum.TryParse(StyleSetter.InnerText, out TextAlignment alignment);
+                    Setter textAlignment = new Setter(TextBlock.TextAlignmentProperty,
+                        alignment);
+                    styleSetters.Add(textAlignment);
+                    break;
+                case "FontFamily":
+                    Setter fontFamily = new Setter(DataGridCell.FontFamilyProperty,
+                        new FontFamily(StyleSetter.InnerText));
+                    styleSetters.Add(fontFamily);
+                    break;
+                case "FontSize":
+                    Double.TryParse(StyleSetter.InnerText, out double fontSizeValue);
+                    Setter fontSize = new Setter(DataGridCell.FontSizeProperty,
+                        fontSizeValue);
+                    styleSetters.Add(fontSize);
+                    break;
+                case "Background":
+                    Setter background = new Setter(DataGridCell.BackgroundProperty,
+                        new SolidColorBrush((Color)ColorConverter.ConvertFromString(StyleSetter.InnerText)));
+                    styleSetters.Add(background);
+                    break;
+                case "Foreground":
+                    Setter foreground = new Setter(DataGridCell.ForegroundProperty,
+                        new SolidColorBrush((Color)ColorConverter.ConvertFromString(StyleSetter.InnerText)));
+                    styleSetters.Add(foreground);
+                    break;
+                case "BorderThickness":
+                    Setter borderThickness = new Setter(DataGridRow.BorderThicknessProperty,
+                        StyleSetter.InnerText);
+                    styleSetters.Add(borderThickness);
+                    break;
+                case "IsCellSelected":
+                    Setter isCellSelected = new Setter(DataGridAttachedProperties.IsCellSelectedProperty,
+                        (StyleSetter.InnerText == "True" ? true : false));
+
+                    DependencyPropertyDescriptor descriptor = DependencyPropertyDescriptor.FromName(
+                        "IsCellSelected", typeof(DataGridAttachedProperties),
+                        typeof(DataGridRow));
+                    
+                    isCellSelected.Property = descriptor.DependencyProperty;
+                    styleSetters.Add(isCellSelected);
+                    break;
+            }
         }
 
         public static void SaveToXML(DGEStyle DGEStyleSettings, string path)
@@ -176,16 +266,12 @@ namespace ZDB.StyleSettings
 
                 if (columnInfo.ColStyle != null)
                 {
-                    XmlElement colStyleNode = xDoc.CreateElement("ColStyle");
-                    columnXml.AppendChild(colStyleNode);
-
-                    SaveSetters(xDoc, colStyleNode, columnInfo.ColStyle.Setters);
+                    SaveStyle(xDoc, columnXml, columnInfo.ColStyle);
                 }
             }
         }
 
         private static void SaveStyle(XmlDocument xDoc, XmlElement parent, Style style) {
-
 
             XmlElement styleNode = xDoc.CreateElement("Style");
             parent.AppendChild(styleNode);
@@ -196,7 +282,7 @@ namespace ZDB.StyleSettings
                 if (trig is DataTrigger dataTrigger)
                 {
                     XmlElement dtNode = xDoc.CreateElement("DataTrigger");
-                    parent.AppendChild(dtNode);
+                    styleNode.AppendChild(dtNode);
 
                     XmlElement bindingNode = xDoc.CreateElement("Binding");
                     Binding binding = dataTrigger.Binding as Binding;
@@ -209,41 +295,38 @@ namespace ZDB.StyleSettings
                     valueNode.AppendChild(valueVal);
                     dtNode.AppendChild(valueNode);
 
-                    XmlElement styleSettersNode = xDoc.CreateElement("Style");
-                    dtNode.AppendChild(styleSettersNode);
-
-                    SaveSetters(xDoc, styleSettersNode, dataTrigger.Setters);
+                    SaveSetters(xDoc, dtNode, dataTrigger.Setters);
                 } else if (trig is Trigger trigger)
                 {
                     XmlElement tNode = xDoc.CreateElement("Trigger");
-                    parent.AppendChild(tNode);
+                    styleNode.AppendChild(tNode);
 
-                    XmlElement bindingNode = xDoc.CreateElement("Property");
-                    XmlText bindingVal = xDoc.CreateTextNode(trigger.Property.ToString());
-                    bindingNode.AppendChild(bindingVal);
-                    tNode.AppendChild(bindingNode);
+                    XmlElement propertyNode = xDoc.CreateElement("Property");
+                    XmlText propertyVal = xDoc.CreateTextNode(trigger.Property.ToString());
+                    propertyNode.AppendChild(propertyVal);
+                    tNode.AppendChild(propertyNode);
 
                     XmlElement valueNode = xDoc.CreateElement("Value");
                     XmlText valueVal = xDoc.CreateTextNode(trigger.Value.ToString());
                     valueNode.AppendChild(valueVal);
                     tNode.AppendChild(valueNode);
 
-                    XmlElement styleSettersNode = xDoc.CreateElement("Style");
-                    tNode.AppendChild(styleSettersNode);
-
-                    SaveSetters(xDoc, styleSettersNode, trigger.Setters);
+                    SaveSetters(xDoc, tNode, trigger.Setters);
                 }
             }
         }
 
         private static void SaveSetters(XmlDocument xDoc, XmlElement parent, SetterBaseCollection setters)
         {
+            XmlElement styleNode = xDoc.CreateElement("Setters");
+            parent.AppendChild(styleNode);
+
             foreach (Setter styleSetter in setters)
             {
                 XmlElement styleSetterNode = xDoc.CreateElement(styleSetter.Property.ToString());
                 XmlText styleSetterVal = xDoc.CreateTextNode(styleSetter.Value.ToString());
                 styleSetterNode.AppendChild(styleSetterVal);
-                parent.AppendChild(styleSetterNode);
+                styleNode.AppendChild(styleSetterNode);
             }
         }
     }
