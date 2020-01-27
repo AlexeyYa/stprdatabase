@@ -2,10 +2,9 @@
 Minor:
 No horizontal scroll using touchpad
 Implementing other export formats
-Load triggers for datagrid from XML
+Daily export
 
 Major:
-Daily export
 User styles = Mostly implemented
 Logger
 - Multibinding with converter
