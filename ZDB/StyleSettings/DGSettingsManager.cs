@@ -96,7 +96,7 @@ namespace ZDB.StyleSettings
                         LoadDataTrigger(node, style);
                         break;
                     case "Trigger":
-                        //LoadTrigger(node, style);
+                        LoadTrigger(node, style);
                         break;
                 }
             }
@@ -138,6 +138,13 @@ namespace ZDB.StyleSettings
                             DependencyPropertyDescriptor descriptor = DependencyPropertyDescriptor.FromName(
                                 dtNode.InnerText, typeof(DataGridAttachedProperties),
                                 typeof(DataGridRow));
+                            dt.Property = descriptor.DependencyProperty;
+                        }
+                        else if (dtNode.InnerText == "IsSelected")
+                        {
+                            DependencyPropertyDescriptor descriptor = DependencyPropertyDescriptor.FromName(
+                                dtNode.InnerText, typeof(DataGridCell),
+                                typeof(DataGridCell));
                             dt.Property = descriptor.DependencyProperty;
                         }
                         break;
@@ -192,9 +199,16 @@ namespace ZDB.StyleSettings
                     styleSetters.Add(foreground);
                     break;
                 case "BorderThickness":
+                    Thickness thickness = StringToThickness(StyleSetter.InnerText);
                     Setter borderThickness = new Setter(DataGridRow.BorderThicknessProperty,
-                        StyleSetter.InnerText);
+                        thickness);
                     styleSetters.Add(borderThickness);
+                    //-		Value	{0,1,0,1}	object {System.Windows.Thickness}
+//                    Bottom  1   double
+//  Left    0   double
+//  Right   0   double
+//  Top 1   double
+
                     break;
                 case "IsCellSelected":
                     Setter isCellSelected = new Setter(DataGridAttachedProperties.IsCellSelectedProperty,
@@ -208,6 +222,38 @@ namespace ZDB.StyleSettings
                     styleSetters.Add(isCellSelected);
                     break;
             }
+        }
+
+        public static Thickness StringToThickness(string s)
+        {
+            double[] lengths = new double[4];
+            int i = 0;
+
+            while (s.Contains(',') || s != String.Empty)
+            {
+                int index = s.IndexOf(',');
+                if (index == -1)
+                {
+                    lengths[i] = Double.Parse(s);
+                    i++;
+                    break;
+                }
+                else
+                {
+                    lengths[i] = Double.Parse(s.Substring(0, index));
+                    s = s.Substring(index + 1);
+                    i++;
+                }
+            }
+
+            switch (i)
+            {
+                case 1:
+                    return new Thickness(lengths[0]);
+                case 4:
+                    return new Thickness(lengths[0], lengths[1], lengths[2], lengths[3]);
+            }
+            return new Thickness();
         }
 
         public static void SaveToXML(DGEStyle DGEStyleSettings, string path)
