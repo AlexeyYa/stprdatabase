@@ -44,18 +44,18 @@ namespace ZDB.StyleSettings
 
             foreach (XmlElement xNode in parent)
             {
+                string ColumnHeader = String.Empty;
                 Visibility visibility = Visibility.Visible;
                 int DisplayIndex = 0;
                 double WidthValue = 40.0;
                 DataGridLengthUnitType WidthType = DataGridLengthUnitType.Auto;
-                int ColumnID = -1;
                 Style ColStyle = new Style();
                 foreach (XmlNode childNode in xNode.ChildNodes)
                 {
                     switch (childNode.Name)
                     {
-                        case "ColumnID":
-                            Int32.TryParse(childNode.InnerText, out ColumnID);
+                        case "ColumnHeader":
+                            ColumnHeader = childNode.InnerText;
                             break;
                         case "Visibility":
                             Enum.TryParse(childNode.InnerText, out visibility);
@@ -74,8 +74,8 @@ namespace ZDB.StyleSettings
                             break;
                     }
                 }
-                if (ColumnID == -1) { break; }
-                ColumnInfo column = new ColumnInfo(visibility, DisplayIndex, WidthValue, WidthType, ColumnID, ColStyle);
+                if (ColumnHeader == String.Empty) { break; }
+                ColumnInfo column = new ColumnInfo(visibility, DisplayIndex, WidthValue, WidthType, ColumnHeader, ColStyle);
                 CInfo.Add(column);
             }
 
@@ -285,8 +285,8 @@ namespace ZDB.StyleSettings
                 XmlElement columnXml = xDoc.CreateElement("Column");
                 element1.AppendChild(columnXml);
 
-                XmlElement colIdNode = xDoc.CreateElement("ColumnID");
-                XmlText colIdText = xDoc.CreateTextNode(columnInfo.ColumnID.ToString());
+                XmlElement colIdNode = xDoc.CreateElement("ColumnHeader");
+                XmlText colIdText = xDoc.CreateTextNode(columnInfo.ColumnHeader);
                 colIdNode.AppendChild(colIdText);
                 columnXml.AppendChild(colIdNode);
 

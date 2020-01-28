@@ -197,6 +197,11 @@
   <ItemGroup>
     <Resource Include="ToDo_Issues.txt" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Styles\MainDataGrid\default.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

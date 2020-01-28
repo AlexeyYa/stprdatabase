@@ -13,7 +13,7 @@
         <local:FieldsTranslated x:Key="FieldsTranslated"/>
         <local:FilterTranslated x:Key="FilterTranslated"/>
         <local:ColorsList x:Key="ColorsList"/>
-        <x:Static Member="local:Consts.StatusValues" x:Key="StatusList"/>
+        <!--<x:Static Member="local:Consts.StatusValues" x:Key="StatusList"/>-->
 
         <ObjectDataProvider x:Key="FilterOperation" MethodName="GetValues"
                             ObjectType="{x:Type local:FilterOperation}">
@@ -37,9 +37,33 @@
         </Style>
     </Window.Resources>
     <Grid>
-        <local:DataGridExtended x:Name="dGrid" Margin="10,10,10,180" CanUserAddRows="False" CanUserDeleteRows="False"
+        <DockPanel Height="25" VerticalAlignment="Top">
+            <Menu DockPanel.Dock="Top">
+                <Menu.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <DockPanel/>
+                    </ItemsPanelTemplate>
+                </Menu.ItemsPanel>
+                <MenuItem Header="_Файл">
+                    
+                </MenuItem>
+                <MenuItem Header="_Вид">
+                    
+                </MenuItem>
+                <MenuItem HorizontalAlignment="Right">
+                    <MenuItem.Header>
+                        <ComboBox Width="120"
+                          ItemsSource="{Binding MainGridStyles}"
+                          SelectedItem="{Binding SelectedMainGridStyle}">
+                        </ComboBox>
+                    </MenuItem.Header>
+                </MenuItem>
+                
+            </Menu>
+        </DockPanel>
+        <local:DataGridExtended x:Name="dGrid" Margin="10,30,10,180" CanUserAddRows="False" CanUserDeleteRows="False"
                  ItemsSource="{Binding DataViewSource.View}" AutoGenerateColumns="False" SelectionUnit="Cell">
-            <DataGrid.CellStyle>
+            <!--<DataGrid.CellStyle>
                 <Style TargetType="{x:Type DataGridCell}">
                     <Style.Triggers>
                         <Trigger Property="IsSelected" Value="True">
@@ -50,7 +74,7 @@
                         </Trigger>
                     </Style.Triggers>
                 </Style>
-            </DataGrid.CellStyle>
+            </DataGrid.CellStyle>-->
             <!--<local:DataGridExtended.GroupStyle>
                 <GroupStyle>
                     <GroupStyle.ContainerStyle>
@@ -76,7 +100,7 @@
                     </GroupStyle.ContainerStyle>
                 </GroupStyle>
             </local:DataGridExtended.GroupStyle>-->
-            <local:DataGridExtended.RowStyle>
+            <!--<local:DataGridExtended.RowStyle>
                 <Style TargetType="DataGridRow">
                     <Setter Property="Foreground" Value="Black"/>
                     <Setter Property="Background" Value="White"/>
@@ -92,7 +116,7 @@
                         </Trigger>
                     </Style.Triggers>
                 </Style>
-            </local:DataGridExtended.RowStyle>
+            </local:DataGridExtended.RowStyle>-->
             <!--<local:DataGridExtended.Columns>
                 <DataGridTextColumn Header="Номер" Binding="{Binding Number}" IsReadOnly="True"/>
                 <DataGridTextColumn Header="Дата заявки" Binding="{Binding StartDate, ConverterCulture=RU-ru, StringFormat=dd-MM-yyyy HH:mm}"/>

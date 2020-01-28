@@ -33,17 +33,17 @@ namespace ZDB
             WidthType = column.Width.UnitType;
             DisplayIndex = column.DisplayIndex;
             Visibility = column.Visibility;
-            ColumnID = columnID;
+            ColumnHeader = column.Header.ToString();
             ColStyle = column.CellStyle;
         }
         public ColumnInfo(Visibility vis, int dispIdx, double widthVal, DataGridLengthUnitType widthT,
-            int columnID, Style colStyle)
+            string columnHeader, Style colStyle)
         {
             WidthValue = widthVal;
             WidthType = widthT;
             DisplayIndex = dispIdx;
             Visibility = vis;
-            ColumnID = columnID;
+            ColumnHeader = columnHeader;
             ColStyle = colStyle;
         }
 
@@ -56,7 +56,7 @@ namespace ZDB
         }
 
         public Style ColStyle;
-        public int ColumnID;
+        public string ColumnHeader;
         public Visibility Visibility;
         public int DisplayIndex;
         public double WidthValue;
@@ -84,8 +84,9 @@ namespace ZDB
             {
                 foreach (var columnInfo in DGEStyleSettings.CInfo)
                 {
-                    int i = columnInfo.ColumnID;
-                    columnInfo.Apply(Columns[i]);
+                    string Header = columnInfo.ColumnHeader;
+                    // Applying to column with same header
+                    columnInfo.Apply(Columns.Where(x => x.Header.ToString() == Header).First());
                 }
             }
             RowStyle = DGEStyleSettings.rowStyle;

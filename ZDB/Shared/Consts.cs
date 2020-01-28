@@ -29,9 +29,10 @@ namespace ZDB
 {
     static class Consts
     {
-        public const string DGSettingsPath = @"D:\test1.xml";
+        public static string DGDefaultStylePath = Properties.Settings.Default.defaultMainGridSetting;
+        public const string DGSettingsPath = @".\Styles\MainDataGrid\";
         public const string TemplatePath = @".\templates.bin";
-        public const string DatabasePath = @"D:\dev\ZDB.csv";
+        // public const string DatabasePath = @"D:\dev\ZDB.csv";
 
         public static readonly IEnumerable<string> StrFields = new HashSet<string>
             { "User", "Obj", "Group", "DocCode", "Subs", "Tasks", "Corrections", "Executor" };

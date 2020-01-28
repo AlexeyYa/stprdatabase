@@ -4,11 +4,13 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
 using ZDB.Database;
+using ZDB.StyleSettings;
 
 namespace ZDB.MainViewModel
 {
@@ -17,6 +19,7 @@ namespace ZDB.MainViewModel
         public event PropertyChangedEventHandler PropertyChanged;
 
         private DatabaseContext db;
+        private DataGridExtended dataGridExtended;
 
         private ObservableCollection<Entry> data;
         public ObservableCollection<Entry> Data
@@ -58,12 +61,56 @@ namespace ZDB.MainViewModel
             }
         }
 
-        public MainViewModelClass()
+        // Initialized on get from directory
+        private List<string> mainGridStyles = null;
+        public List<string> MainGridStyles
         {
+            get
+            {
+                if (mainGridStyles == null)
+                {
+                    mainGridStyles = new List<string>();
+                    foreach (string filename in Directory.GetFiles(Consts.DGSettingsPath))
+                    {
+                        mainGridStyles.Add(filename);
+                    }
+                }
+                return mainGridStyles; 
+            }
+        }
+
+        public string selectedMainGridStyle;
+        public string SelectedMainGridStyle
+        {
+            get => selectedMainGridStyle;
+            set
+            {
+                if (selectedMainGridStyle != value)
+                {
+                    selectedMainGridStyle = value;
+                    dataGridExtended.LoadSettings(
+                        DGSettingsManager.LoadFromXML(value));
+                    OnPropertyChanged("SelectedMainGridStyle");
+                }
+            }
+        }
+
+        public MainViewModelClass(DataGridExtended dGrid)
+        {
+            // Init DataGrid
+            dataGridExtended = dGrid;
+            var dGridInit = new DataGridCustomInit(dataGridExtended);
+            if (File.Exists(Properties.Settings.Default.defaultMainGridSetting))
+            {
+                SelectedMainGridStyle = Properties.Settings.Default.defaultMainGridSetting;
+            }
+
+            // Loading DB
             db = new DatabaseContext();
             db.Entries.Load();
             Data = db.Entries.Local;
 
+            // Setting up Filters
             filters = new FilterCollection();
             filters.CollectionChanged += new NotifyCollectionChangedEventHandler
                 (delegate (object sender, NotifyCollectionChangedEventArgs e)
@@ -88,8 +135,12 @@ namespace ZDB.MainViewModel
                     }
                 });
 
+            // Setting up ViewSource
             DataViewSource = new CollectionViewSource { Source = Data };
             DataViewSource.Filter += FilterHandler;
+
+            // Load dGrid Views
+            
         }
 
         
