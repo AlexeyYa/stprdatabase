@@ -265,7 +265,7 @@ namespace ZDB.Exp
             int i = 0;
             foreach (string f in ExportFields)
             {
-                if (Consts.IntFields.Contains(f))
+                if (Consts.IntFields.Contains(f) && Consts.Summable.Contains(f))
                 {
                     accumulator[i] += (int)c[f];
                 }
@@ -360,7 +360,7 @@ namespace ZDB.Exp
                 {
                     result += delimiter;
                 }
-                if (Consts.IntFields.Contains(field))
+                if (Consts.IntFields.Contains(field) && Consts.Summable.Contains(field))
                 {
                     result += accumulator[i].ToString();
                 }

@@ -124,11 +124,12 @@
     <Compile Include="MainViewModel\FilterMethods.cs" />
     <Compile Include="MainViewModel\VariousMethods.cs" />
     <Compile Include="Shared\DataGridAttachedProperties.cs" />
-    <Compile Include="Shared\DatagridCustomInit.cs" />
+    <Compile Include="Shared\DataGridCustomInit.cs" />
     <Compile Include="Shared\DataGridExtension.cs" />
     <Compile Include="Shared\ExtendedPropertyChanged.cs" />
     <Compile Include="Shared\Logger.cs" />
     <Compile Include="MainViewModel\MainViewModel.cs" />
+    <Compile Include="Shared\MultiBindFields.cs" />
     <Compile Include="Shared\RelayCommand.cs" />
     <Compile Include="StyleSettings\StyleSelector.xaml.cs">
       <DependentUpon>StyleSelector.xaml</DependentUpon>

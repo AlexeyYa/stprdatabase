@@ -59,7 +59,7 @@ namespace ZDB
             this.DataContext = mainViewModel;
             Parser.Parser.Initialize();
 
-            var dGridInit = new DatagridCustomInit(dGrid);
+            var dGridInit = new DataGridCustomInit(dGrid);
         }
 
         /*private void RedoBtn_Click(object sender, RoutedEventArgs e)

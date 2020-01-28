@@ -7,8 +7,6 @@ Daily export
 Major:
 User styles = Mostly implemented
 Logger
-- Multibinding with converter
-- Storing multibinding
 Saving changes to database = Temporary solution Save on closing
 
 Notes:

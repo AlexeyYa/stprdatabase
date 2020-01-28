@@ -37,13 +37,19 @@ namespace ZDB
             { "User", "Obj", "Group", "DocCode", "Subs", "Tasks", "Corrections", "Executor" };
         
         public static readonly IEnumerable<string> IntFields = new HashSet<string>
-            { "Number", "CodeType", "NumberOfCopies", "NumberOfOriginals", "Numeration", "Scan", "Threading",
+            { "Number", "CodeType", "NumberOfOriginals", "NumberOfCopies", "Numeration", "Scan", "Threading",
             "SizeFormat", "SizeA4", "SizeA3", "SizeA2", "SizeA1", "SizeA0",
             "SizeCorFormat", "SizeCorA4", "SizeCorA3", "SizeCorA2", "SizeCorA1", "SizeCorA0"};
 
+        public static readonly IEnumerable<string> Summable = new HashSet<string>
+            { "Numeration", "Scan", "Threading",
+            "SizeFormat", "SizeA4", "SizeA3", "SizeA2", "SizeA1", "SizeA0",
+            "SizeCorFormat", "SizeCorA4", "SizeCorA3", "SizeCorA2", "SizeCorA1", "SizeCorA0" };
+
         public static readonly IEnumerable<string> DateFields = new HashSet<string>
             { "StartDate", "EndDate", "CompleteDate" };
-
+        
+        // Dictionaries for EnumFields
         public static readonly Dictionary<int, string> StatusValues = new Dictionary<int, string>
             { {-1, "Аннулировано" },
               { 0, "" },
@@ -53,6 +59,13 @@ namespace ZDB
         // Dictionaries of values should be defined before
         public static readonly Dictionary<string, Dictionary<int, string>> EnumFields = new Dictionary<string, Dictionary<int, string>>
             { {"Status", StatusValues} };
+
+        // !!! Converters in MultiBindFields.cs, change together !!!
+        public static readonly Dictionary<string, HashSet<string>> MultiBindFields = new Dictionary<string, HashSet<string>>
+            { { "TotalFormats", 
+                new HashSet<string>{ "NumberOfOriginals", "NumberOfCopies", 
+                "Numeration", "Scan", "Threading", "SizeFormat" } 
+            } };
     }
 
     //public class FieldsList : List<string>
@@ -140,6 +153,7 @@ namespace ZDB
             this.Add("CodeType", "Код");
             this.Add("NumberOfOriginals", "Количество оригиналов");
             this.Add("NumberOfCopies", "Количество копий");
+            this.Add("TotalFormats", "Всего форматок");
             this.Add("Numeration", "Нумерация");
             this.Add("Scan", "Сканирование");
             this.Add("SizeFormat", "Форматки");

@@ -9,12 +9,12 @@ using System.Windows.Data;
 
 namespace ZDB
 {
-    class DatagridCustomInit
+    class DataGridCustomInit
     {
         FieldsTranslated fieldsTranslated;
 
 
-        public DatagridCustomInit(DataGrid dataGrid)
+        public DataGridCustomInit(DataGrid dataGrid)
         {
             _dataGrid = dataGrid;
             fieldsTranslated = new FieldsTranslated();
@@ -71,11 +71,34 @@ namespace ZDB
 
                 return tColumn;
             }
+            else if (Consts.MultiBindFields.ContainsKey(field))
+            {
+                DataGridTextColumn tColumn = new DataGridTextColumn();
+
+                MultiBinding multiBinding = new MultiBinding();
+
+                // MultiBinding converter - replace
+                multiBinding.Converter = new TotalFormatsConverter();
+
+                foreach (string bindField in Consts.MultiBindFields[field])
+                {
+                    Binding tmpBind = new Binding(bindField);
+                    multiBinding.Bindings.Add(tmpBind);
+                }
+
+                tColumn.Binding = multiBinding;
+                tColumn.Header = fieldsTranslated[field];
+                tColumn.SortMemberPath = field;
+                tColumn.CanUserSort = true;
+                tColumn.IsReadOnly = true;
+
+                return tColumn;
+            }
             else if (field == "Number")
             {
                 DataGridTextColumn tColumn = new DataGridTextColumn();
                 Binding binding = new Binding(field);
-                binding.Mode = BindingMode.TwoWay;
+                binding.Mode = BindingMode.OneWay;
                 binding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
                 tColumn.Binding = binding;
                 tColumn.Header = fieldsTranslated[field];
