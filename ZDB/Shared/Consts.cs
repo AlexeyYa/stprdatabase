@@ -39,12 +39,12 @@ namespace ZDB
         
         public static readonly IEnumerable<string> IntFields = new HashSet<string>
             { "Number", "CodeType", "NumberOfOriginals", "NumberOfCopies", "Numeration", "Scan", "Threading",
-            "SizeFormat", "SizeA4", "SizeA3", "SizeA2", "SizeA1", "SizeA0",
+            "SizeRecievedFromGroup", "SizeFormat", "SizeA4", "SizeA3", "SizeA2", "SizeA1", "SizeA0",
             "SizeCorFormat", "SizeCorA4", "SizeCorA3", "SizeCorA2", "SizeCorA1", "SizeCorA0"};
 
         public static readonly IEnumerable<string> Summable = new HashSet<string>
             { "Numeration", "Scan", "Threading",
-            "SizeFormat", "SizeA4", "SizeA3", "SizeA2", "SizeA1", "SizeA0",
+            "SizeRecievedFromGroup", "SizeFormat", "SizeA4", "SizeA3", "SizeA2", "SizeA1", "SizeA0",
             "SizeCorFormat", "SizeCorA4", "SizeCorA3", "SizeCorA2", "SizeCorA1", "SizeCorA0" };
 
         public static readonly IEnumerable<string> DateFields = new HashSet<string>
@@ -157,8 +157,19 @@ namespace ZDB
             this.Add("TotalFormats", "Всего форматок");
             this.Add("Numeration", "Нумерация");
             this.Add("Scan", "Сканирование");
+            this.Add("SizeRecievedFromGroup", "Форматки от группы");
             this.Add("SizeFormat", "Форматки");
+            this.Add("SizeA4", "Стр. A4");
+            this.Add("SizeA3", "Стр. A3");
+            this.Add("SizeA2", "Стр. A2");
+            this.Add("SizeA1", "Стр. A1");
+            this.Add("SizeA0", "Стр. A0");
             this.Add("SizeCorFormat", "Корректировка форматки");
+            this.Add("SizeCorA4", "Кор. A4");
+            this.Add("SizeCorA3", "Кор. A3");
+            this.Add("SizeCorA2", "Кор. A2");
+            this.Add("SizeCorA1", "Кор. A1");
+            this.Add("SizeCorA0", "Кор. A0");
             this.Add("StartDate", "Дата заявки");
             this.Add("EndDate", "Планируемая дата");
             this.Add("CompleteDate", "Фактическая дата");

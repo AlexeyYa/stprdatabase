@@ -209,6 +209,21 @@ namespace ZDB.Database
             }
         }
 
+        private int sizeRecievedFromGroup;
+        public int SizeRecievedFromGroup
+        {
+            get { return sizeRecievedFromGroup; }
+            set
+            {
+                if (sizeRecievedFromGroup != value)
+                {
+                    string tmp = sizeRecievedFromGroup.ToString();
+                    sizeRecievedFromGroup = value;
+                    OnPropertyChanged("SizeRecievedFromGroup", tmp, value.ToString());
+                }
+            }
+        }
+
         private int sizeFormat;
         public int SizeFormat
         {
@@ -325,6 +340,156 @@ namespace ZDB.Database
                     string tmp = executor;
                     executor = value;
                     OnPropertyChanged("Executor", tmp, value);
+                }
+            }
+        }
+
+        private int sizeA4;
+        public int SizeA4
+        {
+            get { return sizeA4; }
+            set
+            {
+                if (sizeA4 != value)
+                {
+                    string tmp = sizeA4.ToString();
+                    sizeA4 = value;
+                    OnPropertyChanged("SizeA4", tmp, value.ToString());
+                }
+            }
+        }
+
+        private int sizeA3;
+        public int SizeA3
+        {
+            get { return sizeA3; }
+            set
+            {
+                if (sizeA3 != value)
+                {
+                    string tmp = sizeA3.ToString();
+                    sizeA3 = value;
+                    OnPropertyChanged("SizeA3", tmp, value.ToString());
+                }
+            }
+        }
+
+        private int sizeA2;
+        public int SizeA2
+        {
+            get { return sizeA2; }
+            set
+            {
+                if (sizeA2 != value)
+                {
+                    string tmp = sizeA2.ToString();
+                    sizeA2 = value;
+                    OnPropertyChanged("SizeA2", tmp, value.ToString());
+                }
+            }
+        }
+
+        private int sizeA1;
+        public int SizeA1
+        {
+            get { return sizeA1; }
+            set
+            {
+                if (sizeA1 != value)
+                {
+                    string tmp = sizeA1.ToString();
+                    sizeA1 = value;
+                    OnPropertyChanged("SizeA1", tmp, value.ToString());
+                }
+            }
+        }
+
+        private int sizeA0;
+        public int SizeA0
+        {
+            get { return sizeA0; }
+            set
+            {
+                if (sizeA0 != value)
+                {
+                    string tmp = sizeA0.ToString();
+                    sizeA0 = value;
+                    OnPropertyChanged("SizeA0", tmp, value.ToString());
+                }
+            }
+        }
+
+        private int sizeCorA4;
+        public int SizeCorA4
+        {
+            get { return sizeCorA4; }
+            set
+            {
+                if (sizeCorA4 != value)
+                {
+                    string tmp = sizeCorA4.ToString();
+                    sizeCorA4 = value;
+                    OnPropertyChanged("SizeCorA4", tmp, value.ToString());
+                }
+            }
+        }
+
+        private int sizeCorA3;
+        public int SizeCorA3
+        {
+            get { return sizeCorA3; }
+            set
+            {
+                if (sizeCorA3 != value)
+                {
+                    string tmp = sizeCorA3.ToString();
+                    sizeCorA3 = value;
+                    OnPropertyChanged("SizeCorA3", tmp, value.ToString());
+                }
+            }
+        }
+
+        private int sizeCorA2;
+        public int SizeCorA2
+        {
+            get { return sizeCorA2; }
+            set
+            {
+                if (sizeCorA2 != value)
+                {
+                    string tmp = sizeCorA2.ToString();
+                    sizeCorA2 = value;
+                    OnPropertyChanged("SizeCorA2", tmp, value.ToString());
+                }
+            }
+        }
+
+        private int sizeCorA1;
+        public int SizeCorA1
+        {
+            get { return sizeCorA1; }
+            set
+            {
+                if (sizeCorA1 != value)
+                {
+                    string tmp = sizeCorA1.ToString();
+                    sizeCorA1 = value;
+                    OnPropertyChanged("SizeCorA1", tmp, value.ToString());
+                }
+            }
+        }
+
+        private int sizeCorA0;
+        public int SizeCorA0
+        {
+            get { return sizeCorA0; }
+            set
+            {
+                if (sizeCorA0 != value)
+                {
+                    string tmp = sizeCorA0.ToString();
+                    sizeCorA0 = value;
+                    OnPropertyChanged("SizeCorA0", tmp, value.ToString());
                 }
             }
         }

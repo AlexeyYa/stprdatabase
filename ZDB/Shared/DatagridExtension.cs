@@ -80,14 +80,11 @@ namespace ZDB
 
         public void LoadSettings(DGEStyle DGEStyleSettings)
         {
-            if (DGEStyleSettings.CInfo.Count == Columns.Count)
+            foreach (var columnInfo in DGEStyleSettings.CInfo)
             {
-                foreach (var columnInfo in DGEStyleSettings.CInfo)
-                {
-                    string Header = columnInfo.ColumnHeader;
-                    // Applying to column with same header
-                    columnInfo.Apply(Columns.Where(x => x.Header.ToString() == Header).First());
-                }
+                string Header = columnInfo.ColumnHeader;
+                // Applying to column with same header
+                columnInfo.Apply(Columns.Where(x => x.Header.ToString() == Header).First());
             }
             RowStyle = DGEStyleSettings.rowStyle;
         }
