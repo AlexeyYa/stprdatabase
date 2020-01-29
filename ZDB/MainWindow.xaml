@@ -37,7 +37,24 @@
         </Style>
     </Window.Resources>
     <Grid>
-        <DockPanel Height="25" VerticalAlignment="Top">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25"/>
+            <RowDefinition/>
+            <RowDefinition Height="35"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="35"/>
+            <RowDefinition Height="5"/>
+        </Grid.RowDefinitions>
+        <DockPanel Height="25" VerticalAlignment="Top"
+                   Grid.Column="0" Grid.ColumnSpan="6" Grid.Row="0">
             <Menu DockPanel.Dock="Top">
                 <Menu.ItemsPanel>
                     <ItemsPanelTemplate>
@@ -61,8 +78,11 @@
                 
             </Menu>
         </DockPanel>
-        <local:DataGridExtended x:Name="dGrid" Margin="10,30,10,180" CanUserAddRows="False" CanUserDeleteRows="False"
-                 ItemsSource="{Binding DataViewSource.View}" AutoGenerateColumns="False" SelectionUnit="Cell">
+        <local:DataGridExtended x:Name="dGrid" Margin="10,10,10,5" 
+                                CanUserAddRows="False" CanUserDeleteRows="False"
+                 ItemsSource="{Binding DataViewSource.View}" AutoGenerateColumns="False" 
+                                SelectionUnit="Cell"
+                   Grid.Column="0" Grid.ColumnSpan="6" Grid.Row="1">
             <!--<DataGrid.CellStyle>
                 <Style TargetType="{x:Type DataGridCell}">
                     <Style.Triggers>
@@ -142,8 +162,9 @@
 
             </local:DataGridExtended.Columns>-->
         </local:DataGridExtended>
-        <DataGrid x:Name="filterGrid" Margin="10,0,10,40" Height="100" VerticalAlignment="Bottom" 
-                   ItemsSource="{Binding Filters}" AutoGenerateColumns="False">
+        <DataGrid x:Name="filterGrid" Margin="10,5,10,5" VerticalAlignment="Center" 
+                   ItemsSource="{Binding Filters}" AutoGenerateColumns="False"
+                   Grid.Column="0" Grid.ColumnSpan="6" Grid.Row="3">
             <DataGrid.Columns>
                 <DataGridComboBoxColumn Header="Поле" 
                                         ItemsSource="{Binding Source={StaticResource FieldsTranslated}, Mode=OneWay}"
@@ -172,23 +193,32 @@
             </DataGrid.Columns>
         </DataGrid>
 
-        <Button x:Name="AddZ" Content="Добавить заявку" Margin="10, 0, 0, 150" Height="20" Width="100" HorizontalAlignment="Left" VerticalAlignment="Bottom"
-                Command="{Binding AddEntryCommand}"/>
-        <Button x:Name="AddBtn" Content="Добавить из файла" Margin="200, 0, 0, 150" Height="20" Width="100" HorizontalAlignment="Left" VerticalAlignment="Bottom"
-                Command="{Binding AddEntryFromFileCommand}"/>
-        <Button x:Name="TemplateBtn" Content="Добавить шаблон" Margin="320, 0, 0, 150" Height="20" Width="100" HorizontalAlignment="Left" VerticalAlignment="Bottom"
-                Command="{Binding AddTemplate}"/>
-        <Button x:Name="RemoveZ" Content="Удалить заявку" Margin="0, 0, 10, 150" Height="20" Width="100" HorizontalAlignment="Right" VerticalAlignment="Bottom"
-                Command="{Binding RemoveEntriesCommand}" CommandParameter="{Binding SelectedCells, ElementName=dGrid}"/>
+        <Button x:Name="AddZ" Content="Добавить заявку" Margin="10, 5, 10, 5"
+                Command="{Binding AddEntryCommand}"
+                   Grid.Column="0"  Grid.Row="2"/>
+        <Button x:Name="AddBtn" Content="Добавить из файла" Margin="10, 5, 10, 5"
+                Command="{Binding AddEntryFromFileCommand}"
+                   Grid.Column="1" Grid.Row="2"/>
+        <Button x:Name="TemplateBtn" Content="Добавить шаблон" Margin="10, 5, 10, 5"
+                Command="{Binding AddTemplate}"
+                   Grid.Column="2" Grid.Row="2"/>
+        <Button x:Name="RemoveZ" Content="Удалить заявку" Margin="10, 5, 10, 5"
+                Command="{Binding RemoveEntriesCommand}" CommandParameter="{Binding SelectedCells, ElementName=dGrid}"
+                   Grid.Column="5" Grid.Row="2"/>
 
 
-        <Button x:Name="AddFilterBtn" Content="Добавить фильтр" Margin="10, 0, 0, 10" Height="20" Width="100" HorizontalAlignment="Left" VerticalAlignment="Bottom"
-                Command="{Binding AddFilterCommand}"/>
+        <Button x:Name="AddFilterBtn" Content="Добавить фильтр" Margin="10, 5, 10, 5"
+                Command="{Binding AddFilterCommand}"
+                   Grid.Column="0" Grid.Row="4"/>
 
-        <Button x:Name="UndoBtn" Content="Undo" Margin="0, 0, 400, 10" Height="20" Width="100" HorizontalAlignment="Right" VerticalAlignment="Bottom" Click="Save_Click"/>
-        <Button x:Name="RedoBtn" Content="Redo" Margin="0, 0, 300, 10" Height="20" Width="100" HorizontalAlignment="Right" VerticalAlignment="Bottom" Click="Load_Click"/>
+        <Button x:Name="UndoBtn" Content="Undo" Margin="10, 5, 10, 5" 
+                   Grid.Column="1" Grid.Row="4" 
+                Click="Save_Click"/>
+        <Button x:Name="RedoBtn" Content="Redo" Margin="10, 5, 10, 5" Click="Load_Click"
+                   Grid.Column="2" Grid.Row="4"/>
 
-        <Button x:Name="ExportBtn" Content="Экспортировать" Margin="0, 0, 10, 10" Height="20" Width="100" HorizontalAlignment="Right" VerticalAlignment="Bottom"
-                Command="{Binding ExportCommand}"/>
+        <Button x:Name="ExportBtn" Content="Экспортировать" Margin="10, 5, 10, 5"
+                Command="{Binding ExportCommand}"
+                   Grid.Column="5" Grid.Row="4"/>
     </Grid>
 </Window>
