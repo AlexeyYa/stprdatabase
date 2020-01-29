@@ -25,7 +25,7 @@ namespace ZDB.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute(".//Styles//MainDataGrid//default.xml")]
+        [global::System.Configuration.DefaultSettingValueAttribute("default.xml")]
         public string defaultMainGridSetting {
             get {
                 return ((string)(this["defaultMainGridSetting"]));

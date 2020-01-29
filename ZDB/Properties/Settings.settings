@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="defaultMainGridSetting" Type="System.String" Scope="User">
-      <Value Profile="(Default)">.//Styles//MainDataGrid//default.xml</Value>
+      <Value Profile="(Default)">default.xml</Value>
     </Setting>
   </Settings>
 </SettingsFile>

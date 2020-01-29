@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using ZDB.Exp;
+using ZDB.StyleSettings;
 
 namespace ZDB.MainViewModel
 {
@@ -47,6 +48,29 @@ namespace ZDB.MainViewModel
                         };
 
                         dlg.ShowDialog();
+                    },
+                    (obj) => Data != null));
+            }
+        }
+
+        private RelayCommand addViewCommand;
+        public RelayCommand AddViewCommand
+        {
+            get
+            {
+                return addViewCommand ??
+                    (addViewCommand = new RelayCommand(obj =>
+                    {
+                        SimpleInputDialog dlg = new SimpleInputDialog();
+
+                        if (dlg.ShowDialog() == true)
+                        {
+                            string partialPath = Consts.DGSettingsPath + dlg.Text + ".xml";
+                            DGSettingsManager.SaveToXML(dataGridExtended.SaveSettings(),
+                                                        Consts.DGSettingsPath + partialPath);
+                            MainGridStyles.Add(partialPath);
+                            SelectedMainGridStyle = partialPath;
+                        }
                     },
                     (obj) => Data != null));
             }

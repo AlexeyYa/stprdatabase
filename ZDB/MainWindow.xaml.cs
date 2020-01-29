@@ -67,11 +67,11 @@ namespace ZDB
 
         private void Save_Click(object sender, RoutedEventArgs e)
         {
-            DGSettingsManager.SaveToXML(dGrid.SaveSettings(), Consts.DGDefaultStylePath);
+            //DGSettingsManager.SaveToXML(dGrid.SaveSettings(), Consts.DGDefaultStylePath);
         }
         private void Load_Click(object sender, RoutedEventArgs e)
         {
-            dGrid.LoadSettings(DGSettingsManager.LoadFromXML(Consts.DGDefaultStylePath));
+            //dGrid.LoadSettings(DGSettingsManager.LoadFromXML(Consts.DGDefaultStylePath));
         }
 
         private void Window_Closed(object sender, EventArgs e)

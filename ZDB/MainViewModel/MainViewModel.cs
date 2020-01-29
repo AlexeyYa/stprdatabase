@@ -62,17 +62,17 @@ namespace ZDB.MainViewModel
         }
 
         // Initialized on get from directory
-        private List<string> mainGridStyles = null;
-        public List<string> MainGridStyles
+        private ObservableCollection<string> mainGridStyles = null;
+        public ObservableCollection<string> MainGridStyles
         {
             get
             {
                 if (mainGridStyles == null)
                 {
-                    mainGridStyles = new List<string>();
+                    mainGridStyles = new ObservableCollection<string>();
                     foreach (string filename in Directory.GetFiles(Consts.DGSettingsPath))
                     {
-                        mainGridStyles.Add(filename);
+                        mainGridStyles.Add(filename.Replace(Consts.DGSettingsPath,""));
                     }
                 }
                 return mainGridStyles; 
@@ -89,7 +89,7 @@ namespace ZDB.MainViewModel
                 {
                     selectedMainGridStyle = value;
                     dataGridExtended.LoadSettings(
-                        DGSettingsManager.LoadFromXML(value));
+                        DGSettingsManager.LoadFromXML(Consts.DGSettingsPath + value));
                     OnPropertyChanged("SelectedMainGridStyle");
                 }
             }
@@ -100,7 +100,7 @@ namespace ZDB.MainViewModel
             // Init DataGrid
             dataGridExtended = dGrid;
             var dGridInit = new DataGridCustomInit(dataGridExtended);
-            if (File.Exists(Properties.Settings.Default.defaultMainGridSetting))
+            if (File.Exists(Consts.DGSettingsPath + Properties.Settings.Default.defaultMainGridSetting))
             {
                 SelectedMainGridStyle = Properties.Settings.Default.defaultMainGridSetting;
             }
