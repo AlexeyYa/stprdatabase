@@ -19,8 +19,8 @@ namespace ZDB
     /// </summary>
     public partial class SimpleInputDialog : Window
     {
-        public SimpleInputDialog(string description="Введите название:", 
-                            string defaultAnswer="", string imgType="")
+        public SimpleInputDialog(string imgType = "Q/W/E", string description="Введите название:", 
+                            string defaultAnswer="")
         {
             InitializeComponent();
             lblDescription.Content = description;
@@ -29,6 +29,10 @@ namespace ZDB
             {
                 case "Q":
                     imgDescription.Margin = new Thickness(20,0,20,0);
+                    imgDescription.Width = 40;
+                    imgDescription.Height = 40;
+                    imgDescription.Source = new BitmapImage(
+                        new Uri("pack://application:,,,/resources/icons/question.png"));
                     break;
                 default:
                     break;

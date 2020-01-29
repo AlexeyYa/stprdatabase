@@ -61,7 +61,7 @@ namespace ZDB.MainViewModel
                 return addViewCommand ??
                     (addViewCommand = new RelayCommand(obj =>
                     {
-                        SimpleInputDialog dlg = new SimpleInputDialog();
+                        SimpleInputDialog dlg = new SimpleInputDialog("Q");
 
                         if (dlg.ShowDialog() == true)
                         {
