@@ -53,6 +53,9 @@ namespace ZDB
 
         }
 
+        /// <summary>
+        /// Put initialization here
+        /// </summary>
         private void LoadData()
         {
             mainViewModel = new MainViewModelClass(dGrid);
@@ -65,6 +68,11 @@ namespace ZDB
             Logger.Redo();
         }*/
 
+        /// <summary>
+        /// Save db on quit
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Window_Closed(object sender, EventArgs e)
         {
             mainViewModel.SaveChanges();
