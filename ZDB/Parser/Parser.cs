@@ -39,6 +39,7 @@ namespace ZDB.Parser
 
         public static void Initialize()
         {
+            // Trying to read existing data
             if (File.Exists(Consts.TemplatePath))
             {
                 IFormatter formatter = new BinaryFormatter();
@@ -51,6 +52,10 @@ namespace ZDB.Parser
             }
         }
 
+        /// <summary>
+        /// Adding template and saving it to serialized file
+        /// </summary>
+        /// <param name="filename"></param>
         public static void AddTemplate(string filename)
         {
             DocTemplate docTemplate = Parser.CreateTemplate(filename);
@@ -61,13 +66,18 @@ namespace ZDB.Parser
             stream.Close();
         }
 
+        /// <summary>
+        /// Parsing entry from request file through regex
+        /// </summary>
+        /// <param name="path"></param>
+        /// <param name="num"></param>
+        /// <returns>Entry</returns>
         public static Entry ProcessFromDocx(string path, int num)
         {
             DocX document = DocX.Load(path);
             Entry entry = new Entry(num);
             Regex rx;
             MatchCollection match;
-            // rx = new Regex(@"Бланк-заказ № ________________на множительные работы и архивациюДата (.+)Фамилия И. О (.+) ПГ/ГРП/отдел (.+) тел. (.+)Шифр комплекта (.+)Сокращенное наименование объекта \(шифр\) (.+)\n\tпечать/ копирование\tскани-рование\tфальцовка\tформа готового материала \n\tКол-во экз.\tКол-во форматов одного экз.\tВ том числе откорректированных форматов\t\tОбщее кол-во сфальцованных листов \(без А4\)\t\n\t1\t2\t3\t4\t5\t6\n\t(.+)\+(.+)\tФ (.+)\tФ (.+)\t\t\t(.+)\n\t\tА4 (.+)\tА4 (.+)\t\t\t\n\t\tА3 (.+)\tА3 (.+)#\t\t\t\n\t\tА2 #SA2#\tА2 #CA2#\t\t\t\n\t\tА1 #SA1#\tА1 #CA1#\t\t\t\n\t\tА0 #SA0#\tА0 #CA0#\t\t\t\n\tФормирование электронной версии\tКорректировка электронной версии\tАктивное содержание документа \n\tФ #EF#\tФ #ECF#\tТребование Заказчика\n\tА4 #EA4#\tА4 #ECA4#\t\n\tА3 #EA3#\tА3 #ECA3#\t\n\tА2 #EA2#\tА2 #ECA2#\tДля ГГЭ\n\tА1 #EA1#\tА1 #ECA1#\t\n\tА0 #EA0#\tА0 #ECA0#\tСсылка на папку с ПСД #LINK#В графе \(1\) указывается количество экземпляров \(копий\)В графе \(2\) указывается количество каждого формата одного экземпляра \(комплекта\)Графа \(3\) заполняется, если комплект \(листы\) откорректированы. Указывается количество каждого формата откорректированных листов.В графе \(4\) указывается необходимо ли сканирование.Графу \(5\) заполняет сотрудник группы выпуска.В графе \(6\) указать форму готового материала \(сшивка, папка, другое\)Также указываются причины корректировки в соответствии с таблицей \(заполняет разработчик\)\n\t№ п/п\tМесто возникновения\tПричины корректировки\n\t\t\tВнутренние\tВнешние\n\t\t\tСобственные ошибки ПГ\tНеверные исходные данные от смежников и ГРП\tНовая инициатива заказчика после получения ПСД\tНовая инициатива подрядчика после получения ПСД\tНеверные исходные данные от внешних субподряд-чиков \(инженер-ные изыска-ния и т. п.\) \n\t1\tИнженерные расчеты\t#1-1#\t#1-2#\t#1-3#\t#1-4#\t#1-5#\n\t2\tКонструктивно-технологическое решение\t#2-1#\t#2-2#\t#2-3#\t#2-4#\t#2-5#\n\t3\tВедомости объемов работ\t#3-1#\t#3-2#\t#3-3#\t#3-4#\t#3-5#\n\t4\tСметная документация\t#4-1#\t#4-2#\t#4-3#\t#4-4#\t#4-5#\n\t5\tОформление ПСД \(нормоконтроль\)\t#5-1#\t#5-2#\t#5-3#\t#5-4#\t#5-5#\n\t6\tКорректировка\t#6-1#\t#6-2#\t#6-3#\t#6-4#\t#6-5#\n\t7\tВыпуск документации для заказчика\t#7#Подпись___________________                  Дата получения заказа «_____» ________________");
             foreach (DocTemplate dt in Templates)
             {
                 rx = new Regex(dt.RegExData);
@@ -81,7 +91,7 @@ namespace ZDB.Parser
                 // Parsing temporary variables
                 string[] dateformats = { "yyyy-MM-dd HH:mm" };
                 DateTime date;
-                int tmp; // out value for Int32.TryParse
+                int tmp;
                 List<string> corrections = new List<string>();
 
                 // Processing each field
@@ -153,51 +163,51 @@ namespace ZDB.Parser
                             Int32.TryParse(match[0].Groups[dt.Substitutions[sub]].Value, out tmp);
                             entry.SizeFormat = tmp;
                             break;
-                        //case "#SA4#":
-                        //    Int32.TryParse(match[0].Groups[dt.Substitutions[sub]].Value, out tmp);
-                        //    content.SizeA4 = tmp;
-                        //    break;
-                        //case "#SA3#":
-                        //    Int32.TryParse(match[0].Groups[dt.Substitutions[sub]].Value, out tmp);
-                        //    content.SizeA3 = tmp;
-                        //    break;
-                        //case "#SA2#":
-                        //    Int32.TryParse(match[0].Groups[dt.Substitutions[sub]].Value, out tmp);
-                        //    content.SizeA2 = tmp;
-                        //    break;
-                        //case "#SA1#":
-                        //    Int32.TryParse(match[0].Groups[dt.Substitutions[sub]].Value, out tmp);
-                        //    content.SizeA1 = tmp;
-                        //    break;
-                        //case "#SA0#":
-                        //    Int32.TryParse(match[0].Groups[dt.Substitutions[sub]].Value, out tmp);
-                        //    content.SizeA0 = tmp;
-                        //    break;
+                        case "#SA4#":
+                            Int32.TryParse(match[0].Groups[dt.Substitutions[sub]].Value, out tmp);
+                            entry.SizeA4 = tmp;
+                            break;
+                        case "#SA3#":
+                            Int32.TryParse(match[0].Groups[dt.Substitutions[sub]].Value, out tmp);
+                            entry.SizeA3 = tmp;
+                            break;
+                        case "#SA2#":
+                            Int32.TryParse(match[0].Groups[dt.Substitutions[sub]].Value, out tmp);
+                            entry.SizeA2 = tmp;
+                            break;
+                        case "#SA1#":
+                            Int32.TryParse(match[0].Groups[dt.Substitutions[sub]].Value, out tmp);
+                            entry.SizeA1 = tmp;
+                            break;
+                        case "#SA0#":
+                            Int32.TryParse(match[0].Groups[dt.Substitutions[sub]].Value, out tmp);
+                            entry.SizeA0 = tmp;
+                            break;
 
                         case "#CF#":
                             Int32.TryParse(match[0].Groups[dt.Substitutions[sub]].Value, out tmp);
                             entry.SizeCorFormat = tmp;
                             break;
-                        //case "#CA4#":
-                        //    Int32.TryParse(match[0].Groups[dt.Substitutions[sub]].Value, out tmp);
-                        //    content.SizeCorA4 = tmp;
-                        //    break;
-                        //case "#CA3#":
-                        //    Int32.TryParse(match[0].Groups[dt.Substitutions[sub]].Value, out tmp);
-                        //    content.SizeCorA3 = tmp;
-                        //    break;
-                        //case "#CA2#":
-                        //    Int32.TryParse(match[0].Groups[dt.Substitutions[sub]].Value, out tmp);
-                        //    content.SizeCorA2 = tmp;
-                        //    break;
-                        //case "#CA1#":
-                        //    Int32.TryParse(match[0].Groups[dt.Substitutions[sub]].Value, out tmp);
-                        //    content.SizeCorA1 = tmp;
-                        //    break;
-                        //case "#CA0#":
-                        //    Int32.TryParse(match[0].Groups[dt.Substitutions[sub]].Value, out tmp);
-                        //    content.SizeCorA0 = tmp;
-                        //    break;
+                        case "#CA4#":
+                            Int32.TryParse(match[0].Groups[dt.Substitutions[sub]].Value, out tmp);
+                            entry.SizeCorA4 = tmp;
+                            break;
+                        case "#CA3#":
+                            Int32.TryParse(match[0].Groups[dt.Substitutions[sub]].Value, out tmp);
+                            entry.SizeCorA3 = tmp;
+                            break;
+                        case "#CA2#":
+                            Int32.TryParse(match[0].Groups[dt.Substitutions[sub]].Value, out tmp);
+                            entry.SizeCorA2 = tmp;
+                            break;
+                        case "#CA1#":
+                            Int32.TryParse(match[0].Groups[dt.Substitutions[sub]].Value, out tmp);
+                            entry.SizeCorA1 = tmp;
+                            break;
+                        case "#CA0#":
+                            Int32.TryParse(match[0].Groups[dt.Substitutions[sub]].Value, out tmp);
+                            entry.SizeCorA0 = tmp;
+                            break;
 
                         case "#1-1#":
                             if (match[0].Groups[dt.Substitutions[sub]].Value != "")
@@ -396,16 +406,23 @@ namespace ZDB.Parser
             return entry;
         }
 
+        /// <summary>
+        /// Reads file on path and turns into regex
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
         private static DocTemplate CreateTemplate(string path)
         {
             DocX document = DocX.Load(path);
             string temp = document.Text;
+            // Replace regex characters
             temp = temp.Replace("(", @"\(");
             temp = temp.Replace(")", @"\)");
             temp = temp.Replace("+", @"\+");
             bool flag = false;
             string sub = "";
             int idx = 1;
+            // Dictionary of substitutions < Tag , Position in regex >
             Dictionary<string, int> substitutions = new Dictionary<string, int>();
             foreach (char c in temp)
             {
@@ -441,6 +458,11 @@ namespace ZDB.Parser
         }
     }
 
+    /// <summary>
+    /// Storing all data needed for processing requests
+    /// regExData stores string version document with matching pattern
+    /// substitutions stores tag and position for matching patter 
+    /// </summary>
     [Serializable]
     class DocTemplate
     {
@@ -451,10 +473,10 @@ namespace ZDB.Parser
         public Dictionary<string, int> Substitutions { get => substitutions; set => substitutions = value; }
 
         public DocTemplate() { }
-        public DocTemplate(string r, Dictionary<string,int> d)
+        public DocTemplate(string regex, Dictionary<string,int> subsDict)
         {
-            RegExData = r;
-            Substitutions = d;
+            RegExData = regex;
+            Substitutions = subsDict;
         }
     }
 }
