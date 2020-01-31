@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -19,6 +17,7 @@ namespace ZDB.StyleSettings
         {
             List<ColumnInfo> CInfo = new List<ColumnInfo>();
             Style rowStyle = new Style();
+            int frozenColumnCount = 0;
 
             XmlDocument xDoc = new XmlDocument();
             xDoc.Load(path);
@@ -33,9 +32,12 @@ namespace ZDB.StyleSettings
                     case "RowStyle":
                         rowStyle = LoadStyle(xNode.FirstChild);
                         break;
+                    case "FrozenColumnCount":
+                        Int32.TryParse(xNode.InnerText, out frozenColumnCount);
+                        break;
                 }
             }
-            return new DGEStyle(CInfo, rowStyle);
+            return new DGEStyle(CInfo, rowStyle, frozenColumnCount);
         }
 
         private static List<ColumnInfo> LoadColumns(XmlElement parent)
@@ -203,12 +205,6 @@ namespace ZDB.StyleSettings
                     Setter borderThickness = new Setter(DataGridRow.BorderThicknessProperty,
                         thickness);
                     styleSetters.Add(borderThickness);
-                    //-		Value	{0,1,0,1}	object {System.Windows.Thickness}
-//                    Bottom  1   double
-//  Left    0   double
-//  Right   0   double
-//  Top 1   double
-
                     break;
                 case "IsCellSelected":
                     Setter isCellSelected = new Setter(DataGridAttachedProperties.IsCellSelectedProperty,
@@ -217,7 +213,7 @@ namespace ZDB.StyleSettings
                     DependencyPropertyDescriptor descriptor = DependencyPropertyDescriptor.FromName(
                         "IsCellSelected", typeof(DataGridAttachedProperties),
                         typeof(DataGridRow));
-                    
+
                     isCellSelected.Property = descriptor.DependencyProperty;
                     styleSetters.Add(isCellSelected);
                     break;
@@ -272,6 +268,11 @@ namespace ZDB.StyleSettings
 
             SaveStyle(xDoc, rowStyleNode, DGEStyleSettings.rowStyle);
 
+            XmlElement frozenColumnCountNode = xDoc.CreateElement("FrozenColumnCount");
+            mainElement.AppendChild(frozenColumnCountNode);
+            XmlText frozenColumnCountText = xDoc.CreateTextNode(DGEStyleSettings.frozenColumnCount.ToString());
+            frozenColumnCountNode.AppendChild(frozenColumnCountText);
+
             xDoc.Save(path);
         }
 
@@ -279,7 +280,7 @@ namespace ZDB.StyleSettings
         {
             XmlElement element1 = xDoc.CreateElement("ColumnsInfo");
             parent.AppendChild(element1);
-            
+
             foreach (ColumnInfo columnInfo in CInfo)
             {
                 XmlElement columnXml = xDoc.CreateElement("Column");
@@ -317,7 +318,8 @@ namespace ZDB.StyleSettings
             }
         }
 
-        private static void SaveStyle(XmlDocument xDoc, XmlElement parent, Style style) {
+        private static void SaveStyle(XmlDocument xDoc, XmlElement parent, Style style)
+        {
 
             XmlElement styleNode = xDoc.CreateElement("Style");
             parent.AppendChild(styleNode);
@@ -342,7 +344,8 @@ namespace ZDB.StyleSettings
                     dtNode.AppendChild(valueNode);
 
                     SaveSetters(xDoc, dtNode, dataTrigger.Setters);
-                } else if (trig is Trigger trigger)
+                }
+                else if (trig is Trigger trigger)
                 {
                     XmlElement tNode = xDoc.CreateElement("Trigger");
                     styleNode.AppendChild(tNode);

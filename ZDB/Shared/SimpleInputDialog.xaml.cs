@@ -1,16 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace ZDB
 {
@@ -19,8 +9,8 @@ namespace ZDB
     /// </summary>
     public partial class SimpleInputDialog : Window
     {
-        public SimpleInputDialog(string imgType = "Q/W/E", string description="Введите название:", 
-                            string defaultAnswer="")
+        public SimpleInputDialog(string imgType = "Q/W/E", string description = "Введите название:",
+                            string defaultAnswer = "")
         {
             InitializeComponent();
             lblDescription.Content = description;
@@ -28,7 +18,7 @@ namespace ZDB
             switch (imgType)
             {
                 case "Q":
-                    imgDescription.Margin = new Thickness(20,0,20,0);
+                    imgDescription.Margin = new Thickness(20, 0, 20, 0);
                     imgDescription.Width = 40;
                     imgDescription.Height = 40;
                     imgDescription.Source = new BitmapImage(

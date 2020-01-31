@@ -19,12 +19,9 @@ limitations under the License.
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using Xceed.Words.NET;
 
 using ZDB.Database;
@@ -46,7 +43,8 @@ namespace ZDB.Parser
                 Stream stream = new FileStream(Consts.TemplatePath, FileMode.Open, FileAccess.Read, FileShare.Read);
                 Templates = (List<DocTemplate>)formatter.Deserialize(stream);
                 stream.Close();
-            } else
+            }
+            else
             {
                 Templates = new List<DocTemplate>();
             }
@@ -473,7 +471,7 @@ namespace ZDB.Parser
         public Dictionary<string, int> Substitutions { get => substitutions; set => substitutions = value; }
 
         public DocTemplate() { }
-        public DocTemplate(string regex, Dictionary<string,int> subsDict)
+        public DocTemplate(string regex, Dictionary<string, int> subsDict)
         {
             RegExData = regex;
             Substitutions = subsDict;

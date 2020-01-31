@@ -18,15 +18,10 @@ limitations under the License.
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Linq.Dynamic;
-using System.Globalization;
-using System.Reflection;
 using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 
 using ZDB.Database;
 
@@ -62,7 +57,8 @@ namespace ZDB.Exp
             if (exportSetting.Partitions.Count == 0)
             {
                 ExportCVS(filtered, exportFields, ExportFolderPath + "\\output.csv");
-            } else
+            }
+            else
             {
                 ExportGroups(filtered, exportFields, exportSetting, ExportFolderPath);
             }
@@ -303,7 +299,8 @@ namespace ZDB.Exp
         {
             if (File.Exists(ExportPath))
             {
-                using (StreamWriter sw = new StreamWriter(ExportPath, true, Encoding.Unicode)) {
+                using (StreamWriter sw = new StreamWriter(ExportPath, true, Encoding.Unicode))
+                {
                     sw.Write(CSVHeader(ExportFields, new FieldsTranslated()));
                     foreach (Entry c in data)
                     {
@@ -351,7 +348,7 @@ namespace ZDB.Exp
             bool first = true;
             foreach (string field in ExportFields)
             {
-                
+
                 if (first)
                 {
                     first = false;

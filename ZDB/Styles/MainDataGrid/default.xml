@@ -6,7 +6,7 @@
       <Visibility>Visible</Visibility>
       <DisplayIndex>0</DisplayIndex>
       <WidthValue>47,3066666666667</WidthValue>
-      <WidthType>Auto</WidthType>
+      <WidthType>Pixel</WidthType>
       <Style>
         <Setters />
         <Trigger>
@@ -30,7 +30,7 @@
       <Visibility>Visible</Visibility>
       <DisplayIndex>1</DisplayIndex>
       <WidthValue>83,4466666666667</WidthValue>
-      <WidthType>Auto</WidthType>
+      <WidthType>Pixel</WidthType>
       <Style>
         <Setters />
         <Trigger>
@@ -54,7 +54,7 @@
       <Visibility>Visible</Visibility>
       <DisplayIndex>2</DisplayIndex>
       <WidthValue>51,0333333333333</WidthValue>
-      <WidthType>Auto</WidthType>
+      <WidthType>Pixel</WidthType>
       <Style>
         <Setters />
         <Trigger>
@@ -78,7 +78,7 @@
       <Visibility>Visible</Visibility>
       <DisplayIndex>3</DisplayIndex>
       <WidthValue>63,8466666666667</WidthValue>
-      <WidthType>Auto</WidthType>
+      <WidthType>Pixel</WidthType>
       <Style>
         <Setters />
         <Trigger>
@@ -102,7 +102,7 @@
       <Visibility>Visible</Visibility>
       <DisplayIndex>4</DisplayIndex>
       <WidthValue>126,106666666667</WidthValue>
-      <WidthType>Auto</WidthType>
+      <WidthType>Pixel</WidthType>
       <Style>
         <Setters />
         <Trigger>
@@ -126,7 +126,7 @@
       <Visibility>Visible</Visibility>
       <DisplayIndex>5</DisplayIndex>
       <WidthValue>90,0766666666667</WidthValue>
-      <WidthType>Auto</WidthType>
+      <WidthType>Pixel</WidthType>
       <Style>
         <Setters />
         <Trigger>
@@ -150,7 +150,7 @@
       <Visibility>Visible</Visibility>
       <DisplayIndex>6</DisplayIndex>
       <WidthValue>94,3033333333333</WidthValue>
-      <WidthType>Auto</WidthType>
+      <WidthType>Pixel</WidthType>
       <Style>
         <Setters />
         <Trigger>
@@ -174,7 +174,7 @@
       <Visibility>Visible</Visibility>
       <DisplayIndex>7</DisplayIndex>
       <WidthValue>239,863333333333</WidthValue>
-      <WidthType>Auto</WidthType>
+      <WidthType>Pixel</WidthType>
       <Style>
         <Setters />
         <Trigger>
@@ -198,7 +198,7 @@
       <Visibility>Visible</Visibility>
       <DisplayIndex>8</DisplayIndex>
       <WidthValue>147,266666666667</WidthValue>
-      <WidthType>Auto</WidthType>
+      <WidthType>Pixel</WidthType>
       <Style>
         <Setters />
         <Trigger>
@@ -222,7 +222,7 @@
       <Visibility>Visible</Visibility>
       <DisplayIndex>9</DisplayIndex>
       <WidthValue>82,28</WidthValue>
-      <WidthType>Auto</WidthType>
+      <WidthType>Pixel</WidthType>
       <Style>
         <Setters />
         <Trigger>
@@ -246,7 +246,7 @@
       <Visibility>Visible</Visibility>
       <DisplayIndex>10</DisplayIndex>
       <WidthValue>30,5533333333333</WidthValue>
-      <WidthType>Auto</WidthType>
+      <WidthType>Pixel</WidthType>
       <Style>
         <Setters />
         <Trigger>
@@ -270,7 +270,7 @@
       <Visibility>Visible</Visibility>
       <DisplayIndex>11</DisplayIndex>
       <WidthValue>142,85</WidthValue>
-      <WidthType>Auto</WidthType>
+      <WidthType>Pixel</WidthType>
       <Style>
         <Setters />
         <Trigger>
@@ -294,7 +294,7 @@
       <Visibility>Visible</Visibility>
       <DisplayIndex>12</DisplayIndex>
       <WidthValue>111,35</WidthValue>
-      <WidthType>Auto</WidthType>
+      <WidthType>Pixel</WidthType>
       <Style>
         <Setters />
         <Trigger>
@@ -318,7 +318,7 @@
       <Visibility>Visible</Visibility>
       <DisplayIndex>13</DisplayIndex>
       <WidthValue>98,3766666666667</WidthValue>
-      <WidthType>Auto</WidthType>
+      <WidthType>Pixel</WidthType>
       <Style>
         <Setters />
         <Trigger>
@@ -342,7 +342,7 @@
       <Visibility>Visible</Visibility>
       <DisplayIndex>14</DisplayIndex>
       <WidthValue>72,4</WidthValue>
-      <WidthType>Auto</WidthType>
+      <WidthType>Pixel</WidthType>
       <Style>
         <Setters />
         <Trigger>
@@ -366,7 +366,7 @@
       <Visibility>Visible</Visibility>
       <DisplayIndex>15</DisplayIndex>
       <WidthValue>90,1233333333333</WidthValue>
-      <WidthType>Auto</WidthType>
+      <WidthType>Pixel</WidthType>
       <Style>
         <Setters />
         <Trigger>
@@ -390,7 +390,7 @@
       <Visibility>Visible</Visibility>
       <DisplayIndex>16</DisplayIndex>
       <WidthValue>65,1966666666667</WidthValue>
-      <WidthType>Auto</WidthType>
+      <WidthType>Pixel</WidthType>
       <Style>
         <Setters />
         <Trigger>
@@ -414,7 +414,7 @@
       <Visibility>Visible</Visibility>
       <DisplayIndex>17</DisplayIndex>
       <WidthValue>152,74</WidthValue>
-      <WidthType>Auto</WidthType>
+      <WidthType>Pixel</WidthType>
       <Style>
         <Setters />
         <Trigger>
@@ -438,7 +438,7 @@
       <Visibility>Visible</Visibility>
       <DisplayIndex>18</DisplayIndex>
       <WidthValue>100,126666666667</WidthValue>
-      <WidthType>Auto</WidthType>
+      <WidthType>Pixel</WidthType>
       <Style>
         <Setters />
         <Trigger>
@@ -462,7 +462,7 @@
       <Visibility>Visible</Visibility>
       <DisplayIndex>19</DisplayIndex>
       <WidthValue>111,576666666667</WidthValue>
-      <WidthType>Auto</WidthType>
+      <WidthType>Pixel</WidthType>
       <Style>
         <Setters />
         <Trigger>
@@ -486,7 +486,7 @@
       <Visibility>Visible</Visibility>
       <DisplayIndex>20</DisplayIndex>
       <WidthValue>106,38</WidthValue>
-      <WidthType>Auto</WidthType>
+      <WidthType>Pixel</WidthType>
       <Style>
         <Setters />
         <Trigger>
@@ -535,4 +535,5 @@
       </Trigger>
     </Style>
   </RowStyle>
+  <FrozenColumnCount>3</FrozenColumnCount>
 </DGSettings>

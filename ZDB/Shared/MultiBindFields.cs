@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Data;
 
 namespace ZDB
@@ -14,7 +10,7 @@ namespace ZDB
         public object Convert(object[] values, Type targetType,
             object parameter, System.Globalization.CultureInfo culture)
         {
-            int result = (int)values[0] * ((int)values[2] + (int)values[5]) + 
+            int result = (int)values[0] * ((int)values[2] + (int)values[5]) +
                 (int)values[1] * (int)values[5] + (int)values[3] + (int)values[4];
             return result.ToString();
         }

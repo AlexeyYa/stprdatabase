@@ -17,13 +17,9 @@ limitations under the License.
 */
 
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Media;
 
 namespace ZDB.Database
@@ -36,12 +32,13 @@ namespace ZDB.Database
     /// <summary>
     /// Extensions
     /// </summary>
-    
+
     class FilterCollection : ObservableCollection<FilterBase>
     {
         public void FilterChangeHandler(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == "Field") {
+            if (e.PropertyName == "Field")
+            {
                 FilterBase filter = sender as FilterBase;
                 string field = filter.Field;
                 int idx = this.IndexOf(filter);
@@ -122,7 +119,7 @@ namespace ZDB.Database
         public Brush LinkColor
         {
             get => linkColor;
-                //linkColor;
+            //linkColor;
             set
             {
                 if (linkColor != value)
@@ -139,7 +136,7 @@ namespace ZDB.Database
             Operation = op;
             LinkColor = Brushes.White;
         }
-        
+
         public abstract bool Check(Entry c, bool checkLinked = false);
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -175,24 +172,24 @@ namespace ZDB.Database
         {
             return (string)c[field];
         }
-        
 
-        public override bool Check(Entry c, bool checkLinked=false)
+
+        public override bool Check(Entry c, bool checkLinked = false)
         {
             string x = GetFiltered(c);
             switch (Operation)
-                {
-                    case FilterOperation.EQUALS: return String.Compare(x, Val) == 0;
-                    case FilterOperation.NOTEQUALS: return String.Compare(x, Val) != 0;
-                    case FilterOperation.LESSTHAN: return String.Compare(x, Val) < 0;
-                    case FilterOperation.GREATERTHAN: return String.Compare(x, Val) > 0;
-                    case FilterOperation.LESSEQUAL: return !(String.Compare(x, Val) > 0);
-                    case FilterOperation.GREATEREQUAL: return !(String.Compare(x, Val) < 0);
-                    case FilterOperation.CONTAINS:
-                        if (x == null) { return false; }
-                        return x.Contains(Val);
-                    default: return true;
-                } 
+            {
+                case FilterOperation.EQUALS: return String.Compare(x, Val) == 0;
+                case FilterOperation.NOTEQUALS: return String.Compare(x, Val) != 0;
+                case FilterOperation.LESSTHAN: return String.Compare(x, Val) < 0;
+                case FilterOperation.GREATERTHAN: return String.Compare(x, Val) > 0;
+                case FilterOperation.LESSEQUAL: return !(String.Compare(x, Val) > 0);
+                case FilterOperation.GREATEREQUAL: return !(String.Compare(x, Val) < 0);
+                case FilterOperation.CONTAINS:
+                    if (x == null) { return false; }
+                    return x.Contains(Val);
+                default: return true;
+            }
         }
 
         public FilterString(string _field, FilterOperation op, string value)
@@ -227,16 +224,16 @@ namespace ZDB.Database
         {
             int x = GetFiltered(c);
             switch (Operation)
-                {
-                    case FilterOperation.EQUALS: return x == Val;
-                    case FilterOperation.NOTEQUALS: return x != Val;
-                    case FilterOperation.LESSTHAN: return x < Val;
-                    case FilterOperation.GREATERTHAN: return x > Val;
-                    case FilterOperation.LESSEQUAL: return x <= Val;
-                    case FilterOperation.GREATEREQUAL: return x >= Val;
-                    case FilterOperation.CONTAINS: return x == Val;
-                    default: return true;
-                }
+            {
+                case FilterOperation.EQUALS: return x == Val;
+                case FilterOperation.NOTEQUALS: return x != Val;
+                case FilterOperation.LESSTHAN: return x < Val;
+                case FilterOperation.GREATERTHAN: return x > Val;
+                case FilterOperation.LESSEQUAL: return x <= Val;
+                case FilterOperation.GREATEREQUAL: return x >= Val;
+                case FilterOperation.CONTAINS: return x == Val;
+                default: return true;
+            }
         }
 
         public FilterInt(string _field, FilterOperation op, int value)
@@ -271,20 +268,20 @@ namespace ZDB.Database
             return (DateTime)c[Field];
         }
 
-        public override bool Check(Entry c, bool checkLinked=false)
+        public override bool Check(Entry c, bool checkLinked = false)
         {
             DateTime x = GetFiltered(c);
             switch (Operation)
-                {
-                    case FilterOperation.EQUALS: return x == Val;
-                    case FilterOperation.NOTEQUALS: return x != Val;
-                    case FilterOperation.LESSTHAN: return x < Val;
-                    case FilterOperation.GREATERTHAN: return x > Val;
-                    case FilterOperation.LESSEQUAL: return x <= Val;
-                    case FilterOperation.GREATEREQUAL: return x >= Val;
-                    case FilterOperation.CONTAINS: return x == Val;
-                    default: return true;
-                }
+            {
+                case FilterOperation.EQUALS: return x == Val;
+                case FilterOperation.NOTEQUALS: return x != Val;
+                case FilterOperation.LESSTHAN: return x < Val;
+                case FilterOperation.GREATERTHAN: return x > Val;
+                case FilterOperation.LESSEQUAL: return x <= Val;
+                case FilterOperation.GREATEREQUAL: return x >= Val;
+                case FilterOperation.CONTAINS: return x == Val;
+                default: return true;
+            }
         }
 
         public FilterDate(string _field, FilterOperation op, DateTime value)

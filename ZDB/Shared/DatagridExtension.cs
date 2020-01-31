@@ -15,14 +15,16 @@ namespace ZDB
 {
     public struct DGEStyle
     {
-        public DGEStyle(IList<ColumnInfo> ColumnInfo, Style RowStyle)
+        public DGEStyle(IList<ColumnInfo> ColumnInfo, Style RowStyle, int FrozenColumnCount)
         {
             CInfo = ColumnInfo;
             rowStyle = RowStyle;
+            frozenColumnCount = FrozenColumnCount;
         }
 
         public IList<ColumnInfo> CInfo;
         public Style rowStyle;
+        public int frozenColumnCount;
     }
 
     public struct ColumnInfo
@@ -87,6 +89,7 @@ namespace ZDB
                 columnInfo.Apply(Columns.Where(x => x.Header.ToString() == Header).First());
             }
             RowStyle = DGEStyleSettings.rowStyle;
+            FrozenColumnCount = DGEStyleSettings.frozenColumnCount;
         }
 
 
@@ -101,7 +104,7 @@ namespace ZDB
                 ColumnInfo columnInfo = new ColumnInfo(column, id);
                 CInfo.Add(columnInfo);
             }
-            return new DGEStyle(CInfo, RowStyle);
+            return new DGEStyle(CInfo, RowStyle, FrozenColumnCount);
         }
 
         private void HeaderClick(object sender, MouseButtonEventArgs e)

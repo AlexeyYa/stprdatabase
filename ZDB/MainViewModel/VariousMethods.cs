@@ -1,12 +1,4 @@
 ﻿using Microsoft.Win32;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.Serialization;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using ZDB.Exp;
 using ZDB.StyleSettings;
@@ -65,7 +57,7 @@ namespace ZDB.MainViewModel
 
                         if (dlg.ShowDialog() == true)
                         {
-                            string partialPath = Consts.DGSettingsPath + dlg.Text + ".xml";
+                            string partialPath = dlg.Text + ".xml";
                             DGSettingsManager.SaveToXML(dataGridExtended.SaveSettings(),
                                                         Consts.DGSettingsPath + partialPath);
                             MainGridStyles.Add(partialPath);

@@ -16,12 +16,9 @@ limitations under the License.
 
 */
 
+using iText.Kernel.Pdf;
 using System;
 using System.IO;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using iText.Kernel.Pdf;
 
 namespace ZDB
 {
@@ -41,7 +38,7 @@ namespace ZDB
                     float pgWidth;
                     pgHeight = pg.GetCropBox().GetHeight();
                     pgWidth = pg.GetCropBox().GetWidth();
-                    
+
                     if (pgHeight < pgWidth) // Rotate page dimensions
                     {
                         float t = pgHeight;

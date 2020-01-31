@@ -17,25 +17,9 @@ limitations under the License.
 */
 
 using System;
-using System.Collections.ObjectModel;
-using System.Collections.Generic;
-using System.Linq;
 using System.Windows;
-using System.Windows.Data;
-using System.ComponentModel;
-using Microsoft.VisualBasic.FileIO;
-using System.Collections.Specialized;
-using Microsoft.Win32;
-using System.IO;
-using System.Runtime.Serialization;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.Data.Entity;
 
 using ZDB.MainViewModel;
-using ZDB.Database;
-using ZDB.Exp;
-using System.Windows.Controls;
-using ZDB.StyleSettings;
 
 namespace ZDB
 {

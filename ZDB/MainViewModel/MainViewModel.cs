@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Data.Entity;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Data;
 using ZDB.Database;
 using ZDB.StyleSettings;
@@ -72,10 +67,10 @@ namespace ZDB.MainViewModel
                     mainGridStyles = new ObservableCollection<string>();
                     foreach (string filename in Directory.GetFiles(Consts.DGSettingsPath))
                     {
-                        mainGridStyles.Add(filename.Replace(Consts.DGSettingsPath,""));
+                        mainGridStyles.Add(filename.Replace(Consts.DGSettingsPath, ""));
                     }
                 }
-                return mainGridStyles; 
+                return mainGridStyles;
             }
         }
 
@@ -140,10 +135,10 @@ namespace ZDB.MainViewModel
             DataViewSource.Filter += FilterHandler;
 
             // Load dGrid Views
-            
+
         }
 
-        
+
         protected void OnPropertyChanged(string name)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));

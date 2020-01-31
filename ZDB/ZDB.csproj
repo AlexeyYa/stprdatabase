@@ -138,11 +138,24 @@
     <Compile Include="Shared\SimpleInputDialog.xaml.cs">
       <DependentUpon>SimpleInputDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="StyleSettings\ColorPicker.xaml.cs">
+      <DependentUpon>ColorPicker.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="StyleSettings\HuePicker.xaml.cs">
+      <DependentUpon>HuePicker.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="StyleSettings\SaturationBrightnessPicker.xaml.cs">
+      <DependentUpon>SaturationBrightnessPicker.xaml</DependentUpon>
+    </Compile>
     <Compile Include="StyleSettings\StyleSelector.xaml.cs">
       <DependentUpon>StyleSelector.xaml</DependentUpon>
     </Compile>
     <Compile Include="Shared\Tests.cs" />
     <Compile Include="StyleSettings\DGSettingsManager.cs" />
+    <Compile Include="StyleSettings\StyleSelectorMVVM.cs" />
+    <Compile Include="StyleSettings\TransparencyPicker.xaml.cs">
+      <DependentUpon>TransparencyPicker.xaml</DependentUpon>
+    </Compile>
     <Page Include="Export\ExportWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -169,7 +182,23 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="StyleSettings\ColorPicker.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="StyleSettings\HuePicker.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="StyleSettings\SaturationBrightnessPicker.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="StyleSettings\StyleSelector.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="StyleSettings\TransparencyPicker.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -220,6 +249,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="AppIcon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="StyleSettings\ColorPicker\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

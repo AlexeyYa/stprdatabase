@@ -13,7 +13,6 @@
         <local:FieldsTranslated x:Key="FieldsTranslated"/>
         <local:FilterTranslated x:Key="FilterTranslated"/>
         <local:ColorsList x:Key="ColorsList"/>
-        <!--<x:Static Member="local:Consts.StatusValues" x:Key="StatusList"/>-->
 
         <ObjectDataProvider x:Key="FilterOperation" MethodName="GetValues"
                             ObjectType="{x:Type local:FilterOperation}">
@@ -22,12 +21,6 @@
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>
         
-        <!--<CollectionViewSource x:Key="cvsContents" Source="{Binding Data}"
-                              Filter="CollectionViewSource_Filter">
-            <CollectionViewSource.GroupDescriptions>
-            </CollectionViewSource.GroupDescriptions>
-        </CollectionViewSource>-->
-
         <Style x:Key="DataGridCellCentered" TargetType="DataGridCell">
             <Setter Property="TextBlock.TextAlignment" Value="Center"/>
             <Setter Property="FontFamily" Value="Segoe Black"/>
@@ -200,7 +193,7 @@
                 Command="{Binding AddEntryFromFileCommand}"
                    Grid.Column="1" Grid.Row="2"/>
         <Button x:Name="TemplateBtn" Content="Добавить шаблон" Margin="10, 5, 10, 5"
-                Command="{Binding AddTemplate}"
+                Command="{Binding AddTemplateCommand}"
                    Grid.Column="2" Grid.Row="2"/>
         <Button x:Name="RemoveZ" Content="Удалить заявку" Margin="10, 5, 10, 5"
                 Command="{Binding RemoveEntriesCommand}" CommandParameter="{Binding SelectedCells, ElementName=dGrid}"

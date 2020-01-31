@@ -4,8 +4,9 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ZDB"
+        xmlns:color="clr-namespace:ZDB.StyleSettings"
         mc:Ignorable="d"
-        Title="StyleSelector" Height="450" Width="800">
+        Title="StyleSelector" SizeToContent="WidthAndHeight">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
@@ -32,7 +33,7 @@
         <TextBlock Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" Margin="10, 5, 10, 5"
                    Text="Цвет шрифта"/>
 
-        <ComboBox Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" Margin="10, 5, 10, 5"
+        <color:ColorPicker Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" Margin="10, 5, 10, 5"
                    />
 
         <TextBlock Grid.Row="3" Grid.Column="0" VerticalAlignment="Center" Margin="10, 5, 10, 5"
@@ -42,7 +43,7 @@
         
         <TextBlock Grid.Row="4" Grid.Column="0" VerticalAlignment="Center" Margin="10, 5, 10, 5"
                    Text="Цвет фона"/>
-        <ComboBox Grid.Row="4" Grid.Column="1" VerticalAlignment="Center" Margin="10, 5, 10, 5"
+        <color:ColorPicker Grid.Row="4" Grid.Column="1" VerticalAlignment="Center" Margin="10, 5, 10, 5"
                    />
     </Grid>
 </Window>

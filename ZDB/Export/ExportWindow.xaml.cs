@@ -23,17 +23,8 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using System.Linq.Dynamic;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using System.Xml.Serialization;
 using ZDB.Database;
 
@@ -51,7 +42,7 @@ namespace ZDB.Exp
         {
             InitializeComponent();
             exportVM = new ExportViewModel();
-            DataContext = exportVM;   
+            DataContext = exportVM;
         }
 
         private IEnumerable<Entry> entries;
@@ -108,7 +99,7 @@ namespace ZDB.Exp
             Export.ExportMain(Entries, Filters, exportVM.CurrentSetting, exportVM.SavePath);
         }
     }
-    
+
     public class FieldsEntryViewmodel : INotifyPropertyChanged
     {
         public FieldsEntryViewmodel() { }
@@ -175,7 +166,7 @@ namespace ZDB.Exp
     public class PartitionsEntryViewmodel : INotifyPropertyChanged
     {
         public PartitionsEntryViewmodel() { }
-        public PartitionsEntryViewmodel(string entry, PARTITION_TYPE p=PARTITION_TYPE.SAME_DIRECTORY)
+        public PartitionsEntryViewmodel(string entry, PARTITION_TYPE p = PARTITION_TYPE.SAME_DIRECTORY)
         {
             Field = entry;
             Partition = p;
@@ -216,7 +207,7 @@ namespace ZDB.Exp
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
     }
-    
+
     public class SortingEntryViewmodel : INotifyPropertyChanged
     {
         public SortingEntryViewmodel() { }
@@ -265,7 +256,8 @@ namespace ZDB.Exp
     [Serializable]
     public class ExportSetting : INotifyPropertyChanged
     {
-        public ExportSetting(string _name, ObservableCollection<FieldsEntryViewmodel> _c, ObservableCollection<SortingEntryViewmodel> _s, ObservableCollection<PartitionsEntryViewmodel> _p) {
+        public ExportSetting(string _name, ObservableCollection<FieldsEntryViewmodel> _c, ObservableCollection<SortingEntryViewmodel> _s, ObservableCollection<PartitionsEntryViewmodel> _p)
+        {
             Name = _name;
             Columns = _c;
             SortBy = _s;
@@ -321,7 +313,7 @@ namespace ZDB.Exp
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
     }
-    
+
     public class ExportViewModel : INotifyPropertyChanged
     {
         public ExportViewModel()
@@ -407,7 +399,8 @@ namespace ZDB.Exp
             }
         }
         private ObservableCollection<ExportSetting> exportSettings;
-        public ObservableCollection<ExportSetting> ExportSettings {
+        public ObservableCollection<ExportSetting> ExportSettings
+        {
             get { return exportSettings; }
             set
             {
@@ -587,7 +580,7 @@ namespace ZDB.Exp
                     (obj) => CurrentSetting.Columns.Count > 0));
             }
         }
-        
+
         private RelayCommand addPartitionCommand;
         public RelayCommand AddPartitionCommand
         {
@@ -614,7 +607,7 @@ namespace ZDB.Exp
                     (obj) => CurrentSetting.Partitions.Count > 0));
             }
         }
-        
+
         private RelayCommand addSortingCommand;
         public RelayCommand AddSortingCommand
         {

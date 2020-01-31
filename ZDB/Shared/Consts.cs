@@ -20,8 +20,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Media;
 using ZDB.Database;
 
@@ -36,7 +34,7 @@ namespace ZDB
 
         public static readonly IEnumerable<string> StrFields = new HashSet<string>
             { "User", "Obj", "Group", "DocCode", "Subs", "Tasks", "Corrections", "Executor" };
-        
+
         public static readonly IEnumerable<string> IntFields = new HashSet<string>
             { "Number", "CodeType", "NumberOfOriginals", "NumberOfCopies", "Numeration", "Scan", "Threading",
             "SizeRecievedFromGroup", "SizeFormat", "SizeA4", "SizeA3", "SizeA2", "SizeA1", "SizeA0",
@@ -49,7 +47,7 @@ namespace ZDB
 
         public static readonly IEnumerable<string> DateFields = new HashSet<string>
             { "StartDate", "EndDate", "CompleteDate" };
-        
+
         // Dictionaries for EnumFields
         public static readonly Dictionary<int, string> StatusValues = new Dictionary<int, string>
             { {-1, "Аннулировано" },
@@ -63,9 +61,9 @@ namespace ZDB
 
         // !!! Converters in MultiBindFields.cs, change together !!!
         public static readonly Dictionary<string, HashSet<string>> MultiBindFields = new Dictionary<string, HashSet<string>>
-            { { "TotalFormats", 
-                new HashSet<string>{ "NumberOfOriginals", "NumberOfCopies", 
-                "Numeration", "Scan", "Threading", "SizeFormat" } 
+            { { "TotalFormats",
+                new HashSet<string>{ "NumberOfOriginals", "NumberOfCopies",
+                "Numeration", "Scan", "Threading", "SizeFormat" }
             } };
     }
 
@@ -122,7 +120,7 @@ namespace ZDB
             }
         }
     }
-    
+
 
     enum FilterOperation
     {
