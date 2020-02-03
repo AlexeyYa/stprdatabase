@@ -134,8 +134,10 @@ namespace ZDB.MainViewModel
             DataViewSource = new CollectionViewSource { Source = Data };
             DataViewSource.Filter += FilterHandler;
 
-            // Load dGrid Views
-
+            // Grouping sample
+            //DataViewSource.GroupDescriptions.Add(new PropertyGroupDescription("Group"));
+            DataViewSource.GroupDescriptions.Add(new PropertyGroupDescription("StartDate", new DateToQuartersConverter()));
+            DataViewSource.GroupDescriptions.Add(new PropertyGroupDescription("StartDate", new DateToMonthsConverter()));
         }
 
 

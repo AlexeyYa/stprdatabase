@@ -18,7 +18,7 @@ namespace ZDB
         public object[] ConvertBack(object values, Type[] targetTypes,
             object parameter, System.Globalization.CultureInfo culture)
         {
-            throw new NotSupportedException("Cannot convert back from sum");
+            return new object[] { values };
         }
     }
 }

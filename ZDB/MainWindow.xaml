@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ZDB"
+        xmlns:mvvm="clr-namespace:ZDB.MainViewModel"
         xmlns:System="clr-namespace:System;assembly=mscorlib"
         xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
         mc:Ignorable="d"
@@ -74,7 +75,7 @@
         <local:DataGridExtended x:Name="dGrid" Margin="10,10,10,5" 
                                 CanUserAddRows="False" CanUserDeleteRows="False"
                  ItemsSource="{Binding DataViewSource.View}" AutoGenerateColumns="False" 
-                                SelectionUnit="Cell"
+                                SelectionUnit="Cell" VirtualizingPanel.IsVirtualizingWhenGrouping="True"
                    Grid.Column="0" Grid.ColumnSpan="6" Grid.Row="1">
             <!--<DataGrid.CellStyle>
                 <Style TargetType="{x:Type DataGridCell}">
@@ -88,7 +89,11 @@
                     </Style.Triggers>
                 </Style>
             </DataGrid.CellStyle>-->
-            <!--<local:DataGridExtended.GroupStyle>
+            <local:DataGridExtended.Resources>
+                <mvvm:SumValues x:Key="SumValues"/>
+                <mvvm:DateToTextMonthsConverter x:Key="DateToMonthsNames"/>
+            </local:DataGridExtended.Resources>
+            <local:DataGridExtended.GroupStyle>
                 <GroupStyle>
                     <GroupStyle.ContainerStyle>
                         <Style TargetType="{x:Type GroupItem}">
@@ -99,7 +104,15 @@
                                         <Expander IsExpanded="True" Background="#FF112255" BorderBrush="#FF002255" Foreground="White" BorderThickness="1,1,1,5">
                                             <Expander.Header>
                                                 <DockPanel>
-                                                    <TextBlock FontWeight="Bold" Text="{Binding Path=Name}" Margin="5,0,0,0" Width="100"/>
+                                                    <TextBlock FontWeight="Bold" Text="{Binding Path=Name, 
+                                                        Converter={StaticResource DateToMonthsNames}}" Margin="5,0,0,0" Width="100"/>
+                                                    <TextBlock Text="Total: "/>
+                                                    <TextBlock Text="{Binding StringFormat=Sum : {0}, 
+                                                        Converter={StaticResource SumValues}, ConverterParameter=TotalFormats}"/>
+                                                    <TextBlock Margin="5,0,0,0"  Text="{Binding StringFormat=  Format : {0}, 
+                                                        Converter={StaticResource SumValues}, ConverterParameter=SizeFormat}"/>
+                                                    <TextBlock Margin="5,0,0,0"  Text="{Binding StringFormat=  Scan : {0}, 
+                                                        Converter={StaticResource SumValues}, ConverterParameter=Scan}"/>
                                                 </DockPanel>
                                             </Expander.Header>
                                             <Expander.Content>
@@ -112,7 +125,7 @@
                         </Style>
                     </GroupStyle.ContainerStyle>
                 </GroupStyle>
-            </local:DataGridExtended.GroupStyle>-->
+            </local:DataGridExtended.GroupStyle>
             <!--<local:DataGridExtended.RowStyle>
                 <Style TargetType="DataGridRow">
                     <Setter Property="Foreground" Value="Black"/>

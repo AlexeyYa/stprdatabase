@@ -38,10 +38,10 @@ namespace ZDB
         public static readonly IEnumerable<string> IntFields = new HashSet<string>
             { "Number", "CodeType", "NumberOfOriginals", "NumberOfCopies", "Numeration", "Scan", "Threading",
             "SizeRecievedFromGroup", "SizeFormat", "SizeA4", "SizeA3", "SizeA2", "SizeA1", "SizeA0",
-            "SizeCorFormat", "SizeCorA4", "SizeCorA3", "SizeCorA2", "SizeCorA1", "SizeCorA0"};
+            "SizeCorFormat", "SizeCorA4", "SizeCorA3", "SizeCorA2", "SizeCorA1", "SizeCorA0", "TotalFormats"};
 
         public static readonly IEnumerable<string> Summable = new HashSet<string>
-            { "Numeration", "Scan", "Threading",
+            { "Numeration", "Scan", "Threading", "TotalFormats",
             "SizeRecievedFromGroup", "SizeFormat", "SizeA4", "SizeA3", "SizeA2", "SizeA1", "SizeA0",
             "SizeCorFormat", "SizeCorA4", "SizeCorA3", "SizeCorA2", "SizeCorA1", "SizeCorA0" };
 
@@ -59,12 +59,15 @@ namespace ZDB
         public static readonly Dictionary<string, Dictionary<int, string>> EnumFields = new Dictionary<string, Dictionary<int, string>>
             { {"Status", StatusValues} };
 
-        // !!! Converters in MultiBindFields.cs, change together !!!
+/*        // !!! Converters in MultiBindFields.cs, change together !!!
         public static readonly Dictionary<string, HashSet<string>> MultiBindFields = new Dictionary<string, HashSet<string>>
             { { "TotalFormats",
                 new HashSet<string>{ "NumberOfOriginals", "NumberOfCopies",
                 "Numeration", "Scan", "Threading", "SizeFormat" }
-            } };
+            } };*/
+
+        public static readonly IEnumerable<string> OnewayFields = new HashSet<string>
+            { "TotalFormats", "Number" };
     }
 
     //public class FieldsList : List<string>

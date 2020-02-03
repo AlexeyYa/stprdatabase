@@ -1,9 +1,11 @@
 ﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Globalization;
 using System.Linq;
 using System.Windows.Controls;
-
+using System.Windows.Data;
 using ZDB.Database;
 
 namespace ZDB.MainViewModel

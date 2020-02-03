@@ -552,5 +552,16 @@ namespace ZDB.Database
             PropertyChangedEx?.Invoke(this, new PropertyChangedExtendedEventArgs(name, oldValue, newValue));
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
+
+        // Fake multibinding fields, add to Consts.Oneway!!
+        public int TotalFormats
+        {
+            get
+            {
+                return 
+                NumberOfOriginals * (Numeration + SizeFormat) +
+                NumberOfCopies * SizeFormat + Scan + Threading;
+            }
+        }
     }
 }

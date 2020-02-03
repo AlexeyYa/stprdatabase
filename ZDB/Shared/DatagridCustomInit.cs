@@ -1,4 +1,8 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -67,7 +71,7 @@ namespace ZDB
 
                 return tColumn;
             }
-            else if (Consts.MultiBindFields.ContainsKey(field))
+            /*else if (Consts.MultiBindFields.ContainsKey(field))
             {
                 DataGridTextColumn tColumn = new DataGridTextColumn();
 
@@ -84,13 +88,13 @@ namespace ZDB
 
                 tColumn.Binding = multiBinding;
                 tColumn.Header = fieldsTranslated[field];
-                tColumn.SortMemberPath = field;
+                tColumn.SortMemberPath = "SortParam";
                 tColumn.CanUserSort = true;
                 tColumn.IsReadOnly = true;
 
                 return tColumn;
-            }
-            else if (field == "Number")
+            }*/
+            else if (Consts.OnewayFields.Contains(field))
             {
                 DataGridTextColumn tColumn = new DataGridTextColumn();
                 Binding binding = new Binding(field);
