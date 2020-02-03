@@ -5,7 +5,7 @@ Implementing other export formats
 Daily export
 Network
 User styles = Mostly implemented
-GroupStyle ControlTemplate
+GroupStyle ControlTemplate - Seems complex
 
 Major:
 Logger
