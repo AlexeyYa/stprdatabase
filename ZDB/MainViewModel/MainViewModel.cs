@@ -91,14 +91,6 @@ namespace ZDB.MainViewModel
 
         public MainViewModelClass(DataGridExtended dGrid)
         {
-            // Init DataGrid
-            dataGridExtended = dGrid;
-            var dGridInit = new DataGridCustomInit(dataGridExtended);
-            if (File.Exists(Consts.DGSettingsPath + Properties.Settings.Default.defaultMainGridSetting))
-            {
-                SelectedMainGridStyle = Properties.Settings.Default.defaultMainGridSetting;
-            }
-
             // Loading DB
             db = new DatabaseContext();
             db.Entries.Load();
@@ -133,10 +125,20 @@ namespace ZDB.MainViewModel
             DataViewSource = new CollectionViewSource { Source = Data };
             DataViewSource.Filter += FilterHandler;
 
+            // Init DataGrid
+            dataGridExtended = dGrid;
+            var dGridInit = new DataGridCustomInit(dataGridExtended);
+            if (File.Exists(Consts.DGSettingsPath + Properties.Settings.Default.defaultMainGridSetting))
+            {
+                SelectedMainGridStyle = Properties.Settings.Default.defaultMainGridSetting;
+            }
+
+            
+
             // Grouping sample
             // DataViewSource.GroupDescriptions.Add(new PropertyGroupDescription("Group"));
-            //DataViewSource.GroupDescriptions.Add(new PropertyGroupDescription("StartDate", new DateToQuartersConverter()));
-            //DataViewSource.GroupDescriptions.Add(new PropertyGroupDescription("StartDate", new DateToMonthsConverter()));
+            DataViewSource.GroupDescriptions.Add(new PropertyGroupDescription("StartDate", new DateToQuartersConverter()));
+            DataViewSource.GroupDescriptions.Add(new PropertyGroupDescription("StartDate", new DateToMonthsConverter()));
         }
 
 
