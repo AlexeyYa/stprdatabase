@@ -55,7 +55,8 @@ namespace ZDB.StyleSettings
                     case "FrozenColumnCount":
                         Int32.TryParse(xNode.InnerText, out frozenColumnCount);
                         break;
-                    case "DataGrouping":
+                    case "DataGroupings":
+                        groupingList = LoadGroupings(xNode);
                         break;
                     case "Filters":
                         break;
@@ -278,6 +279,33 @@ namespace ZDB.StyleSettings
             return new Thickness();
         }
 
+        private static List<Grouping> LoadGroupings(XmlNode groupingsListNode)
+        {
+            List<Grouping> result = new List<Grouping>();
+            
+            foreach (XmlNode groupingNode in groupingsListNode)
+            {
+                string prop = String.Empty;
+                string conv = String.Empty;
+                foreach (XmlNode childNode in groupingNode)
+                {
+                    switch (childNode.Name)
+                    {
+                        case "Property":
+                            prop = childNode.InnerText;
+                            break;
+                        case "Converter":
+                            conv = childNode.InnerText;
+                            break;
+                    }
+                }
+                result.Add(new Grouping(prop, conv));
+            }
+
+            return result;
+        }
+
+        // Saving to xml
         public static void SaveToXML(ViewSettings viewSettings, string path)
         {
             XmlDocument xDoc = new XmlDocument();
@@ -413,15 +441,23 @@ namespace ZDB.StyleSettings
 
         private static void SaveCVSStyle(XmlDocument xDoc, XmlElement parent, CVSStyle cvsStyle)
         {
-            XmlElement groupDictNode = xDoc.CreateElement("DataGrouping");
-            parent.AppendChild(groupDictNode);
+            XmlElement groupingListNode = xDoc.CreateElement("DataGroupings");
+            parent.AppendChild(groupingListNode);
 
             foreach (var groupingPair in cvsStyle.groups)
             {
-                XmlElement groupingNode = xDoc.CreateElement(groupingPair.field.ToString());
-                XmlText groupingVal = xDoc.CreateTextNode(groupingPair.converter.ToString());
-                groupingNode.AppendChild(groupingVal);
-                groupDictNode.AppendChild(groupingNode);
+                XmlElement groupingNode = xDoc.CreateElement("Grouping");
+                groupingListNode.AppendChild(groupingNode);
+
+                XmlElement groupingPropertyNode = xDoc.CreateElement("Property");
+                XmlText groupingPropertyValue = xDoc.CreateTextNode(groupingPair.field.ToString());
+                groupingPropertyNode.AppendChild(groupingPropertyValue);
+                groupingNode.AppendChild(groupingPropertyNode);
+
+                XmlElement groupingConverterNode = xDoc.CreateElement("Converter");
+                XmlText groupingConverterValue = xDoc.CreateTextNode(groupingPair.converter.ToString());
+                groupingConverterNode.AppendChild(groupingConverterValue);
+                groupingNode.AppendChild(groupingConverterNode);
             }
         }
     }

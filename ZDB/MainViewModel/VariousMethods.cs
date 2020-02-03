@@ -75,7 +75,7 @@ namespace ZDB.MainViewModel
             ViewSettings viewSettings = GridViewSettingsManager.LoadFromXML(Consts.DGSettingsPath + stylename);
             dataGridExtended.LoadSettings(viewSettings.dataGridStyle);
 
-
+            viewSettings.collectionViewSourceStyle.Apply(DataViewSource);
         }
     }
 }
