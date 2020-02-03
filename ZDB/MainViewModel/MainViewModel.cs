@@ -137,8 +137,8 @@ namespace ZDB.MainViewModel
 
             // Grouping sample
             // DataViewSource.GroupDescriptions.Add(new PropertyGroupDescription("Group"));
-            DataViewSource.GroupDescriptions.Add(new PropertyGroupDescription("StartDate", new DateToQuartersConverter()));
-            DataViewSource.GroupDescriptions.Add(new PropertyGroupDescription("StartDate", new DateToMonthsConverter()));
+            // DataViewSource.GroupDescriptions.Add(new PropertyGroupDescription("StartDate", new DateToQuartersConverter()));
+            // DataViewSource.GroupDescriptions.Add(new PropertyGroupDescription("StartDate", new DateToMonthsConverter()));
         }
 
 

@@ -3,9 +3,11 @@ Minor:
 No horizontal scroll using touchpad
 Implementing other export formats
 Daily export
+Network
+User styles = Mostly implemented
+GroupStyle ControlTemplate
 
 Major:
-User styles = Mostly implemented
 Logger
 Saving changes to database = Temporary solution Save on closing
 

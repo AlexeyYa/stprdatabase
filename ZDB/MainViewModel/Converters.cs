@@ -90,7 +90,7 @@ namespace ZDB.MainViewModel
         {
             var date = value as DateTime?;
 
-            if (!date.HasValue) return null;
+            if (!date.HasValue) return value;
             // Day 1 for months groups
             if (date.Value.Day == 1)
             {
