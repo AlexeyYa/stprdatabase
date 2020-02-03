@@ -7,6 +7,7 @@ using System.Linq;
 using System.Windows.Controls;
 using System.Windows.Data;
 using ZDB.Database;
+using ZDB.StyleSettings;
 
 namespace ZDB.MainViewModel
 {

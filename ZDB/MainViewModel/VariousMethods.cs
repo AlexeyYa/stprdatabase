@@ -58,7 +58,9 @@ namespace ZDB.MainViewModel
                         if (dlg.ShowDialog() == true)
                         {
                             string partialPath = dlg.Text + ".xml";
-                            DGSettingsManager.SaveToXML(dataGridExtended.SaveSettings(),
+                            ViewSettings viewSettings = new ViewSettings(dataGridExtended.SaveSettings(),
+                                                        new CVSStyle(DataViewSource));
+                            GridViewSettingsManager.SaveToXML(viewSettings,
                                                         Consts.DGSettingsPath + partialPath);
                             MainGridStyles.Add(partialPath);
                             SelectedMainGridStyle = partialPath;
@@ -66,6 +68,14 @@ namespace ZDB.MainViewModel
                     },
                     (obj) => Data != null));
             }
+        }
+
+        private void LoadViewSettings(string stylename)
+        {
+            ViewSettings viewSettings = GridViewSettingsManager.LoadFromXML(Consts.DGSettingsPath + stylename);
+            dataGridExtended.LoadSettings(viewSettings.dataGridStyle);
+
+
         }
     }
 }

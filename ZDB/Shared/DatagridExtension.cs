@@ -13,6 +13,7 @@ using System.Xml;
 
 namespace ZDB
 {
+    // Style data for DataGridExtended
     public struct DGEStyle
     {
         public DGEStyle(IList<ColumnInfo> ColumnInfo, Style RowStyle, int FrozenColumnCount)
@@ -27,6 +28,7 @@ namespace ZDB
         public int frozenColumnCount;
     }
 
+    // Column style data
     public struct ColumnInfo
     {
         public ColumnInfo(DataGridColumn column, int columnID)

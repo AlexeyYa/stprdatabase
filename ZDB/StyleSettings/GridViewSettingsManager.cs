@@ -7,18 +7,38 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Media;
 using System.Xml;
+using ZDB.MainViewModel;
 
 namespace ZDB.StyleSettings
 {
 
-    public static class DGSettingsManager
+    // Loading data structure
+    public struct ViewSettings
     {
-        public static DGEStyle LoadFromXML(string path)
+        public ViewSettings(DGEStyle DataGridStyle, CVSStyle CollectionViewSourceStyle)
         {
+            dataGridStyle = DataGridStyle;
+            collectionViewSourceStyle = CollectionViewSourceStyle;
+        }
+        public DGEStyle dataGridStyle;
+        public CVSStyle collectionViewSourceStyle;
+    }
+
+    public static class GridViewSettingsManager
+    {
+        public static ViewSettings LoadFromXML(string path)
+        {
+            // DGEStyle variables
             List<ColumnInfo> CInfo = new List<ColumnInfo>();
             Style rowStyle = new Style();
             int frozenColumnCount = 0;
 
+            // CVSStyle variables
+            List<Grouping> groupingList = new List<Grouping>();
+
+            // Filters variables
+
+            // XmlDocument reader
             XmlDocument xDoc = new XmlDocument();
             xDoc.Load(path);
             XmlElement xRoot = xDoc.DocumentElement;
@@ -35,9 +55,15 @@ namespace ZDB.StyleSettings
                     case "FrozenColumnCount":
                         Int32.TryParse(xNode.InnerText, out frozenColumnCount);
                         break;
+                    case "DataGrouping":
+                        break;
+                    case "Filters":
+                        break;
                 }
             }
-            return new DGEStyle(CInfo, rowStyle, frozenColumnCount);
+            return new ViewSettings(
+                new DGEStyle(CInfo, rowStyle, frozenColumnCount),
+                new CVSStyle(groupingList));
         }
 
         private static List<ColumnInfo> LoadColumns(XmlElement parent)
@@ -252,26 +278,32 @@ namespace ZDB.StyleSettings
             return new Thickness();
         }
 
-        public static void SaveToXML(DGEStyle DGEStyleSettings, string path)
+        public static void SaveToXML(ViewSettings viewSettings, string path)
         {
             XmlDocument xDoc = new XmlDocument();
             XmlDeclaration xmlDeclaration = xDoc.CreateXmlDeclaration("1.0", "UTF-8", null);
             XmlElement xRoot = xDoc.DocumentElement;
             xDoc.InsertBefore(xmlDeclaration, xRoot);
+            
+            // DataGrid settings
             XmlElement mainElement = xDoc.CreateElement("DGSettings");
             xDoc.AppendChild(mainElement);
-
-            SaveColumns(xDoc, mainElement, DGEStyleSettings.CInfo);
-
+            // Columns
+            SaveColumns(xDoc, mainElement, viewSettings.dataGridStyle.CInfo);
+            // RowStyle
             XmlElement rowStyleNode = xDoc.CreateElement("RowStyle");
             mainElement.AppendChild(rowStyleNode);
-
-            SaveStyle(xDoc, rowStyleNode, DGEStyleSettings.rowStyle);
-
+            SaveStyle(xDoc, rowStyleNode, viewSettings.dataGridStyle.rowStyle);
+            // FrozenColumns to fix first columns in place
             XmlElement frozenColumnCountNode = xDoc.CreateElement("FrozenColumnCount");
             mainElement.AppendChild(frozenColumnCountNode);
-            XmlText frozenColumnCountText = xDoc.CreateTextNode(DGEStyleSettings.frozenColumnCount.ToString());
+            XmlText frozenColumnCountText = xDoc.CreateTextNode(viewSettings.dataGridStyle.frozenColumnCount.ToString());
             frozenColumnCountNode.AppendChild(frozenColumnCountText);
+
+            // CollectionViewSource settings
+            SaveCVSStyle(xDoc, mainElement, viewSettings.collectionViewSourceStyle);
+
+            // Filters settings
 
             xDoc.Save(path);
         }
@@ -376,6 +408,20 @@ namespace ZDB.StyleSettings
                 XmlText styleSetterVal = xDoc.CreateTextNode(styleSetter.Value.ToString());
                 styleSetterNode.AppendChild(styleSetterVal);
                 styleNode.AppendChild(styleSetterNode);
+            }
+        }
+
+        private static void SaveCVSStyle(XmlDocument xDoc, XmlElement parent, CVSStyle cvsStyle)
+        {
+            XmlElement groupDictNode = xDoc.CreateElement("DataGrouping");
+            parent.AppendChild(groupDictNode);
+
+            foreach (var groupingPair in cvsStyle.groups)
+            {
+                XmlElement groupingNode = xDoc.CreateElement(groupingPair.field.ToString());
+                XmlText groupingVal = xDoc.CreateTextNode(groupingPair.converter.ToString());
+                groupingNode.AppendChild(groupingVal);
+                groupDictNode.AppendChild(groupingNode);
             }
         }
     }

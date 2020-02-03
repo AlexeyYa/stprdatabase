@@ -83,8 +83,7 @@ namespace ZDB.MainViewModel
                 if (selectedMainGridStyle != value)
                 {
                     selectedMainGridStyle = value;
-                    dataGridExtended.LoadSettings(
-                        DGSettingsManager.LoadFromXML(Consts.DGSettingsPath + value));
+                    LoadViewSettings(value);
                     OnPropertyChanged("SelectedMainGridStyle");
                 }
             }
@@ -135,7 +134,7 @@ namespace ZDB.MainViewModel
             DataViewSource.Filter += FilterHandler;
 
             // Grouping sample
-            //DataViewSource.GroupDescriptions.Add(new PropertyGroupDescription("Group"));
+            // DataViewSource.GroupDescriptions.Add(new PropertyGroupDescription("Group"));
             DataViewSource.GroupDescriptions.Add(new PropertyGroupDescription("StartDate", new DateToQuartersConverter()));
             DataViewSource.GroupDescriptions.Add(new PropertyGroupDescription("StartDate", new DateToMonthsConverter()));
         }

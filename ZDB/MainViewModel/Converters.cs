@@ -9,6 +9,9 @@ using ZDB.Database;
 
 namespace ZDB.MainViewModel
 {
+    /// <summary>
+    /// Converter for summing int values in groups
+    /// </summary>
     public class SumValues : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
@@ -74,7 +77,7 @@ namespace ZDB.MainViewModel
         }
     }
 
-    // Converter for showing groups
+    // Converter for display
     public class DateToTextMonthsConverter : IValueConverter
     {
         static IList<string> monthsNames = new List<string>
