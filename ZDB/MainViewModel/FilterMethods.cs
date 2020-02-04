@@ -29,7 +29,7 @@ namespace ZDB.MainViewModel
                     {
                         Filters.Add(new FilterString("Obj", FilterOperation.GREATEREQUAL, ""));
                     },
-                    (obj) => Data != null));
+                    (obj) => NetworkData != null));
             }
         }
 

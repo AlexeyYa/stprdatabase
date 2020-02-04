@@ -21,9 +21,9 @@ namespace ZDB.MainViewModel
                 return addEntryCommand ??
                     (addEntryCommand = new RelayCommand(obj =>
                     {
-                        Data.Add(new Entry(Data.Last().Number + 1));
+                        NetworkData.Add(new Entry(NetworkData.Last().Number + 1));
                     },
-                    (obj) => Data != null));
+                    (obj) => NetworkData != null));
             }
         }
         private RelayCommand addEntryFromFileCommand;
@@ -39,12 +39,12 @@ namespace ZDB.MainViewModel
                         {
                             foreach (string path in dialog.FileNames)
                             {
-                                Entry entry = Parser.Parser.ProcessFromDocx(path, Data.Last().Number + 1);
-                                Data.Add(entry);
+                                Entry entry = Parser.Parser.ProcessFromDocx(path, NetworkData.Last().Number + 1);
+                                NetworkData.Add(entry);
                             }
                         }
                     },
-                    (obj) => Data != null));
+                    (obj) => NetworkData != null));
             }
         }
 
@@ -61,7 +61,7 @@ namespace ZDB.MainViewModel
                             var items = (from cell in (IList<DataGridCellInfo>)obj select cell.Item).Distinct().ToList();
                             foreach (Entry item in items)
                             {
-                                Data.Remove(item);
+                                NetworkData.Remove(item);
                             }
                         }
                     },

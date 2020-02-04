@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ZDB.Database
 {
+    [Serializable]
     public class Entry : INotifyPropertyChangedExtended
     {
         public event PropertyChangedEventHandler PropertyChanged;
@@ -95,7 +96,7 @@ namespace ZDB.Database
                 {
                     string tmp = obj;
                     obj = value;
-                    OnPropertyChanged("Object", tmp, value);
+                    OnPropertyChanged("Obj", tmp, value);
                 }
             }
         }
@@ -498,7 +499,10 @@ namespace ZDB.Database
             }
             set
             {
-                this.GetType().GetProperty(propertyName).SetValue(this, value, null);
+                if (propertyName != "TotalFormats")
+                {
+                    this.GetType().GetProperty(propertyName).SetValue(this, value, null);
+                }
             }
         }
 

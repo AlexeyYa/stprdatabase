@@ -35,13 +35,13 @@ namespace ZDB.MainViewModel
                         var dlg = new ExportWindow
                         {
                             Owner = Application.Current.MainWindow,
-                            Entries = Data,
+                            Entries = NetworkData,
                             Filters = Filters
                         };
 
                         dlg.ShowDialog();
                     },
-                    (obj) => Data != null));
+                    (obj) => NetworkData != null));
             }
         }
 
@@ -66,7 +66,7 @@ namespace ZDB.MainViewModel
                             SelectedMainGridStyle = partialPath;
                         }
                     },
-                    (obj) => Data != null));
+                    (obj) => NetworkData != null));
             }
         }
 

@@ -5,6 +5,7 @@ using System.Data.Entity;
 using System.IO;
 using System.Windows.Data;
 using ZDB.Database;
+using ZDB.Network;
 using ZDB.StyleSettings;
 
 namespace ZDB.MainViewModel
@@ -26,6 +27,19 @@ namespace ZDB.MainViewModel
                 {
                     data = value;
                     OnPropertyChanged("Data");
+                }
+            }
+        }
+        private NetworkCollection networkData;
+        public NetworkCollection NetworkData
+        {
+            get => networkData;
+            set
+            {
+                if (networkData != value)
+                {
+                    networkData = value;
+                    OnPropertyChanged("NetworkData");
                 }
             }
         }
@@ -94,7 +108,7 @@ namespace ZDB.MainViewModel
             // Loading DB
             db = new DatabaseContext();
             db.Entries.Load();
-            Data = db.Entries.Local;
+            NetworkData = new NetworkCollection(true, db.Entries.Local);
 
             // Setting up Filters
             filters = new FilterCollection();
@@ -122,7 +136,7 @@ namespace ZDB.MainViewModel
                 });
 
             // Setting up ViewSource
-            DataViewSource = new CollectionViewSource { Source = Data };
+            DataViewSource = new CollectionViewSource { Source = NetworkData };
             DataViewSource.Filter += FilterHandler;
 
             // Init DataGrid
