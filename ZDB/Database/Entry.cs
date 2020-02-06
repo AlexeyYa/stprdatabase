@@ -7,7 +7,10 @@ namespace ZDB.Database
     [Serializable]
     public class Entry : INotifyPropertyChangedExtended
     {
+        [field: NonSerialized]
         public event PropertyChangedEventHandler PropertyChanged;
+
+        [field:NonSerialized]
         public event PropertyChangedExtendedEventHandler PropertyChangedEx;
 
         private int number;

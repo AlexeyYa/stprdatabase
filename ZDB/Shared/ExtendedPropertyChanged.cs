@@ -16,7 +16,6 @@ limitations under the License.
 
 */
 
-using System;
 using System.ComponentModel;
 
 namespace ZDB
@@ -28,7 +27,6 @@ namespace ZDB
 
     public delegate void PropertyChangedExtendedEventHandler(object sender, PropertyChangedExtendedEventArgs e);
 
-    [Serializable]
     public class PropertyChangedExtendedEventArgs : PropertyChangedEventArgs
     {
         public virtual string OldValue { get; private set; }

@@ -131,6 +131,7 @@
     <Compile Include="MainViewModel\VariousMethods.cs" />
     <Compile Include="Network\Client.cs" />
     <Compile Include="Network\NetworkCollection.cs" />
+    <Compile Include="Network\NetworkManager.cs" />
     <Compile Include="Network\Server.cs" />
     <Compile Include="Shared\DataGridAttachedProperties.cs" />
     <Compile Include="Shared\DataGridCustomInit.cs" />

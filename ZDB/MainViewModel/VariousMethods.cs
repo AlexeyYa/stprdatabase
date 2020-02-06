@@ -79,5 +79,11 @@ namespace ZDB.MainViewModel
             DataViewSource.GroupDescriptions.Clear();
             viewSettings.collectionViewSourceStyle.Apply(DataViewSource);
         }
+
+        public void Close()
+        {
+            SaveChanges();
+            networkManager.Close();
+        }
     }
 }

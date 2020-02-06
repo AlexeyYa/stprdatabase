@@ -41,7 +41,7 @@ namespace ZDB
                 cmbElem.SetBinding(ComboBox.ItemsSourceProperty, dict);
                 Binding binding = new Binding(field);
                 binding.Mode = BindingMode.TwoWay;
-                binding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
+                binding.UpdateSourceTrigger = UpdateSourceTrigger.LostFocus;
                 cmbElem.SetBinding(ComboBox.SelectedValueProperty, binding);
                 cmbElem.SetValue(ComboBox.SelectedValuePathProperty, "Key");
                 cmbElem.SetValue(ComboBox.DisplayMemberPathProperty, "Value");
@@ -63,7 +63,7 @@ namespace ZDB
                 binding.Mode = BindingMode.TwoWay;
                 binding.ConverterCulture = culture;
                 binding.StringFormat = "dd-MM-yyyy HH:mm";
-                binding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
+                binding.UpdateSourceTrigger = UpdateSourceTrigger.LostFocus;
                 tColumn.Binding = binding;
                 tColumn.Header = fieldsTranslated[field];
                 tColumn.SortMemberPath = field;
@@ -99,7 +99,7 @@ namespace ZDB
                 DataGridTextColumn tColumn = new DataGridTextColumn();
                 Binding binding = new Binding(field);
                 binding.Mode = BindingMode.OneWay;
-                binding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
+                binding.UpdateSourceTrigger = UpdateSourceTrigger.LostFocus;
                 tColumn.Binding = binding;
                 tColumn.Header = fieldsTranslated[field];
                 tColumn.SortMemberPath = field;
@@ -113,7 +113,7 @@ namespace ZDB
                 DataGridTextColumn tColumn = new DataGridTextColumn();
                 Binding binding = new Binding(field);
                 binding.Mode = BindingMode.TwoWay;
-                binding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
+                binding.UpdateSourceTrigger = UpdateSourceTrigger.LostFocus;
                 tColumn.Binding = binding;
                 tColumn.Header = fieldsTranslated[field];
                 tColumn.SortMemberPath = field;

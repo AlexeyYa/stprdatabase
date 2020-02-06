@@ -43,6 +43,7 @@ namespace ZDB.MainViewModel
                 }
             }
         }
+        private NetworkManager networkManager;
         private FilterCollection filters;
         public FilterCollection Filters
         {
@@ -108,7 +109,8 @@ namespace ZDB.MainViewModel
             // Loading DB
             db = new DatabaseContext();
             db.Entries.Load();
-            NetworkData = new NetworkCollection(true, db.Entries.Local);
+            NetworkData = new NetworkCollection();
+            networkManager = new NetworkManager(true, NetworkData, db.Entries.Local);
 
             // Setting up Filters
             filters = new FilterCollection();
@@ -154,6 +156,8 @@ namespace ZDB.MainViewModel
             // DataViewSource.GroupDescriptions.Add(new PropertyGroupDescription("StartDate", new DateToQuartersConverter()));
             // DataViewSource.GroupDescriptions.Add(new PropertyGroupDescription("StartDate", new DateToMonthsConverter()));
         }
+
+        
 
 
         protected void OnPropertyChanged(string name)
