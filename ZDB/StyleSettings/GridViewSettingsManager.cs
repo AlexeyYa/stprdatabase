@@ -211,6 +211,12 @@ namespace ZDB.StyleSettings
                         alignment);
                     styleSetters.Add(textAlignment);
                     break;
+                case "VerticalAlignment":
+                    Enum.TryParse(StyleSetter.InnerText, out VerticalAlignment vertAlignment);
+                    Setter verticalAlignment = new Setter(TextBlock.VerticalAlignmentProperty,
+                        vertAlignment);
+                    styleSetters.Add(verticalAlignment);
+                    break;
                 case "FontFamily":
                     Setter fontFamily = new Setter(DataGridCell.FontFamilyProperty,
                         new FontFamily(StyleSetter.InnerText));

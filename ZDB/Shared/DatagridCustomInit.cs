@@ -19,6 +19,7 @@ namespace ZDB
             _dataGrid = dataGrid;
             fieldsTranslated = new FieldsTranslated();
             culture = new System.Globalization.CultureInfo("RU-ru");
+            dataGrid.MinRowHeight = 40;
             foreach (string column in fieldsTranslated.Keys)
             {
                 _dataGrid.Columns.Add(ColumnFactory(column));
