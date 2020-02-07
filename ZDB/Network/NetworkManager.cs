@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -11,10 +12,9 @@ namespace ZDB.Network
 {
     class NetworkManager
     {
-        private bool isServer = true;
-        private ObservableCollection<Entry> dbCollection;
 
-
+        private bool isServer = false;
+        
         // Server variables
         private Server server;
         private Thread listenThread;
@@ -23,37 +23,36 @@ namespace ZDB.Network
         private Client client;
 
 
-        public NetworkManager(bool isServer, NetworkCollection localCollection, 
-            ObservableCollection<Entry> dbCollection = null)
+        public NetworkManager()
         {
-            this.isServer = isServer;
+        }
 
-            if (isServer)
+        public void StartServer()
+        {
+            try
             {
-                try
-                {
-                    server = new Server();
-                    server.destDb = dbCollection;
-                    listenThread = new Thread(new ThreadStart(server.Listen));
-                    listenThread.Start();
-                }
-                catch
-                {
-                    server.Disconnect();
-                }
-
-
-                this.dbCollection = dbCollection;
+                server = new Server();
+                listenThread = new Thread(new ThreadStart(server.Listen));
+                listenThread.Start();
+                isServer = true;
             }
-            
-            client = new Client("127.0.0.1", 8888, localCollection);
+            catch
+            {
+
+                server.Disconnect();
+            }
+        }
+
+        public void StartClient(NetworkCollection localCollection, string ipDestination)
+        {
+            client = new Client(ipDestination, 8888, localCollection);
             localCollection.client = client;
         }
 
         public void Close()
         {
-            if (isServer) server.Disconnect();
-            client.Close();
+            if (server != null) server.Disconnect();
+            if (client != null) client.Close();
         }
     }
 }

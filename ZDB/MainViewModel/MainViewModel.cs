@@ -14,7 +14,6 @@ namespace ZDB.MainViewModel
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private DatabaseContext db;
         private DataGridExtended dataGridExtended;
 
         private ObservableCollection<Entry> data;
@@ -107,10 +106,8 @@ namespace ZDB.MainViewModel
         public MainViewModelClass(DataGridExtended dGrid)
         {
             // Loading DB
-            db = new DatabaseContext();
-            db.Entries.Load();
             NetworkData = new NetworkCollection();
-            networkManager = new NetworkManager(true, NetworkData, db.Entries.Local);
+            networkManager = new NetworkManager();
 
             // Setting up Filters
             filters = new FilterCollection();

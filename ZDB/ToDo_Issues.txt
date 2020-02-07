@@ -3,13 +3,12 @@ Minor:
 No horizontal scroll using touchpad
 Implementing other export formats
 Daily export
-Network
 User styles = Mostly implemented
 GroupStyle ControlTemplate - Seems complex
 
 Major:
 Logger
-Saving changes to database = Temporary solution Save on closing
+!!!Saving changes to database = Temporary solution Save on closing!!!
 
 Notes:
 Combobox instant update = {Binding x, UpdateSourceTrigger=PropertyChanged}

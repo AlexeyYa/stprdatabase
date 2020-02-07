@@ -62,6 +62,11 @@ namespace ZDB
             mainViewModel.Close();
         }
 
+        private void UndoBtn_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
         /*private void UndoBtn_Click(object sender, RoutedEventArgs e)
         {
             Logger.Undo();

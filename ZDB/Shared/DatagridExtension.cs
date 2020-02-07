@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
+using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Xml;
@@ -39,9 +40,12 @@ namespace ZDB
             Visibility = column.Visibility;
             ColumnHeader = column.Header.ToString();
             ColStyle = column.CellStyle;
+            if (column is DataGridTextColumn textColumn)
+                StringFormat = textColumn.Binding.StringFormat;
+            else StringFormat = String.Empty;
         }
         public ColumnInfo(Visibility vis, int dispIdx, double widthVal, DataGridLengthUnitType widthT,
-            string columnHeader, Style colStyle)
+            string columnHeader, Style colStyle, string colStringFormat)
         {
             WidthValue = widthVal;
             WidthType = widthT;
@@ -49,6 +53,7 @@ namespace ZDB
             Visibility = vis;
             ColumnHeader = columnHeader;
             ColStyle = colStyle;
+            StringFormat = colStringFormat;
         }
 
         public void Apply(DataGridColumn target)
@@ -57,6 +62,19 @@ namespace ZDB
             target.Visibility = Visibility;
             target.Width = new DataGridLength(WidthValue, WidthType);
             target.CellStyle = ColStyle;
+            if (StringFormat != null && target is DataGridTextColumn textColumn)
+            {
+                Binding oldBinding = textColumn.Binding as Binding;
+                Binding binding = new Binding(oldBinding.Path.Path);
+
+                binding.Mode = oldBinding.Mode;
+                binding.ConverterCulture = oldBinding.ConverterCulture;
+                binding.UpdateSourceTrigger = oldBinding.UpdateSourceTrigger;
+
+                binding.StringFormat = StringFormat;
+
+                textColumn.Binding = binding;
+            }
         }
 
         public Style ColStyle;
@@ -65,6 +83,7 @@ namespace ZDB
         public int DisplayIndex;
         public double WidthValue;
         public DataGridLengthUnitType WidthType;
+        public string StringFormat;
     }
 
     class DataGridExtended : DataGrid

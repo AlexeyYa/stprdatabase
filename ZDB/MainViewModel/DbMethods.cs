@@ -21,7 +21,9 @@ namespace ZDB.MainViewModel
                 return addEntryCommand ??
                     (addEntryCommand = new RelayCommand(obj =>
                     {
-                        NetworkData.Add(new Entry(NetworkData.Last().Number + 1));
+                        if (NetworkData.Count > 0)
+                            NetworkData.Add(new Entry(NetworkData.Last().Number + 1));
+                        else NetworkData.Add(new Entry(1));
                     },
                     (obj) => NetworkData != null));
             }
@@ -69,9 +71,36 @@ namespace ZDB.MainViewModel
             }
         }
 
-        public void SaveChanges()
+        private RelayCommand serverStartCommand;
+        public RelayCommand ServerStartCommand
         {
-            db.SaveChanges();
+            get
+            {
+                return serverStartCommand ??
+                    (serverStartCommand = new RelayCommand(obj =>
+                    {
+                        networkManager.StartServer();
+                    },
+                    (obj) => true));
+            }
+        }
+        private RelayCommand clientStartCommand;
+        public RelayCommand ClientStartCommand
+        {
+            get
+            {
+                return clientStartCommand ??
+                    (clientStartCommand = new RelayCommand(obj =>
+                    {
+                        SimpleInputDialog inputDialog = new SimpleInputDialog("Q", 
+                            "Введите адрес сервера:", "127.0.0.1");
+                        if (inputDialog.ShowDialog() == true)
+                        {
+                            networkManager.StartClient(NetworkData, inputDialog.Text);
+                        }
+                    },
+                    (obj) => true));
+            }
         }
     }
 }

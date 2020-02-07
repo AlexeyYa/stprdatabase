@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
@@ -22,6 +23,7 @@ namespace ZDB.Network
         NetworkCollection Entries { get; set; }
         IFormatter formatter;
         Thread recieveThread;
+        ConcurrentQueue<CollectionMessage> sendQueue;
 
         public Client(string serverIP, int serverPort, NetworkCollection entries)
         {
@@ -29,6 +31,7 @@ namespace ZDB.Network
             port = serverPort;
             Entries = entries;
             formatter = new BinaryFormatter();
+            sendQueue = new ConcurrentQueue<CollectionMessage>();
 
             Thread clientThread = new Thread(new ThreadStart(Run));
             clientThread.Start();
@@ -96,7 +99,7 @@ namespace ZDB.Network
                             {
                                 App.Current.Dispatcher.Invoke((Action)delegate
                                 {
-                                    Entries.Add(newEntry);
+                                    Entries.RecievedAdd(newEntry);
                                 });
                             }
                             else
@@ -127,8 +130,7 @@ namespace ZDB.Network
                             {
                                 App.Current.Dispatcher.Invoke((Action)delegate
                                 {
-                                    var removedEntry = Entries.First(r => r.Number == oldEntry.Number);
-                                    Entries.Remove(removedEntry);
+                                    Entries.RecievedRemove(oldEntry);
                                 });
                             }
                             else
@@ -137,8 +139,22 @@ namespace ZDB.Network
                             }
                             break;
                         case "status":
-                            if ((string)message.entry != "S_OK")
-                                throw new InvalidOperationException("Operation failed on server!");
+                            if ((string)message.entry == "S_OK")
+                                sendQueue.TryDequeue(out CollectionMessage successfulMessage);
+                            else if ((string)message.entry == "S_ADD")
+                            {
+                                sendQueue.TryDequeue(out CollectionMessage successfulMessage);
+                                App.Current.Dispatcher.Invoke((Action)delegate
+                                {
+                                    ((Entry)successfulMessage.entry).Number = Int32.Parse(message.newValue);
+                                });
+                            }
+                            else
+                            {
+                                sendQueue.TryDequeue(out CollectionMessage failedMessage);
+                                sendQueue.Enqueue(failedMessage);
+                                throw new IndexOutOfRangeException();
+                            }
                             break;
                     }
                 }
@@ -172,6 +188,7 @@ namespace ZDB.Network
                 oldValue = e.OldValue,
                 propertyName = e.PropertyName
             };
+            sendQueue.Enqueue(change);
             formatter.Serialize(stream, change);
         }
 
@@ -190,6 +207,7 @@ namespace ZDB.Network
                         oldValue = "",
                         propertyName = ""
                     };
+                    sendQueue.Enqueue(change);
                     formatter.Serialize(stream, change);
                 }
             }
@@ -206,6 +224,7 @@ namespace ZDB.Network
                         oldValue = "",
                         propertyName = ""
                     };
+                    sendQueue.Enqueue(change);
                     formatter.Serialize(stream, change);
                 }
             }

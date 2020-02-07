@@ -108,44 +108,6 @@ namespace ZDB.Network
             if (sender is Entry entry)
             {
                 client.ItemChanged(entry, e);
-
-                /*if (isServer)
-                {
-                    Entry destination = dbCollection.First(r => r.Number == entry.Number);
-                    if (destination[e.PropertyName].ToString() == e.OldValue)
-                    {
-                        destination[e.PropertyName] = entry[e.PropertyName];
-                    }
-                    else
-                    {
-                        throw new MemberAccessException("Error: different initial values");
-                    }
-
-                    Stream stream = new FileStream("teststream", FileMode.Create, FileAccess.Write, FileShare.None);
-                    IFormatter formatter = new BinaryFormatter();
-                    DBChangeObject change = new DBChangeObject { action = "cha", 
-                                                                 entry = entry,
-                                                                 newValue = e.NewValue,
-                                                                 oldValue = e.OldValue,
-                                                                 propertyName = e.PropertyName};
-                    formatter.Serialize(stream, change);
-                    stream.Close();
-
-                    
-
-                    //stream = new FileStream("teststream", FileMode.Open, FileAccess.Read, FileShare.Read);
-                    //DBChangeObject testE = (DBChangeObject)formatter.Deserialize(stream);
-                    //testE.Number = this.Last().Number + 1;
-                    //this.Add(testE);
-                    //stream.Close();
-                }
-                else
-                {*/
-                    // serialize sender and e then send
-                    
-
-                    //throw new NotImplementedException();
-                //}
             }
             else
             {
@@ -153,126 +115,42 @@ namespace ZDB.Network
             }
         }
 
-        private void ItemChangedRecieved(object sender, PropertyChangedExtendedEventArgs e)
-        {
-            //if (sender is Entry entry)
-            //{
-            //    if (isServer)
-            //    {
-
-            //        Entry destination = this.First(r => r.Number == entry.Number);
-            //        if (destination[e.PropertyName].ToString() == e.OldValue)
-            //        {
-            //            destination[e.PropertyName] = entry[e.PropertyName];
-            //        }
-            //        else
-            //        {
-            //            throw new MemberAccessException("Error: different initial values");
-            //        }
-            //    }
-            //    else
-            //    {
-            //        // serialize sender and e then send
-            //        throw new NotImplementedException();
-            //    }
-            //}
-        }
-
         // ADD MUTEX
         // Server - processing sent data and user input, send responce with id number
         // Client - sending data to server
         private void ItemsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            //if (isServer)
-            //{
-            //    if (e.NewItems != null)
-            //    {
-            //        foreach (Entry entry in e.NewItems)
-            //        {
-            //            if (dbCollection.Last().Number >= entry.Number)
-            //            {
-            //                entry.Number = dbCollection.Last().Number + 1;
-            //            }
-            //            dbCollection.Add(entry);
-            //        }
-            //    }
-            //    if (e.OldItems != null)
-            //    {
-            //        foreach (Entry entry in e.OldItems)
-            //        {
-            //            dbCollection.Remove(dbCollection.First(r => r.Number == entry.Number));
-            //        }
-            //    }
-
-            //} else
-            //{
-            //    if (e.NewItems != null)
-            //    {
-            //        foreach (Entry entry in e.NewItems)
-            //        {
-
-            //            Stream stream = new FileStream("teststream", FileMode.Create, FileAccess.Write, FileShare.None);
-            //            IFormatter formatter = new BinaryFormatter();
-            //            CollectionMessage change = new CollectionMessage
-            //            {
-            //                action = "add",
-            //                entry = entry,
-            //                newValue = "",
-            //                oldValue = "",
-            //                propertyName = ""
-            //            };
-            //            formatter.Serialize(stream, change);
-            //            stream.Close();
-            //        }
-            //    }
-            //    if (e.OldItems != null)
-            //    {
-            //        foreach (Entry entry in e.OldItems)
-            //        {
-
-            //            Stream stream = new FileStream("teststream", FileMode.Create, FileAccess.Write, FileShare.None);
-            //            IFormatter formatter = new BinaryFormatter();
-            //            CollectionMessage change = new CollectionMessage
-            //            {
-            //                action = "rem", // Who is Rem?
-            //                entry = entry,
-            //                newValue = "",
-            //                oldValue = "",
-            //                propertyName = ""
-            //            };
-            //            formatter.Serialize(stream, change);
-            //            stream.Close();
-            //        }
-            //    }
-            //    // Get response
-            //    //throw new NotImplementedException();
-            //}
             client.CollectionChanged(e);
         }
 
-        private void ItemsCollectionChangedRecieved(object sender, NotifyCollectionChangedEventArgs e)
+        public void RecievedAdd(Entry entry)
         {
-            //if (isServer)
-            //{
-            //    if (e.NewItems != null)
-            //    {
-            //        foreach (Entry entry in e.NewItems)
-            //        {
-            //            if (this.Last().Number >= entry.Number)
-            //            {
-            //                entry.Number = this.Last().Number + 1;
-            //            }
-            //            this.Add(entry);
-            //        }
-            //    }
-            //    if (e.OldItems != null)
-            //    {
-            //        foreach (Entry entry in e.OldItems)
-            //        {
-            //            this.Remove(this.First(r => r.Number == entry.Number));
-            //        }
-            //    }
-            //}
+            CheckReentrancy();
+            this.CollectionChanged -= ItemsCollectionChanged;
+
+            this.Add(entry);
+            this.CollectionChanged += ItemsCollectionChanged;
+        }
+        public void RecievedRemove(Entry entry)
+        {
+            CheckReentrancy();
+            this.CollectionChanged -= ItemsCollectionChanged;
+
+            var removedEntry = this.First(r => r.Number == entry.Number);
+            this.Remove(removedEntry);
+            this.CollectionChanged += ItemsCollectionChanged;
+        }
+        public void RecievedChange(Entry entry, string propertyName, string oldValue, string newValue)
+        {
+
+            Entry destination = this.First(r => r.Number == entry.Number);
+            destination.PropertyChangedEx -= ItemChanged;
+            if (destination != null &&
+                destination[propertyName].ToString() == oldValue)
+            {
+                destination[propertyName] = entry[propertyName];
+            }
+            destination.PropertyChangedEx += ItemChanged;
         }
 
         protected override void OnPropertyChanged(PropertyChangedEventArgs e)

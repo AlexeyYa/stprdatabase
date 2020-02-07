@@ -82,8 +82,8 @@ namespace ZDB.MainViewModel
 
         public void Close()
         {
-            SaveChanges();
-            networkManager.Close();
+            if (networkManager != null)
+                networkManager.Close();
         }
     }
 }

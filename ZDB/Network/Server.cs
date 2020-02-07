@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Data.Entity;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -18,9 +20,78 @@ namespace ZDB.Network
     {
         static TcpListener tcpListener;
         List<ClientObject> clients = new List<ClientObject>();
+        
+        // Database
+        private DatabaseContext db;
+        static object locker = new object();
 
-        public ObservableCollection<Entry> destDb { get; set; }
+        public ObservableCollection<Entry> dbCollection { get; set; }
 
+        public Server()
+        {
+            db = new DatabaseContext();
+            db.Entries.Load();
+            dbCollection = db.Entries.Local;   
+        }
+
+        // Database update
+        protected internal void RequestDB(string Id)
+        {
+            lock (locker)
+            {
+                var client = clients.First(c => c.Id == Id);
+                List<Entry> list = new List<Entry>(dbCollection);
+                client.SendDB(list);
+            }
+        }
+        protected internal int Add(Entry newEntry)
+        {
+            lock (locker)
+            {
+                    
+                dbCollection.Add(newEntry);
+                int result = dbCollection.Last().Number;
+                db.SaveChanges();
+                
+                return result;
+            }
+        }
+        protected internal bool Change(Entry chaEntry, string propertyName, string oldValue, string newValue)
+        {
+            lock (locker)
+            {
+                bool result = false;
+                Entry destination = dbCollection.First(r => r.Number == chaEntry.Number);
+                if (destination != null &&
+                    destination[propertyName].ToString() == oldValue)
+                {
+                    destination[propertyName] = chaEntry[propertyName];
+                    db.SaveChanges();
+                    result = true;
+                }
+                else if (destination[propertyName].ToString() == newValue)
+                {
+                    result = true;
+                }
+                return result;
+            }
+        }
+        protected internal bool Remove(Entry oldEntry)
+        {
+            lock (locker)
+            {
+                bool result = false;
+                var removedEntry = dbCollection.FirstOrDefault(r => r.Number == oldEntry.Number);
+                if (removedEntry != null)
+                {
+                    result = dbCollection.Remove(removedEntry);
+                    db.SaveChanges();
+                }
+                return result;
+            }
+        }
+
+        // Server part
         protected internal void AddConnection(ClientObject clientObject)
         {
             clients.Add(clientObject);
@@ -45,7 +116,7 @@ namespace ZDB.Network
                     // Setup client processing in new thread
                     TcpClient tcpClient = tcpListener.AcceptTcpClient();
 
-                    ClientObject clientObject = new ClientObject(tcpClient, this, destDb);
+                    ClientObject clientObject = new ClientObject(tcpClient, this, dbCollection);
                     Thread clientThread = new Thread(new ThreadStart(clientObject.Process));
                     clientThread.Start();
                 }
@@ -70,12 +141,12 @@ namespace ZDB.Network
 
         protected internal void Disconnect()
         {
-            tcpListener.Stop();
-
             foreach (var client in clients)
             {
                 client.Close();
             }
+
+            tcpListener.Stop();
         }
     }
 
@@ -114,35 +185,34 @@ namespace ZDB.Network
                         switch (message.action)
                         {
                             case "reqDB":
-                                SendDB();
+                                server.RequestDB(Id);
                                 break;
                             case "add":
                                 if (message.entry is Entry newEntry)
                                 {
-                                    db.Add(newEntry);
-                                    SendResponce("S_OK");
+                                    int serverNumber = server.Add(newEntry);
+                                    if (serverNumber != 0)
+                                        SendResponce("S_ADD", newEntry.Number, serverNumber);
+                                    else SendResponce("S_FUCKED");
                                 }
                                 server.BroadcastMessage(message, Id);
                                 break;
                             case "cha":
                                 if (message.entry is Entry chaEntry)
                                 {
-                                    Entry destination = db.First(r => r.Number == chaEntry.Number);
-                                    if (destination != null && 
-                                        destination[message.propertyName].ToString() == message.oldValue)
-                                    {
-                                        destination[message.propertyName] = chaEntry[message.propertyName];
+                                    if (server.Change(chaEntry, message.propertyName,
+                                                        message.oldValue, message.newValue))
                                         SendResponce("S_OK");
-                                    }
+                                    else SendResponce("S_FUCKED");
                                 }
                                 server.BroadcastMessage(message, Id);
                                 break;
                             case "rem":
                                 if (message.entry is Entry oldEntry)
                                 {
-                                    var removedEntry = db.First(r => r.Number == oldEntry.Number);
-                                    if (db.Remove(removedEntry))
+                                    if (server.Remove(oldEntry))
                                         SendResponce("S_OK");
+                                    else SendResponce("S_FUCKED");
                                 }
 
                                 server.BroadcastMessage(message, Id);
@@ -174,15 +244,27 @@ namespace ZDB.Network
             formatter.Serialize(stream, change);
         }
 
+        private void SendResponce(string status, int oldNumber, int newNumber)
+        {
+            CollectionMessage change = new CollectionMessage
+            {
+                action = "status",
+                entry = status,
+                newValue = oldNumber.ToString(),
+                oldValue = newNumber.ToString(),
+                propertyName = ""
+            };
+            formatter.Serialize(stream, change);
+        }
+
         private CollectionMessage GetMessage()
         {
             CollectionMessage message = (CollectionMessage)formatter.Deserialize(stream);
             return message;
         }
 
-        private void SendDB()
+        protected internal void SendDB(List<Entry> list)
         {
-            List<Entry> list = new List<Entry>(db);
             CollectionMessage change = new CollectionMessage
             {
                 action = "reqDB",

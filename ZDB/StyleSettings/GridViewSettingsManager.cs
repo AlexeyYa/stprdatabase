@@ -79,6 +79,7 @@ namespace ZDB.StyleSettings
                 double WidthValue = 40.0;
                 DataGridLengthUnitType WidthType = DataGridLengthUnitType.Auto;
                 Style ColStyle = new Style();
+                string StringFormat = null;
                 foreach (XmlNode childNode in xNode.ChildNodes)
                 {
                     switch (childNode.Name)
@@ -101,10 +102,14 @@ namespace ZDB.StyleSettings
                         case "Style":
                             ColStyle = LoadStyle(childNode);
                             break;
+                        case "StringFormat":
+                            StringFormat = childNode.InnerText;
+                            break;
                     }
                 }
                 if (ColumnHeader == String.Empty) { break; }
-                ColumnInfo column = new ColumnInfo(visibility, DisplayIndex, WidthValue, WidthType, ColumnHeader, ColStyle);
+                ColumnInfo column = new ColumnInfo(visibility, DisplayIndex, WidthValue, WidthType, 
+                                                   ColumnHeader, ColStyle, StringFormat);
                 CInfo.Add(column);
             }
 
@@ -370,6 +375,14 @@ namespace ZDB.StyleSettings
                 XmlText widthTVal = xDoc.CreateTextNode(columnInfo.WidthType.ToString());
                 widthTNode.AppendChild(widthTVal);
                 columnXml.AppendChild(widthTNode);
+
+                if (columnInfo.StringFormat != null)
+                {
+                    XmlElement stringFormatNode = xDoc.CreateElement("StringFormat");
+                    XmlText stringFormatVal = xDoc.CreateTextNode(columnInfo.StringFormat.ToString());
+                    stringFormatNode.AppendChild(stringFormatVal);
+                    columnXml.AppendChild(stringFormatNode);
+                }
 
                 if (columnInfo.ColStyle != null)
                 {
