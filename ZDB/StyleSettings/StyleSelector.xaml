@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ZDB"
-        xmlns:color="clr-namespace:ZDB.StyleSettings"
+        xmlns:color="clr-namespace:Dsafa.WpfColorPicker"
         mc:Ignorable="d"
         Title="StyleSelector" SizeToContent="WidthAndHeight">
     <Grid>
@@ -18,32 +18,35 @@
             <RowDefinition/>
             <RowDefinition/>
             <RowDefinition/>
+            <RowDefinition/>
         </Grid.RowDefinitions>
         <TextBlock Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Margin="10, 5, 10, 5"
                    Text="Шрифт"/>
-        <ComboBox Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" Margin="10, 5, 10, 5"
-                   />
+        <ComboBox x:Name="cmbFont" Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" Margin="10, 5, 10, 5"
+                   SelectedValue="{Binding FontFamily}"/>
 
         <TextBlock Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Margin="10, 5, 10, 5"
                    Text="Размер шрифта"/>
-
-        <ComboBox Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" Margin="10, 5, 10, 5"
-                   />
+        <ComboBox x:Name="cmbFSize" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" Margin="10, 5, 10, 5"
+                   SelectedValue="{Binding FontSize}"/>
 
         <TextBlock Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" Margin="10, 5, 10, 5"
-                   Text="Цвет шрифта"/>
-
-        <color:ColorPicker Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" Margin="10, 5, 10, 5"
-                   />
+                   Text="Выравнивание"/>
+        <ComboBox x:Name="cmbAlignment" Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" Margin="10, 5, 10, 5"
+                   SelectedValue="{Binding HorizontalAlignment}"/>
 
         <TextBlock Grid.Row="3" Grid.Column="0" VerticalAlignment="Center" Margin="10, 5, 10, 5"
-                   Text="Выравнивание"/>
-        <ComboBox Grid.Row="3" Grid.Column="1" VerticalAlignment="Center" Margin="10, 5, 10, 5"
-                   />
-        
+                   Text="Цвет шрифта"/>
+        <color:ColorPicker Grid.Row="3" Grid.Column="1" Margin="10, 5, 10, 5" HorizontalAlignment="Center"
+                           MinHeight="120" Color="{Binding RelativeSource={RelativeSource 
+                           AncestorType=Window, Mode=FindAncestor}, Path=DataContext.ForegroundColor, Mode=TwoWay,
+                           UpdateSourceTrigger=PropertyChanged}"/>
+
         <TextBlock Grid.Row="4" Grid.Column="0" VerticalAlignment="Center" Margin="10, 5, 10, 5"
                    Text="Цвет фона"/>
-        <color:ColorPicker Grid.Row="4" Grid.Column="1" VerticalAlignment="Center" Margin="10, 5, 10, 5"
-                   />
+        <color:ColorPicker Grid.Row="4" Grid.Column="1" Margin="10, 5, 10, 5" HorizontalAlignment="Center"
+                           MinHeight="120" Color="{Binding RelativeSource={RelativeSource 
+                           AncestorType=Window, Mode=FindAncestor}, Path=DataContext.BackgroundColor, Mode=TwoWay,
+                           UpdateSourceTrigger=PropertyChanged}"/>
     </Grid>
 </Window>

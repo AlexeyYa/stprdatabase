@@ -70,6 +70,24 @@ namespace ZDB.MainViewModel
             }
         }
 
+        private RelayCommand styleChangeCommand;
+        public RelayCommand StyleChangeCommand
+        {
+            get
+            {
+                return styleChangeCommand ??
+                    (styleChangeCommand = new RelayCommand(obj =>
+                    {
+
+                        var style = new StyleSelector(dataGridExtended.SelectedCells);
+                        style.Show();
+
+                        
+                    },
+                    (obj) => NetworkData != null));
+            }
+        }
+
         private void LoadViewSettings(string stylename)
         {
             ViewSettings viewSettings = GridViewSettingsManager.LoadFromXML(Consts.DGSettingsPath + stylename);

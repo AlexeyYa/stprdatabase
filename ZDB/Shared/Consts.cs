@@ -50,7 +50,8 @@ namespace ZDB
 
         // Dictionaries for EnumFields
         public static readonly Dictionary<int, string> StatusValues = new Dictionary<int, string>
-            { {-1, "Аннулировано" },
+            { {-2, "???" },
+              {-1, "Аннулировано" },
               { 0, "" },
               { 1, "В работе" },
               { 2, "Завершено" } };

@@ -77,19 +77,20 @@
                                 CanUserAddRows="False" CanUserDeleteRows="False"
                  ItemsSource="{Binding DataViewSource.View}" AutoGenerateColumns="False" 
                                 SelectionUnit="Cell" VirtualizingPanel.IsVirtualizingWhenGrouping="True"
-                   Grid.Column="0" Grid.ColumnSpan="6" Grid.Row="1">
-            <!--<DataGrid.CellStyle>
+                   Grid.Column="0" Grid.ColumnSpan="6" Grid.Row="1" GridLinesVisibility="All">
+            <DataGrid.CellStyle>
                 <Style TargetType="{x:Type DataGridCell}">
-                    <Style.Triggers>
-                        <Trigger Property="IsSelected" Value="True">
-                            <Setter Property="local:DataGridAttachedProperties.IsCellSelected" Value="True"/>
-                        </Trigger>
-                        <Trigger Property="IsSelected" Value="False">
-                            <Setter Property="local:DataGridAttachedProperties.IsCellSelected" Value="False"/>
-                        </Trigger>
-                    </Style.Triggers>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type DataGridCell}">
+                                <Grid Background="{TemplateBinding Background}">
+                                    <ContentPresenter VerticalAlignment="Center"/>
+                                </Grid>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
                 </Style>
-            </DataGrid.CellStyle>-->
+            </DataGrid.CellStyle>
             <local:DataGridExtended.Resources>
                 <mvvm:SumValues x:Key="SumValues"/>
                 <mvvm:DateToTextMonthsConverter x:Key="DateToMonthsNames"/>
@@ -218,10 +219,11 @@
                 Command="{Binding AddFilterCommand}"
                    Grid.Column="0" Grid.Row="4"/>
 
-        <Button x:Name="UndoBtn" Content="Undo" Margin="10, 5, 10, 5" 
-                   Grid.Column="1" Grid.Row="4" Click="UndoBtn_Click"/>
+        <Button x:Name="UndoBtn" Content="Раскраска столбцов" Margin="10, 5, 10, 5" 
+                   Grid.Column="1" Grid.Row="4" 
+                Command="{Binding StyleChangeCommand}"/>
         <Button x:Name="RedoBtn" Content="Redo" Margin="10, 5, 10, 5"
-                   Grid.Column="2" Grid.Row="4"/>
+                   Grid.Column="2" Grid.Row="4" Click="RedoBtn_Click"/>
 
         <Button x:Name="ExportBtn" Content="Экспортировать" Margin="10, 5, 10, 5"
                 Command="{Binding ExportCommand}"

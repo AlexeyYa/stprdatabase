@@ -144,24 +144,25 @@
     <Compile Include="Shared\SimpleInputDialog.xaml.cs">
       <DependentUpon>SimpleInputDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="StyleSettings\ColorPicker.xaml.cs">
-      <DependentUpon>ColorPicker.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="StyleSettings\HuePicker.xaml.cs">
-      <DependentUpon>HuePicker.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="StyleSettings\SaturationBrightnessPicker.xaml.cs">
-      <DependentUpon>SaturationBrightnessPicker.xaml</DependentUpon>
-    </Compile>
+    <Compile Include="StyleSettings\ColorPicker\ColorHelper.cs" />
+    <Compile Include="StyleSettings\ColorPicker\ColorPicker.xaml.cs" />
+    <Compile Include="StyleSettings\ColorPicker\Converters\ColorToSolidConverter.cs" />
+    <Compile Include="StyleSettings\ColorPicker\Converters\HueToColorConverter.cs" />
+    <Compile Include="StyleSettings\ColorPicker\Converters\UnitToPercentConverter.cs" />
+    <Compile Include="StyleSettings\ColorPicker\Extensions.cs" />
+    <Compile Include="StyleSettings\ColorPicker\HuePicker.xaml.cs" />
+    <Compile Include="StyleSettings\ColorPicker\SaturationBrightnessPicker.xaml.cs" />
+    <Compile Include="StyleSettings\ColorPicker\SaturationBrightnessPickerAdorner.cs" />
+    <Compile Include="StyleSettings\ColorPicker\SliderPicker.cs" />
+    <Compile Include="StyleSettings\ColorPicker\SliderPickerAdorner.cs" />
+    <Compile Include="StyleSettings\ColorPicker\TransparencyPicker.xaml.cs" />
+    <Compile Include="StyleSettings\ColorPicker\ValidationRules\ColorNumericInputValidationRule.cs" />
     <Compile Include="StyleSettings\StyleSelector.xaml.cs">
       <DependentUpon>StyleSelector.xaml</DependentUpon>
     </Compile>
     <Compile Include="Shared\Tests.cs" />
     <Compile Include="StyleSettings\GridViewSettingsManager.cs" />
     <Compile Include="StyleSettings\StyleSelectorMVVM.cs" />
-    <Compile Include="StyleSettings\TransparencyPicker.xaml.cs">
-      <DependentUpon>TransparencyPicker.xaml</DependentUpon>
-    </Compile>
     <Page Include="Export\ExportWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -188,23 +189,27 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="StyleSettings\ColorPicker.xaml">
-      <SubType>Designer</SubType>
+    <Page Include="StyleSettings\ColorPicker\ColorPicker.xaml">
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
-    <Page Include="StyleSettings\HuePicker.xaml">
-      <SubType>Designer</SubType>
+    <Page Include="StyleSettings\ColorPicker\HuePicker.xaml">
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
-    <Page Include="StyleSettings\SaturationBrightnessPicker.xaml">
-      <SubType>Designer</SubType>
+    <Page Include="StyleSettings\ColorPicker\Resources\StaticBrushes.xaml">
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="StyleSettings\ColorPicker\SaturationBrightnessPicker.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="StyleSettings\ColorPicker\TransparencyPicker.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="StyleSettings\StyleSelector.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="StyleSettings\TransparencyPicker.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -256,9 +261,7 @@
   <ItemGroup>
     <Resource Include="AppIcon.ico" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="StyleSettings\ColorPicker\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
