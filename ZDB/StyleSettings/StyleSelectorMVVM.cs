@@ -103,7 +103,7 @@ namespace ZDB.StyleSettings
                     horizontalAlignment = value;
 
                     Setter horizontalAlignmentSetter = new Setter(TextBlock.TextAlignmentProperty,
-                        TextAlignment.Left);
+                        TextAlignment.Justify);
                     switch (value)
                     {
                         case "Left":
@@ -118,6 +118,10 @@ namespace ZDB.StyleSettings
                             horizontalAlignmentSetter = new Setter(TextBlock.TextAlignmentProperty,
                                 TextAlignment.Right);
                             break;
+                        case "Justify":
+                            horizontalAlignmentSetter = new Setter(TextBlock.TextAlignmentProperty,
+                                TextAlignment.Justify);
+                            break;
                     }
                     foreach (var column in GetSelectedColumns())
                     {
@@ -125,6 +129,70 @@ namespace ZDB.StyleSettings
                     }
                     OnPropertyChanged("HorizontalAlignment");
                 }
+            }
+        }
+
+        private string verticalAlignment;
+        public string VerticalAlignmentField
+        {
+            get => verticalAlignment;
+            set
+            {
+                if (verticalAlignment != value)
+                {
+                    verticalAlignment = value;
+                    // Copy in GridSettingsManager
+                    string tmpXaml = "<Setter Property=\"Control.Template\""+
+                        " xmlns=\"http://schemas.microsoft.com/winfx/2006/xaml/presentation\"><Setter.Value>" +
+                        "<ControlTemplate TargetType=\"DataGridCell\">"+
+                        "<Grid Background=\"{TemplateBinding Panel.Background}\">"+
+                        "<ContentPresenter Content=\"{TemplateBinding ContentControl.Content}\""+
+                        " ContentTemplate=\"{TemplateBinding ContentControl.ContentTemplate}\""+
+                        " ContentStringFormat=\"{TemplateBinding ContentControl.ContentStringFormat}\""+
+                        " VerticalAlignment=\"" + value + "\" />"+
+                        "</Grid></ControlTemplate></Setter.Value></Setter>";
+
+                    StringReader stringReader = new StringReader(tmpXaml);
+                    XmlReader xmlReader = XmlReader.Create(stringReader);
+                    Setter verticalAlignmentSetter = (Setter)XamlReader.Load(xmlReader);
+                    foreach (var column in GetSelectedColumns())
+                    {
+                        column.CellStyle = ChangeStyle(column.CellStyle, verticalAlignmentSetter);
+                    }
+                    OnPropertyChanged("VerticalAlignment");
+                }
+            }
+        }
+
+        private ThicknessConverter thicknessConverter = new ThicknessConverter();
+        private Thickness margin;
+        public string Margin
+        {
+            get => thicknessConverter.ConvertToString(margin);
+            set
+            {
+                try
+                {
+                    var thickness = (Thickness)thicknessConverter.ConvertFromString(value);
+                    if (margin != thickness)
+                    {
+                        margin = thickness;
+
+
+
+                        Setter thicknessSetter = new Setter(Border.PaddingProperty,
+                            thickness);
+
+
+
+                        foreach (var column in GetSelectedColumns())
+                        {
+                            column.CellStyle = ChangeStyle(column.CellStyle, thicknessSetter);
+                        }
+                        OnPropertyChanged("Margin");
+                    }
+                }
+                catch { }
             }
         }
 

@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Markup;
 using System.Windows.Media;
 using System.Xml;
 using ZDB.MainViewModel;
@@ -211,11 +213,13 @@ namespace ZDB.StyleSettings
                         alignment);
                     styleSetters.Add(textAlignment);
                     break;
-                case "VerticalAlignment":
-                    Enum.TryParse(StyleSetter.InnerText, out VerticalAlignment vertAlignment);
-                    Setter verticalAlignment = new Setter(TextBlock.VerticalAlignmentProperty,
-                        vertAlignment);
-                    styleSetters.Add(verticalAlignment);
+                case "Template":
+
+                    StringReader stringReader = new StringReader(StyleSetter.InnerText);
+                    XmlReader xmlReader = XmlReader.Create(stringReader);
+                    Setter templateSetter = (Setter)XamlReader.Load(xmlReader);
+
+                    styleSetters.Add(templateSetter);
                     break;
                 case "FontFamily":
                     Setter fontFamily = new Setter(DataGridCell.FontFamilyProperty,
@@ -451,10 +455,22 @@ namespace ZDB.StyleSettings
 
             foreach (Setter styleSetter in setters)
             {
-                XmlElement styleSetterNode = xDoc.CreateElement(styleSetter.Property.ToString());
-                XmlText styleSetterVal = xDoc.CreateTextNode(styleSetter.Value.ToString());
-                styleSetterNode.AppendChild(styleSetterVal);
-                styleNode.AppendChild(styleSetterNode);
+                if (styleSetter.Property.ToString() == "Template")
+                {
+                    XmlElement styleSetterNode = xDoc.CreateElement(styleSetter.Property.ToString());
+
+                    string setterXaml = XamlWriter.Save(styleSetter);
+                    XmlText styleSetterVal = xDoc.CreateTextNode(setterXaml);
+                    styleSetterNode.AppendChild(styleSetterVal);
+                    styleNode.AppendChild(styleSetterNode);
+                }
+                else
+                {
+                    XmlElement styleSetterNode = xDoc.CreateElement(styleSetter.Property.ToString());
+                    XmlText styleSetterVal = xDoc.CreateTextNode(styleSetter.Value.ToString());
+                    styleSetterNode.AppendChild(styleSetterVal);
+                    styleNode.AppendChild(styleSetterNode);
+                }
             }
         }
 

@@ -17,6 +17,7 @@ namespace ZDB
         List<string> fonts;
         List<double> fontSizes;
         List<string> alignmentsList;
+        List<string> vertAlignmentsList;
 
         public StyleSelector(IList<DataGridCellInfo> selectedCells)
         {
@@ -27,6 +28,11 @@ namespace ZDB
             dict.Source = alignmentsList;
 
             cmbAlignment.SetBinding(ComboBox.ItemsSourceProperty, dict);
+
+            Binding dict1 = new Binding();
+            dict1.Source = vertAlignmentsList;
+
+            cmbVertAlignment.SetBinding(ComboBox.ItemsSourceProperty, dict1);
 
             Binding dict2 = new Binding();
             dict2.Source = fonts;
@@ -58,7 +64,12 @@ namespace ZDB
 
             alignmentsList = new List<string>
             {
-                "Left", "Center", "Right"
+                "Left", "Center", "Right", "Justify"
+            };
+
+            vertAlignmentsList = new List<string>
+            {
+                "Top", "Center", "Bottom", "Stretch"
             };
         }
     }

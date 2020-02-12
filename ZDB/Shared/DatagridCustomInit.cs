@@ -120,15 +120,6 @@ namespace ZDB
                 tColumn.SortMemberPath = field;
                 tColumn.CanUserSort = true;
 
-                Style style = new Style();
-                Setter borderSetter = new Setter(DataGridCell.BorderThicknessProperty, new Thickness(0));
-                style.Setters.Add(borderSetter);
-                Setter marginSetter = new Setter(DataGridCell.PaddingProperty, new Thickness(0));
-                style.Setters.Add(marginSetter);
-                Setter paddingSetter = new Setter(DataGridCell.MarginProperty, new Thickness(0));
-                style.Setters.Add(paddingSetter);
-                tColumn.CellStyle = style;
-
                 return tColumn;
             }
         }

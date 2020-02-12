@@ -19,6 +19,7 @@
             <RowDefinition/>
             <RowDefinition/>
             <RowDefinition/>
+            <RowDefinition/>
         </Grid.RowDefinitions>
         <TextBlock Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Margin="10, 5, 10, 5"
                    Text="Шрифт"/>
@@ -31,22 +32,33 @@
                    SelectedValue="{Binding FontSize}"/>
 
         <TextBlock Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" Margin="10, 5, 10, 5"
-                   Text="Выравнивание"/>
+                   Text="Горизонтальное выравнивание"/>
         <ComboBox x:Name="cmbAlignment" Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" Margin="10, 5, 10, 5"
                    SelectedValue="{Binding HorizontalAlignment}"/>
 
         <TextBlock Grid.Row="3" Grid.Column="0" VerticalAlignment="Center" Margin="10, 5, 10, 5"
+                   Text="Вертикальное выравнивание"/>
+        <ComboBox x:Name="cmbVertAlignment" Grid.Row="3" Grid.Column="1" VerticalAlignment="Center" Margin="10, 5, 10, 5"
+                   SelectedValue="{Binding VerticalAlignmentField}"/>
+
+
+        <TextBlock Grid.Row="4" Grid.Column="0" VerticalAlignment="Center" Margin="10, 5, 10, 5"
                    Text="Цвет шрифта"/>
-        <color:ColorPicker Grid.Row="3" Grid.Column="1" Margin="10, 5, 10, 5" HorizontalAlignment="Center"
+        <color:ColorPicker Grid.Row="4" Grid.Column="1" Margin="10, 5, 10, 5" HorizontalAlignment="Center"
                            MinHeight="120" Color="{Binding RelativeSource={RelativeSource 
                            AncestorType=Window, Mode=FindAncestor}, Path=DataContext.ForegroundColor, Mode=TwoWay,
                            UpdateSourceTrigger=PropertyChanged}"/>
 
-        <TextBlock Grid.Row="4" Grid.Column="0" VerticalAlignment="Center" Margin="10, 5, 10, 5"
+        <TextBlock Grid.Row="5" Grid.Column="0" VerticalAlignment="Center" Margin="10, 5, 10, 5"
                    Text="Цвет фона"/>
-        <color:ColorPicker Grid.Row="4" Grid.Column="1" Margin="10, 5, 10, 5" HorizontalAlignment="Center"
+        <color:ColorPicker Grid.Row="5" Grid.Column="1" Margin="10, 5, 10, 5" HorizontalAlignment="Center"
                            MinHeight="120" Color="{Binding RelativeSource={RelativeSource 
                            AncestorType=Window, Mode=FindAncestor}, Path=DataContext.BackgroundColor, Mode=TwoWay,
                            UpdateSourceTrigger=PropertyChanged}"/>
+
+        <TextBlock Grid.Row="6" Grid.Column="0" VerticalAlignment="Center" Margin="10, 5, 10, 5"
+                   Text="Margin"/>
+        <TextBox Grid.Row="6" Grid.Column="1" VerticalAlignment="Center" Margin="10, 5, 10, 5"
+                   Text="{Binding Margin, UpdateSourceTrigger=PropertyChanged}"/>
     </Grid>
 </Window>
