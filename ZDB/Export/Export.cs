@@ -284,14 +284,7 @@ namespace ZDB.Exp
 
             using (StreamWriter sw = new StreamWriter(ExportPath, false, Encoding.Unicode))
             {
-                sw.Write(CSVHeader(ExportFields, new FieldsTranslated()));
-                foreach (Entry c in data)
-                {
-                    sw.Write(CSVLine(c, ExportFields));
-                    Accumulate(c, ExportFields);
-                }
-                sw.Write(CSVAccumOut(ExportFields));
-                AccumReset();
+                WriteCSV(data, ExportFields, sw);
             }
         }
 
@@ -301,16 +294,21 @@ namespace ZDB.Exp
             {
                 using (StreamWriter sw = new StreamWriter(ExportPath, true, Encoding.Unicode))
                 {
-                    sw.Write(CSVHeader(ExportFields, new FieldsTranslated()));
-                    foreach (Entry c in data)
-                    {
-                        sw.Write(CSVLine(c, ExportFields));
-                        Accumulate(c, ExportFields);
-                    }
-                    sw.Write(CSVAccumOut(ExportFields));
-                    AccumReset();
+                    WriteCSV(data, ExportFields, sw);
                 }
             }
+        }
+
+        public static void WriteCSV(IEnumerable<Entry> data, IEnumerable<string> ExportFields, StreamWriter sw)
+        {
+            sw.Write(CSVHeader(ExportFields, new FieldsTranslated()));
+            foreach (Entry c in data)
+            {
+                sw.Write(CSVLine(c, ExportFields));
+                Accumulate(c, ExportFields);
+            }
+            sw.Write(CSVAccumOut(ExportFields));//, data.First()));
+            AccumReset();
         }
 
         /// <summary>
@@ -366,6 +364,36 @@ namespace ZDB.Exp
             result += '\n';
             return result;
         }
+
+        private static string CSVAccumOut(IEnumerable<string> ExportFields, Entry entry)
+        {
+            string result = String.Empty;
+            int i = 0;
+            bool first = true;
+            foreach (string field in ExportFields)
+            {
+
+                if (first)
+                {
+                    first = false;
+                }
+                else
+                {
+                    result += delimiter;
+                }
+                if (Consts.IntFields.Contains(field) && Consts.Summable.Contains(field))
+                {
+                    result += accumulator[i].ToString();
+                } else
+                {
+                    result += entry[field];
+                }
+                i++;
+            }
+            result += '\n';
+            return result;
+        }
+
         private static string CSVHeader(IEnumerable<string> ExportFields, FieldsTranslated Translated)
         {
             string result = String.Empty;

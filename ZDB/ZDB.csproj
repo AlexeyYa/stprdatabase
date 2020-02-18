@@ -124,6 +124,7 @@
     </ApplicationDefinition>
     <Compile Include="Database\DatabaseContext.cs" />
     <Compile Include="Database\Entry.cs" />
+    <Compile Include="Database\Import.cs" />
     <Compile Include="MainViewModel\Converters.cs" />
     <Compile Include="MainViewModel\CVSStyle.cs" />
     <Compile Include="MainViewModel\DbMethods.cs" />

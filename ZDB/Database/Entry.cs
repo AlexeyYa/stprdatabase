@@ -284,6 +284,21 @@ namespace ZDB.Database
             }
         }
 
+        private int print;
+        public int Print
+        {
+            get { return print; }
+            set
+            {
+                if (print != value)
+                {
+                    string tmp = print.ToString();
+                    print = value;
+                    OnPropertyChanged("Print", tmp, value.ToString());
+                }
+            }
+        }
+
         private int numeration;
         public int Numeration
         {

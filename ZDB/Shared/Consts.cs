@@ -37,11 +37,11 @@ namespace ZDB
 
         public static readonly IEnumerable<string> IntFields = new HashSet<string>
             { "Number", "CodeType", "NumberOfOriginals", "NumberOfCopies", "Numeration", "Scan", "Threading",
-            "SizeRecievedFromGroup", "SizeFormat", "SizeA4", "SizeA3", "SizeA2", "SizeA1", "SizeA0",
+            "SizeRecievedFromGroup", "SizeFormat", "SizeA4", "SizeA3", "SizeA2", "SizeA1", "SizeA0", "Print",
             "SizeCorFormat", "SizeCorA4", "SizeCorA3", "SizeCorA2", "SizeCorA1", "SizeCorA0", "TotalFormats"};
 
         public static readonly IEnumerable<string> Summable = new HashSet<string>
-            { "Numeration", "Scan", "Threading", "TotalFormats",
+            { "Numeration", "Scan", "Threading", "TotalFormats", "Print",
             "SizeRecievedFromGroup", "SizeFormat", "SizeA4", "SizeA3", "SizeA2", "SizeA1", "SizeA0",
             "SizeCorFormat", "SizeCorA4", "SizeCorA3", "SizeCorA2", "SizeCorA1", "SizeCorA0" };
 
@@ -157,6 +157,7 @@ namespace ZDB
             this.Add("NumberOfOriginals", "Количество оригиналов");
             this.Add("NumberOfCopies", "Количество копий");
             this.Add("TotalFormats", "Всего форматок");
+            this.Add("Print", "Печать");
             this.Add("Numeration", "Нумерация");
             this.Add("Scan", "Сканирование");
             this.Add("SizeRecievedFromGroup", "Форматки от группы");

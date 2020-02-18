@@ -77,7 +77,7 @@
                                 CanUserAddRows="False" CanUserDeleteRows="False"
                  ItemsSource="{Binding DataViewSource.View}" AutoGenerateColumns="False" 
                                 SelectionUnit="Cell" VirtualizingPanel.IsVirtualizingWhenGrouping="True"
-                   Grid.Column="0" Grid.ColumnSpan="6" Grid.Row="1" GridLinesVisibility="None"
+                   Grid.Column="0" Grid.ColumnSpan="6" Grid.Row="1" GridLinesVisibility="All"
                                 >
             <DataGrid.CellStyle>
                 <Style TargetType="{x:Type DataGridCell}">

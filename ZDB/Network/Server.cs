@@ -31,7 +31,14 @@ namespace ZDB.Network
         {
             db = new DatabaseContext();
             db.Entries.Load();
-            dbCollection = db.Entries.Local;   
+            dbCollection = db.Entries.Local;
+            /* IMPORT SAMPLE
+             * var data = Import.LoadContents(@"E:\table_2019_utf.csv");
+            foreach (Entry e in data)
+            {
+                dbCollection.Add(e);
+            }
+            db.SaveChanges();*/
         }
 
         // Database update
