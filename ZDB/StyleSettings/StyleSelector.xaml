@@ -1,0 +1,64 @@
+﻿<Window x:Class="ZDB.StyleSelector"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ZDB"
+        xmlns:color="clr-namespace:Dsafa.WpfColorPicker"
+        mc:Ignorable="d"
+        Title="StyleSelector" SizeToContent="WidthAndHeight">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Margin="10, 5, 10, 5"
+                   Text="Шрифт"/>
+        <ComboBox x:Name="cmbFont" Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" Margin="10, 5, 10, 5"
+                   SelectedValue="{Binding FontFamily}"/>
+
+        <TextBlock Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Margin="10, 5, 10, 5"
+                   Text="Размер шрифта"/>
+        <ComboBox x:Name="cmbFSize" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" Margin="10, 5, 10, 5"
+                   SelectedValue="{Binding FontSize}"/>
+
+        <TextBlock Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" Margin="10, 5, 10, 5"
+                   Text="Горизонтальное выравнивание"/>
+        <ComboBox x:Name="cmbAlignment" Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" Margin="10, 5, 10, 5"
+                   SelectedValue="{Binding HorizontalAlignment}"/>
+
+        <TextBlock Grid.Row="3" Grid.Column="0" VerticalAlignment="Center" Margin="10, 5, 10, 5"
+                   Text="Вертикальное выравнивание"/>
+        <ComboBox x:Name="cmbVertAlignment" Grid.Row="3" Grid.Column="1" VerticalAlignment="Center" Margin="10, 5, 10, 5"
+                   SelectedValue="{Binding VerticalAlignmentField}"/>
+
+
+        <TextBlock Grid.Row="4" Grid.Column="0" VerticalAlignment="Center" Margin="10, 5, 10, 5"
+                   Text="Цвет шрифта"/>
+        <color:ColorPicker Grid.Row="4" Grid.Column="1" Margin="10, 5, 10, 5" HorizontalAlignment="Center"
+                           MinHeight="120" Color="{Binding RelativeSource={RelativeSource 
+                           AncestorType=Window, Mode=FindAncestor}, Path=DataContext.ForegroundColor, Mode=TwoWay,
+                           UpdateSourceTrigger=PropertyChanged}"/>
+
+        <TextBlock Grid.Row="5" Grid.Column="0" VerticalAlignment="Center" Margin="10, 5, 10, 5"
+                   Text="Цвет фона"/>
+        <color:ColorPicker Grid.Row="5" Grid.Column="1" Margin="10, 5, 10, 5" HorizontalAlignment="Center"
+                           MinHeight="120" Color="{Binding RelativeSource={RelativeSource 
+                           AncestorType=Window, Mode=FindAncestor}, Path=DataContext.BackgroundColor, Mode=TwoWay,
+                           UpdateSourceTrigger=PropertyChanged}"/>
+
+        <TextBlock Grid.Row="6" Grid.Column="0" VerticalAlignment="Center" Margin="10, 5, 10, 5"
+                   Text="Margin"/>
+        <TextBox Grid.Row="6" Grid.Column="1" VerticalAlignment="Center" Margin="10, 5, 10, 5"
+                   Text="{Binding Margin, UpdateSourceTrigger=PropertyChanged}"/>
+    </Grid>
+</Window>

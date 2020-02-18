@@ -4,16 +4,16 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ZDB"
+        xmlns:mvvm="clr-namespace:ZDB.MainViewModel"
         xmlns:System="clr-namespace:System;assembly=mscorlib"
         xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="450" Width="800" Closed="Window_Closed">
     <Window.Resources>
         <local:FieldsList x:Key="FieldsList"/>
         <local:FieldsTranslated x:Key="FieldsTranslated"/>
         <local:FilterTranslated x:Key="FilterTranslated"/>
         <local:ColorsList x:Key="ColorsList"/>
-        <local:Contents x:Key="ContentsClass"/>
 
         <ObjectDataProvider x:Key="FilterOperation" MethodName="GetValues"
                             ObjectType="{x:Type local:FilterOperation}">
@@ -22,12 +22,6 @@
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>
         
-        <CollectionViewSource x:Key="cvsContents" Source="{Binding Source={StaticResource ContentsClass}}"
-                              Filter="CollectionViewSource_Filter">
-            <CollectionViewSource.GroupDescriptions>
-            </CollectionViewSource.GroupDescriptions>
-        </CollectionViewSource>
-
         <Style x:Key="DataGridCellCentered" TargetType="DataGridCell">
             <Setter Property="TextBlock.TextAlignment" Value="Center"/>
             <Setter Property="FontFamily" Value="Segoe Black"/>
@@ -37,9 +31,72 @@
         </Style>
     </Window.Resources>
     <Grid>
-        <local:DatagridExtended x:Name="dGrid" Margin="10,10,10,180" 
-                 VirtualizingPanel.IsVirtualizingWhenGrouping="True" ItemsSource="{Binding Source={StaticResource cvsContents}}" AutoGenerateColumns="False">
-            <!--<local:DatagridExtended.GroupStyle>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25"/>
+            <RowDefinition/>
+            <RowDefinition Height="35"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="35"/>
+            <RowDefinition Height="5"/>
+        </Grid.RowDefinitions>
+        <DockPanel Height="25" VerticalAlignment="Top"
+                   Grid.Column="0" Grid.ColumnSpan="6" Grid.Row="0">
+            <Menu DockPanel.Dock="Top">
+                <Menu.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <DockPanel/>
+                    </ItemsPanelTemplate>
+                </Menu.ItemsPanel>
+                <MenuItem Header="_Файл">
+                    <MenuItem Header="Запустить _сервер" Command="{Binding ServerStartCommand}"/>
+                    <MenuItem Header="Запустить _клиент" Command="{Binding ClientStartCommand}"/>
+                </MenuItem>
+                <MenuItem Header="_Вид">
+                    <MenuItem Header="_Сохранить текущий вид" Command="{Binding AddViewCommand}"/>
+                </MenuItem>
+                <MenuItem HorizontalAlignment="Right">
+                    <MenuItem.Header>
+                        <ComboBox Width="120"
+                          ItemsSource="{Binding MainGridStyles}"
+                          SelectedItem="{Binding SelectedMainGridStyle}">
+                        </ComboBox>
+                    </MenuItem.Header>
+                </MenuItem>
+                
+            </Menu>
+        </DockPanel>
+        <local:DataGridExtended x:Name="dGrid" Margin="10,10,10,5" 
+                                CanUserAddRows="False" CanUserDeleteRows="False"
+                 ItemsSource="{Binding DataViewSource.View}" AutoGenerateColumns="False" 
+                                SelectionUnit="Cell" VirtualizingPanel.IsVirtualizingWhenGrouping="True"
+                   Grid.Column="0" Grid.ColumnSpan="6" Grid.Row="1" GridLinesVisibility="All"
+                                >
+            <DataGrid.CellStyle>
+                <Style TargetType="{x:Type DataGridCell}">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type DataGridCell}">
+                                <Grid Background="{TemplateBinding Background}">
+                                    <ContentPresenter VerticalAlignment="Center"/>
+                                </Grid>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </DataGrid.CellStyle>
+            <local:DataGridExtended.Resources>
+                <mvvm:SumValues x:Key="SumValues"/>
+                <mvvm:DateToTextMonthsConverter x:Key="DateToMonthsNames"/>
+            </local:DataGridExtended.Resources>
+            <local:DataGridExtended.GroupStyle>
                 <GroupStyle>
                     <GroupStyle.ContainerStyle>
                         <Style TargetType="{x:Type GroupItem}">
@@ -50,7 +107,15 @@
                                         <Expander IsExpanded="True" Background="#FF112255" BorderBrush="#FF002255" Foreground="White" BorderThickness="1,1,1,5">
                                             <Expander.Header>
                                                 <DockPanel>
-                                                    <TextBlock FontWeight="Bold" Text="{Binding Path=Name}" Margin="5,0,0,0" Width="100"/>
+                                                    <TextBlock FontWeight="Bold" Text="{Binding Path=Name, 
+                                                        Converter={StaticResource DateToMonthsNames}}" Margin="5,0,0,0" Width="100"/>
+                                                    <TextBlock Text="Total: "/>
+                                                    <TextBlock Text="{Binding StringFormat=Sum : {0}, 
+                                                        Converter={StaticResource SumValues}, ConverterParameter=TotalFormats}"/>
+                                                    <TextBlock Margin="5,0,0,0"  Text="{Binding StringFormat=  Format : {0}, 
+                                                        Converter={StaticResource SumValues}, ConverterParameter=SizeFormat}"/>
+                                                    <TextBlock Margin="5,0,0,0"  Text="{Binding StringFormat=  Scan : {0}, 
+                                                        Converter={StaticResource SumValues}, ConverterParameter=Scan}"/>
                                                 </DockPanel>
                                             </Expander.Header>
                                             <Expander.Content>
@@ -63,23 +128,26 @@
                         </Style>
                     </GroupStyle.ContainerStyle>
                 </GroupStyle>
-            </local:DatagridExtended.GroupStyle>-->
-            <local:DatagridExtended.RowStyle>
+            </local:DataGridExtended.GroupStyle>
+            <!--<local:DataGridExtended.RowStyle>
                 <Style TargetType="DataGridRow">
                     <Setter Property="Foreground" Value="Black"/>
                     <Setter Property="Background" Value="White"/>
                     <Style.Triggers>
-                        <DataTrigger Binding="{Binding Status}" Value="аннулировано">
+                        <DataTrigger Binding="{Binding Status}" Value="1">
                             <Setter Property="Background" Value="LightYellow"/>
                         </DataTrigger>
-                        <DataTrigger Binding="{Binding Status}" Value="завершено">
+                        <DataTrigger Binding="{Binding Status}" Value="2">
                             <Setter Property="Background" Value="LightGreen"/>
                         </DataTrigger>
+                        <Trigger Property="local:DataGridAttachedProperties.IsCellSelected" Value="True">
+                            <Setter Property="BorderThickness" Value="0,1,0,1"/>
+                        </Trigger>
                     </Style.Triggers>
                 </Style>
-            </local:DatagridExtended.RowStyle>
-            <local:DatagridExtended.Columns>
-                <DataGridTextColumn Header="Номер" Binding="{Binding Number}"/>
+            </local:DataGridExtended.RowStyle>-->
+            <!--<local:DataGridExtended.Columns>
+                <DataGridTextColumn Header="Номер" Binding="{Binding Number}" IsReadOnly="True"/>
                 <DataGridTextColumn Header="Дата заявки" Binding="{Binding StartDate, ConverterCulture=RU-ru, StringFormat=dd-MM-yyyy HH:mm}"/>
                 <DataGridTextColumn Header="Код" Binding="{Binding CodeType}"/>
                 <DataGridTextColumn Header="Заказчик" Binding="{Binding User}"/>
@@ -101,10 +169,11 @@
                 <DataGridTextColumn Header="Причина кор." Binding="{Binding Corrections}"/>
                 <DataGridTextColumn Header="Исполнитель" Binding="{Binding Executor}"/>
 
-            </local:DatagridExtended.Columns>
-        </local:DatagridExtended>
-        <DataGrid x:Name="filterGrid" Margin="10,0,10,40" Height="100" VerticalAlignment="Bottom" 
-                   AutoGenerateColumns="False">
+            </local:DataGridExtended.Columns>-->
+        </local:DataGridExtended>
+        <DataGrid x:Name="filterGrid" Margin="10,5,10,5" VerticalAlignment="Center" 
+                   ItemsSource="{Binding Filters}" AutoGenerateColumns="False"
+                   Grid.Column="0" Grid.ColumnSpan="6" Grid.Row="3">
             <DataGrid.Columns>
                 <DataGridComboBoxColumn Header="Поле" 
                                         ItemsSource="{Binding Source={StaticResource FieldsTranslated}, Mode=OneWay}"
@@ -133,17 +202,32 @@
             </DataGrid.Columns>
         </DataGrid>
 
-        <Button x:Name="AddZ" Content="Добавить заявку" Margin="10, 0, 0, 150" Height="20" Width="100" HorizontalAlignment="Left" VerticalAlignment="Bottom" Click="AddZ_Click"/>
-        <Button x:Name="AddBtn" Content="Добавить из файла" Margin="200, 0, 0, 150" Height="20" Width="100" HorizontalAlignment="Left" VerticalAlignment="Bottom" Click="AddBtn_Click"/>
-        <Button x:Name="TemplateBtn" Content="Добавить шаблон" Margin="320, 0, 0, 150" Height="20" Width="100" HorizontalAlignment="Left" VerticalAlignment="Bottom" Click="TemplateBtn_Click"/>
-        <Button x:Name="RemoveZ" Content="Удалить заявку" Margin="0, 0, 10, 150" Height="20" Width="100" HorizontalAlignment="Right" VerticalAlignment="Bottom" Click="RemoveZ_Click"/>
+        <Button x:Name="AddZ" Content="Добавить заявку" Margin="10, 5, 10, 5"
+                Command="{Binding AddEntryCommand}"
+                   Grid.Column="0"  Grid.Row="2"/>
+        <Button x:Name="AddBtn" Content="Добавить из файла" Margin="10, 5, 10, 5"
+                Command="{Binding AddEntryFromFileCommand}"
+                   Grid.Column="1" Grid.Row="2"/>
+        <Button x:Name="TemplateBtn" Content="Добавить шаблон" Margin="10, 5, 10, 5"
+                Command="{Binding AddTemplateCommand}"
+                   Grid.Column="2" Grid.Row="2"/>
+        <Button x:Name="RemoveZ" Content="Удалить заявку" Margin="10, 5, 10, 5"
+                Command="{Binding RemoveEntriesCommand}" CommandParameter="{Binding SelectedCells, ElementName=dGrid}"
+                   Grid.Column="5" Grid.Row="2"/>
 
 
-        <Button x:Name="AddFilterBtn" Content="Добавить фильтр" Margin="10, 0, 0, 10" Height="20" Width="100" HorizontalAlignment="Left" VerticalAlignment="Bottom" Click="AddFilterBtn_Click"/>
+        <Button x:Name="AddFilterBtn" Content="Добавить фильтр" Margin="10, 5, 10, 5"
+                Command="{Binding AddFilterCommand}"
+                   Grid.Column="0" Grid.Row="4"/>
 
-        <Button x:Name="UndoBtn" Content="Undo" Margin="0, 0, 400, 10" Height="20" Width="100" HorizontalAlignment="Right" VerticalAlignment="Bottom" Click="Save_Click"/>
-        <Button x:Name="RedoBtn" Content="Redo" Margin="0, 0, 300, 10" Height="20" Width="100" HorizontalAlignment="Right" VerticalAlignment="Bottom" Click="Load_Click"/>
+        <Button x:Name="UndoBtn" Content="Раскраска столбцов" Margin="10, 5, 10, 5" 
+                   Grid.Column="1" Grid.Row="4" 
+                Command="{Binding StyleChangeCommand}"/>
+        <Button x:Name="RedoBtn" Content="Redo" Margin="10, 5, 10, 5"
+                   Grid.Column="2" Grid.Row="4" Click="RedoBtn_Click"/>
 
-        <Button x:Name="ExportBtn" Content="Экспортировать" Margin="0, 0, 10, 10" Height="20" Width="100" HorizontalAlignment="Right" VerticalAlignment="Bottom" Click="ExportBtn_Click"/>
+        <Button x:Name="ExportBtn" Content="Экспортировать" Margin="10, 5, 10, 5"
+                Command="{Binding ExportCommand}"
+                   Grid.Column="5" Grid.Row="4"/>
     </Grid>
 </Window>

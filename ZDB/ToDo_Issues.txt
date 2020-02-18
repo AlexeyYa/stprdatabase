@@ -2,14 +2,13 @@
 Minor:
 No horizontal scroll using touchpad
 Implementing other export formats
+Daily export
+User styles = Mostly implemented
+GroupStyle ControlTemplate - Seems complex
 
 Major:
-Daily export
-User styles
+Logger
+!!!Saving changes to database = Temporary solution Save on closing!!!
 
 Notes:
 Combobox instant update = {Binding x, UpdateSourceTrigger=PropertyChanged}
-
-Implemented:
-Implement visible columns selection = DatagridExtension.cs
-Save columns order = DatagridExtension.cs

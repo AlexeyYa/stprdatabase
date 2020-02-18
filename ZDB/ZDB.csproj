@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\EntityFramework.6.3.0\build\EntityFramework.props" Condition="Exists('..\packages\EntityFramework.6.3.0\build\EntityFramework.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -14,6 +15,8 @@
     <WarningLevel>4</WarningLevel>
     <Deterministic>true</Deterministic>
     <TargetFrameworkProfile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -36,6 +39,9 @@
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>AppIcon.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="BouncyCastle.Crypto, Version=1.8.1.0, Culture=neutral, PublicKeyToken=0e99375e54769942, processorArchitecture=MSIL">
       <HintPath>..\packages\Portable.BouncyCastle.1.8.1.3\lib\net40\BouncyCastle.Crypto.dll</HintPath>
@@ -45,6 +51,12 @@
     </Reference>
     <Reference Include="Common.Logging.Core, Version=3.4.1.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
       <HintPath>..\packages\Common.Logging.Core.3.4.1\lib\net40\Common.Logging.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.3.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.3.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="itext.barcodes, Version=7.1.6.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
       <HintPath>..\packages\itext7.7.1.6\lib\net40\itext.barcodes.dll</HintPath>
@@ -75,7 +87,18 @@
     </Reference>
     <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.SQLite, Version=1.0.112.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Data.SQLite.Core.1.0.112.0\lib\net46\System.Data.SQLite.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data.SQLite.EF6, Version=1.0.112.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Data.SQLite.EF6.1.0.112.0\lib\net46\System.Data.SQLite.EF6.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data.SQLite.Linq, Version=1.0.112.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Data.SQLite.Linq.1.0.112.0\lib\net46\System.Data.SQLite.Linq.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Linq.Dynamic, Version=1.0.6132.35681, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Linq.Dynamic.1.0.7\lib\net40\System.Linq.Dynamic.dll</HintPath>
     </Reference>
@@ -99,14 +122,49 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="DatagridExtension.cs" />
-    <Compile Include="ExtendedPropertyChanged.cs" />
-    <Compile Include="Logger.cs" />
-    <Compile Include="StyleSelector.xaml.cs">
+    <Compile Include="Database\DatabaseContext.cs" />
+    <Compile Include="Database\Entry.cs" />
+    <Compile Include="Database\Import.cs" />
+    <Compile Include="MainViewModel\Converters.cs" />
+    <Compile Include="MainViewModel\CVSStyle.cs" />
+    <Compile Include="MainViewModel\DbMethods.cs" />
+    <Compile Include="MainViewModel\FilterMethods.cs" />
+    <Compile Include="MainViewModel\VariousMethods.cs" />
+    <Compile Include="Network\Client.cs" />
+    <Compile Include="Network\NetworkCollection.cs" />
+    <Compile Include="Network\NetworkManager.cs" />
+    <Compile Include="Network\Server.cs" />
+    <Compile Include="Shared\DataGridAttachedProperties.cs" />
+    <Compile Include="Shared\DataGridCustomInit.cs" />
+    <Compile Include="Shared\DataGridExtension.cs" />
+    <Compile Include="Shared\ExtendedPropertyChanged.cs" />
+    <Compile Include="Shared\Logger.cs" />
+    <Compile Include="MainViewModel\MainViewModel.cs" />
+    <Compile Include="Shared\MultiBindFields.cs" />
+    <Compile Include="Shared\RelayCommand.cs" />
+    <Compile Include="Shared\SimpleInputDialog.xaml.cs">
+      <DependentUpon>SimpleInputDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="StyleSettings\ColorPicker\ColorHelper.cs" />
+    <Compile Include="StyleSettings\ColorPicker\ColorPicker.xaml.cs" />
+    <Compile Include="StyleSettings\ColorPicker\Converters\ColorToSolidConverter.cs" />
+    <Compile Include="StyleSettings\ColorPicker\Converters\HueToColorConverter.cs" />
+    <Compile Include="StyleSettings\ColorPicker\Converters\UnitToPercentConverter.cs" />
+    <Compile Include="StyleSettings\ColorPicker\Extensions.cs" />
+    <Compile Include="StyleSettings\ColorPicker\HuePicker.xaml.cs" />
+    <Compile Include="StyleSettings\ColorPicker\SaturationBrightnessPicker.xaml.cs" />
+    <Compile Include="StyleSettings\ColorPicker\SaturationBrightnessPickerAdorner.cs" />
+    <Compile Include="StyleSettings\ColorPicker\SliderPicker.cs" />
+    <Compile Include="StyleSettings\ColorPicker\SliderPickerAdorner.cs" />
+    <Compile Include="StyleSettings\ColorPicker\TransparencyPicker.xaml.cs" />
+    <Compile Include="StyleSettings\ColorPicker\ValidationRules\ColorNumericInputValidationRule.cs" />
+    <Compile Include="StyleSettings\StyleSelector.xaml.cs">
       <DependentUpon>StyleSelector.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Tests.cs" />
-    <Page Include="ExportWindow.xaml">
+    <Compile Include="Shared\Tests.cs" />
+    <Compile Include="StyleSettings\GridViewSettingsManager.cs" />
+    <Compile Include="StyleSettings\StyleSelectorMVVM.cs" />
+    <Page Include="Export\ExportWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -118,25 +176,48 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Content.cs" />
-    <Compile Include="Consts.cs" />
-    <Compile Include="Export.cs" />
-    <Compile Include="ExportWindow.xaml.cs">
+    <Compile Include="Shared\Consts.cs" />
+    <Compile Include="Export\Export.cs" />
+    <Compile Include="Export\ExportWindow.xaml.cs">
       <DependentUpon>ExportWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="FilterTypes.cs" />
+    <Compile Include="Database\FilterTypes.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="StyleSelector.xaml">
+    <Page Include="Shared\SimpleInputDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="StyleSettings\ColorPicker\ColorPicker.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="StyleSettings\ColorPicker\HuePicker.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="StyleSettings\ColorPicker\Resources\StaticBrushes.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="StyleSettings\ColorPicker\SaturationBrightnessPicker.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="StyleSettings\ColorPicker\TransparencyPicker.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="StyleSettings\StyleSelector.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Parser.cs" />
-    <Compile Include="PdfProcessing.cs" />
+    <Compile Include="Parser\Parser.cs" />
+    <Compile Include="Shared\PdfProcessing.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -160,9 +241,37 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <None Include="Database\requests.db">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="ToDo_Issues.txt" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Styles\MainDataGrid\default.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="resources\icons\question.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="resources\AppIcon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="AppIcon.ico" />
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\EntityFramework.6.3.0\build\EntityFramework.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.3.0\build\EntityFramework.props'))" />
+    <Error Condition="!Exists('..\packages\EntityFramework.6.3.0\build\EntityFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.3.0\build\EntityFramework.targets'))" />
+    <Error Condition="!Exists('..\packages\System.Data.SQLite.Core.1.0.112.0\build\net46\System.Data.SQLite.Core.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\System.Data.SQLite.Core.1.0.112.0\build\net46\System.Data.SQLite.Core.targets'))" />
+  </Target>
+  <Import Project="..\packages\EntityFramework.6.3.0\build\EntityFramework.targets" Condition="Exists('..\packages\EntityFramework.6.3.0\build\EntityFramework.targets')" />
+  <Import Project="..\packages\System.Data.SQLite.Core.1.0.112.0\build\net46\System.Data.SQLite.Core.targets" Condition="Exists('..\packages\System.Data.SQLite.Core.1.0.112.0\build\net46\System.Data.SQLite.Core.targets')" />
 </Project>

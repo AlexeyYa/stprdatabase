@@ -16,14 +16,15 @@ limitations under the License.
 
 */
 
-using System.Windows;
-
 namespace ZDB
 {
-    /// <summary>
-    /// Interaction logic for App.xaml
-    /// </summary>
-    public partial class App : Application
+    public static class Tests
     {
+
+
+        public static bool TestConsts()
+        {
+            return true;
+        }
     }
 }
