@@ -65,13 +65,14 @@ namespace ZDB
             if (StringFormat != null && target is DataGridTextColumn textColumn)
             {
                 Binding oldBinding = textColumn.Binding as Binding;
-                Binding binding = new Binding(oldBinding.Path.Path);
+                Binding binding = new Binding(oldBinding.Path.Path)
+                {
+                    Mode = oldBinding.Mode,
+                    ConverterCulture = oldBinding.ConverterCulture,
+                    UpdateSourceTrigger = oldBinding.UpdateSourceTrigger,
 
-                binding.Mode = oldBinding.Mode;
-                binding.ConverterCulture = oldBinding.ConverterCulture;
-                binding.UpdateSourceTrigger = oldBinding.UpdateSourceTrigger;
-
-                binding.StringFormat = StringFormat;
+                    StringFormat = StringFormat
+                };
 
                 textColumn.Binding = binding;
             }

@@ -141,8 +141,10 @@ namespace ZDB.StyleSettings
 
         private static void LoadDataTrigger(XmlNode source, Style style)
         {
-            DataTrigger dt = new DataTrigger();
-            dt.Binding = new Binding();
+            DataTrigger dt = new DataTrigger
+            {
+                Binding = new Binding()
+            };
             foreach (XmlNode dtNode in source)
             {
                 switch (dtNode.Name)

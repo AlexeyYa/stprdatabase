@@ -34,10 +34,10 @@ namespace Dsafa.WpfColorPicker
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
         }
 
-        private void OnColorChanged(DependencyObject o, DependencyPropertyChangedEventArgs e)
-        {
-            Color = (Color)e.NewValue;
-        }
+        //private void OnColorChanged(DependencyObject o, DependencyPropertyChangedEventArgs e)
+        //{
+        //    Color = (Color)e.NewValue;
+        //}
 
         private double _hue;
         private double _saturation = 1;

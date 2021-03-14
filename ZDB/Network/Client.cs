@@ -16,14 +16,15 @@ namespace ZDB.Network
 {
     class Client
     {
-        string server;
-        int port;
+        readonly string server;
+        readonly int port;
         TcpClient tcpClient;
         NetworkStream stream = null;
         NetworkCollection Entries { get; set; }
-        IFormatter formatter;
+
+        readonly IFormatter formatter;
         Thread recieveThread;
-        ConcurrentQueue<CollectionMessage> sendQueue;
+        readonly ConcurrentQueue<CollectionMessage> sendQueue;
 
         public Client(string serverIP, int serverPort, NetworkCollection entries)
         {

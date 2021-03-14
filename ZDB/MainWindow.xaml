@@ -211,6 +211,9 @@
         <Button x:Name="TemplateBtn" Content="Добавить шаблон" Margin="10, 5, 10, 5"
                 Command="{Binding AddTemplateCommand}"
                    Grid.Column="2" Grid.Row="2"/>
+        <Button x:Name="EditBtn" Content="Редактировать заявку" Margin="10, 5, 10, 5"
+                Command="{Binding EditEntryCommand}" CommandParameter="{Binding SelectedCells, ElementName=dGrid}"
+                   Grid.Column="3" Grid.Row="2"/>
         <Button x:Name="RemoveZ" Content="Удалить заявку" Margin="10, 5, 10, 5"
                 Command="{Binding RemoveEntriesCommand}" CommandParameter="{Binding SelectedCells, ElementName=dGrid}"
                    Grid.Column="5" Grid.Row="2"/>

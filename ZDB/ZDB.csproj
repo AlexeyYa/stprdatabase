@@ -125,6 +125,9 @@
     <Compile Include="Database\DatabaseContext.cs" />
     <Compile Include="Database\Entry.cs" />
     <Compile Include="Database\Import.cs" />
+    <Compile Include="EntryEdit\EntryWindow.xaml.cs">
+      <DependentUpon>EntryWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="MainViewModel\Converters.cs" />
     <Compile Include="MainViewModel\CVSStyle.cs" />
     <Compile Include="MainViewModel\DbMethods.cs" />
@@ -164,6 +167,10 @@
     <Compile Include="Shared\Tests.cs" />
     <Compile Include="StyleSettings\GridViewSettingsManager.cs" />
     <Compile Include="StyleSettings\StyleSelectorMVVM.cs" />
+    <Page Include="EntryEdit\EntryWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Export\ExportWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
