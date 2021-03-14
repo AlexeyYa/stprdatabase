@@ -28,6 +28,8 @@ namespace ZDB.Network
 
     class NetworkCollection : ObservableCollection<Entry>
     {
+        static object locker = new object();
+
         public Client client { get; set; }
         public NetworkCollection()
         {
@@ -48,56 +50,74 @@ namespace ZDB.Network
 
         protected override void RemoveItem(int index)
         {
-            UnsubscribeItem(Items[index]);
-            base.RemoveItem(index);
+            lock (locker)
+            {
+                UnsubscribeItem(Items[index]);
+                base.RemoveItem(index);
+            }
         }
 
         protected override void SetItem(int index, Entry item)
         {
-            UnsubscribeItem(Items[index]);
-            SubscribeItem(item);
-            base.SetItem(index, item);
+            lock (locker)
+            {
+                UnsubscribeItem(Items[index]);
+                SubscribeItem(item);
+                base.SetItem(index, item);
+            }
         }
 
         public void AddRange(IEnumerable<Entry> collection)
         {
-            this.CollectionChanged -= ItemsCollectionChanged;
-
-            CheckReentrancy();
-
-            foreach (var entry in collection)
+            lock (locker)
             {
-                entry.PropertyChangedEx += ItemChanged;
+                this.CollectionChanged -= ItemsCollectionChanged;
+
+                CheckReentrancy();
+
+                foreach (var entry in collection)
+                {
+                    entry.PropertyChangedEx += ItemChanged;
+                }
+
+                int index = Count;
+                var target = (List<Entry>)Items;
+                target.InsertRange(index, collection);
+
+                IList<Entry> list = new List<Entry>(collection);
+                OnPropertyChanged(new PropertyChangedEventArgs("Count"));
+                OnPropertyChanged(new PropertyChangedEventArgs("Item[]"));
+                OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+                //OnCollectionChanged(new NotifyCollectionChangedEventArgs(
+                //        NotifyCollectionChangedAction.Add, list, index));
+
+                this.CollectionChanged += ItemsCollectionChanged;
             }
-
-            int index = Count;
-            var target = (List<Entry>)Items;
-            target.InsertRange(index, collection);
-
-            IList<Entry> list = new List<Entry>(collection);
-            OnPropertyChanged(new PropertyChangedEventArgs("Count"));
-            OnPropertyChanged(new PropertyChangedEventArgs("Item[]"));
-            OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
-            //OnCollectionChanged(new NotifyCollectionChangedEventArgs(
-            //        NotifyCollectionChangedAction.Add, list, index));
-            
-            this.CollectionChanged += ItemsCollectionChanged;
         }
 
         protected override void InsertItem(int index, Entry item)
         {
-            SubscribeItem(item);
-            base.InsertItem(index, item);
+            lock (locker)
+            {
+                SubscribeItem(item);
+                base.InsertItem(index, item);
+            }
         }
 
         private void SubscribeItem(Entry entry)
         {
-            entry.PropertyChangedEx += ItemChanged;
+            lock (locker)
+            {
+                entry.PropertyChangedEx += ItemChanged;
+            }
         }
 
         private void UnsubscribeItem(Entry entry)
         {
-            entry.PropertyChangedEx -= ItemChanged;
+            lock (locker)
+            {
+                entry.PropertyChangedEx -= ItemChanged;
+            }
         }
 
         // ADD MUTEX !!!!!!!!!!!!!!!!!

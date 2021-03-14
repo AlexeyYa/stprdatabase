@@ -166,14 +166,14 @@ namespace ZDB.Network
         public TcpClient client;
         Server server;
 
-        ObservableCollection<Entry> db;
+        //ObservableCollection<Entry> db;
 
         public ClientObject(TcpClient tcpClient, Server serv, ObservableCollection<Entry> database)
         {
             Id = Guid.NewGuid().ToString();
             client = tcpClient;
             server = serv;
-            db = database;
+            //db = database;
 
             server.AddConnection(this);
         }

@@ -8,6 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using ZDB.Database;
 using ZDB.StyleSettings;
+using ZDB.EntryEdit;
 
 namespace ZDB.MainViewModel
 {
@@ -21,13 +22,43 @@ namespace ZDB.MainViewModel
                 return addEntryCommand ??
                     (addEntryCommand = new RelayCommand(obj =>
                     {
+                        EntryWindow entryWindow;
                         if (NetworkData.Count > 0)
-                            NetworkData.Add(new Entry(NetworkData.Last().Number + 1));
-                        else NetworkData.Add(new Entry(1));
+                            entryWindow = new EntryWindow(new Entry(NetworkData.Last().Number + 1));
+                        else entryWindow = new EntryWindow(new Entry(1));
+                        
+                        if (entryWindow.ShowDialog() == true)
+                        {
+                            NetworkData.Add(entryWindow.GetEntry());
+                        }
+
+                        
                     },
                     (obj) => NetworkData != null));
             }
         }
+        private RelayCommand editEntryCommand;
+        public RelayCommand EditEntryCommand
+        {
+            get
+            {
+                return editEntryCommand ??
+                    (editEntryCommand = new RelayCommand(obj =>
+                    {
+                        var entry = (from cell in (IList<DataGridCellInfo>)obj select cell.Item).
+                                                    Distinct().First() as Entry;
+
+                        var oldEntry = NetworkData.IndexOf(entry);
+                        EntryWindow entryWindow = new EntryWindow(entry);
+                        if (entryWindow.ShowDialog() == true)
+                        {
+                            //NetworkData[oldEntry] = entryWindow.GetEntry();
+                        }
+                    },
+                    (obj) => ((IList<DataGridCellInfo>)obj).Count() > 0));
+            }
+        }
+
         private RelayCommand addEntryFromFileCommand;
         public RelayCommand AddEntryFromFileCommand
         {

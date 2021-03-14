@@ -23,24 +23,32 @@ namespace ZDB
         {
             FillLists();
             InitializeComponent();
-        
-            Binding dict = new Binding();
-            dict.Source = alignmentsList;
+
+            Binding dict = new Binding
+            {
+                Source = alignmentsList
+            };
 
             cmbAlignment.SetBinding(ComboBox.ItemsSourceProperty, dict);
 
-            Binding dict1 = new Binding();
-            dict1.Source = vertAlignmentsList;
+            Binding dict1 = new Binding
+            {
+                Source = vertAlignmentsList
+            };
 
             cmbVertAlignment.SetBinding(ComboBox.ItemsSourceProperty, dict1);
 
-            Binding dict2 = new Binding();
-            dict2.Source = fonts;
+            Binding dict2 = new Binding
+            {
+                Source = fonts
+            };
 
             cmbFont.SetBinding(ComboBox.ItemsSourceProperty, dict2);
 
-            Binding dict3 = new Binding();
-            dict3.Source = fontSizes;
+            Binding dict3 = new Binding
+            {
+                Source = fontSizes
+            };
 
             cmbFSize.SetBinding(ComboBox.ItemsSourceProperty, dict3);
             vm = new StyleSelectorMVVM(selectedCells);

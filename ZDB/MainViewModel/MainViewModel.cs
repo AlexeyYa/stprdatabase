@@ -14,7 +14,7 @@ namespace ZDB.MainViewModel
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private DataGridExtended dataGridExtended;
+        private readonly DataGridExtended dataGridExtended;
 
         private ObservableCollection<Entry> data;
         public ObservableCollection<Entry> Data
@@ -42,7 +42,7 @@ namespace ZDB.MainViewModel
                 }
             }
         }
-        private NetworkManager networkManager;
+        private readonly NetworkManager networkManager;
         private FilterCollection filters;
         public FilterCollection Filters
         {
